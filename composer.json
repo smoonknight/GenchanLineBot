@@ -1,0 +1,17 @@
+{
+    "name": "smoonknight/genchanline",
+    "description": "genchan LINEchatbot",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "App/"
+        }
+    },
+    "authors": [
+        {
+            "name": "smoonknight",
+            "email": "satriacandrasmk@gmail.com"
+        }
+    ],
+    "require": {}
+}

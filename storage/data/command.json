@@ -1,0 +1,4 @@
+{
+    "genshin" : ["/character [key]", "/weapon [key]", "/weapon-list", "/character-list", "/event", "/calculate [atk] [crit dmg]", "/simulate [atk] [talent] [elemental/physical bonus] [crit dmg] [crit rate] [level character] [level enemy]", "/roll"],
+    "other" : ["/picture [tag]", "/kiss [mention target]", "/profile" ,"/profile [mention target]", "/degentext", "/mocking [text]", "/number", "/sticker","/battle [text/mention] : [text/mention]", "/logchat [name/text](optional) *20 pesan terakhir pada grup dan yang sebisa mungkin ditulis", "/genchan", "/about *tentang bot", "genchan, [pertanyaan]"]
+}

@@ -1,0 +1,8 @@
+{
+    "channelAccessToken" : "3+S2JTELfTRe6B90tk+h9GNM7WKLy8GV2JSlBTqcIVpGMqsA3+9az8V9/MhGQK8/mvGKWTcVGY+dNYw2ZqqR4zQD2W+gTkiQov5WJRhMNCKlDxd8JH5QmBHGvADZCRxMWcp4TTMS5l7J+8Xwm76/XQdB04t89/1O/w1cDnyilFU=",
+    "channelSecret" : "8948ebc8edb77835b86ae0e88b892a75",
+    "apiReply" : "https://api.line.me/v2/bot/message/reply",
+    "apiPush" : "https://api.line.me/v2/bot/message/push",
+    "adminUserId" : "U4fb6e2e7339dea74d4b27de42543dec1",
+    "endpoint" : "https://api.line.me/v2/bot/channel/webhook/endpoint"
+}
