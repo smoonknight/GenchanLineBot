@@ -1,0 +1,104 @@
+{
+    "1" : {
+        "description" : "menyerang menggunakan sapu lidi",
+        "min" : "1000",
+        "max" : "3000",
+        "category" : "attack"
+    },
+    "2" : {
+        "description" : "menyerang menggunakan sendal",
+        "min" : "1200",
+        "max" : "3200",
+        "category" : "attack"
+    },
+    "3" : {
+        "description" : "berposisi kuda-kuda dan melakukan KUDAS",
+        "min" : "2000",
+        "max" : "4500",
+        "category" : "attack"
+    },
+    "4" : {
+        "description" : "roasting dengan cara body shaming",
+        "min" : "0",
+        "max" : "4000",
+        "category" : "attack"
+    },
+    "5" : {
+        "description" : "'*death threats'",
+        "min" : "0",
+        "max" : "8000",
+        "category" : "attack"
+    },
+    "6" : {
+        "description" : "menyerang menggunakan Wolf's Gravestone",
+        "min" : "3000",
+        "max" : "5000",
+        "category" : "attack"
+    },
+    "7" : {
+        "description" : "menyerang menggunakan dull blade",
+        "min" : "4000",
+        "max" : "5500",
+        "category" : "attack"
+    },
+    "8" : {
+        "description" : "roasting dengan cara mengejek idolanya",
+        "min" : "0",
+        "max" : "4000",
+        "category" : "attack"
+    },
+    "9" : {
+        "description" : "roasting dengan cara mengejek game kesukaannya",
+        "min" : "0",
+        "max" : "5000",
+        "category" : "attack"
+    },
+    "10" : {
+        "description" : "roasting dengan cara mengejek game kesukaannya",
+        "min" : "0",
+        "max" : "5000",
+        "category" : "attack"
+    },
+    "11" : {
+        "description" : "memanggil barbara dan 'dimurnikan'",
+        "min" : "2000",
+        "max" : "5000",
+        "category" : "healing"
+    },
+    "12" : {
+        "description" : "roasting dengan cara mengejek waifunya",
+        "min" : "0",
+        "max" : "5000",
+        "category" : "attack"
+    },
+    "13" : {
+        "description" : "mengisi darah sendiri",
+        "min" : "2000",
+        "max" : "5000",
+        "category" : "healing"
+    },
+    "14" : {
+        "description" : "menyerang menggunakan assault rifle",
+        "min" : "5000",
+        "max" : "5500",
+        "category" : "attack"
+    },
+    "15" : {
+        "description" : "menyerang menggunakan assault rifle",
+        "min" : "5000",
+        "max" : "5500",
+        "category" : "attack"
+    },
+    "16" : {
+        "description" : "menyerang menggunakan shotgun",
+        "min" : "5500",
+        "max" : "6000",
+        "category" : "attack"
+    },
+    "17" : {
+        "description" : "melakukan santet (instakill)",
+        "min" : "99999",
+        "max" : "99999",
+        "category" : "attack"
+    }
+}
