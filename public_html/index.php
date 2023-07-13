@@ -134,3 +134,5 @@ class Index
         }
     }
 }
+
+$index = new Index();
