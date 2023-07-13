@@ -90,18 +90,23 @@ if ($bot->getMentionId())
     $bot->reply($result);
 }
 
-elseif (strpos(getTextChat(), ':') || getTextChat()[0] == ":") 
+function message()
 {
-    $sticker = getStickerId();
-    $parseText = getParseText();
-    foreach ($parseText as $q) {
-        if ($sticker[$q] != null) {
-            $bot->replyImage($sticker[$q]);
-            return;
+    $bot = new LineBot();
+    if (strpos(getTextChat(), ':') || getTextChat()[0] == ":") 
+    {
+        $sticker = getStickerId();
+        $parseText = getParseText();
+        foreach ($parseText as $q) {
+            if ($sticker[$q] != null) {
+                $bot->replyImage($sticker[$q]);
+                return;
+            }
         }
-    }
-} 
-elseif (sizeof(getParseText()) < 7) 
+    } 
+}
+
+if (sizeof(getParseText()) < 7) 
 {
     $getTextChat = str_replace("?", "", getTextChat());
     $parseText = str_replace('?', '', getParseText());

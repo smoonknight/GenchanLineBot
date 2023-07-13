@@ -6,6 +6,7 @@ use App\LineBot;
 use App\Genchan;
 use App\ResponseDecoration;
 use App\simple_html_dom;
+use App\Service\FirebaseService;
 
 class Keyword{
     public $bot;
@@ -607,6 +608,11 @@ class Keyword{
     }
 
     public function RetriveLogChat()
+    {
+        $this->bot->reply(MAINTENANCE);
+    }
+
+    public function RetriveLogChat_old()
     {
         if ($this->bot->getGroupId() == null)
         {

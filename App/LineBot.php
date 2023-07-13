@@ -126,6 +126,7 @@ class LineBot {
 		$webhook = json_decode($webhook, true);
 		return $webhook;
 	}
+
 	public function getSafebooruByTags($tag){
 		$api = Setting::getApiSafebooru($tag);
 		$webhook = $this->httpGet($api);
@@ -272,7 +273,7 @@ class LineBot {
 		$api = $this->apiPush;
 		$result = $this->httpPost($api, $body);
 		return $result;
-    	}
+    }
 
     public function pushText($to, $text){
 		$body = array(
@@ -343,6 +344,13 @@ class LineBot {
 		    ]
 		);
 		$this->push($body);
+	}
+
+	public function getType()
+	{
+		$webhook = $this->webhookEventObject;
+		$type = $webhook->{"events"}[0]->{"type"};
+		return $type;
 	}
 	
 	public function getMessageText(){
@@ -571,27 +579,5 @@ class LineBot {
 		return $result;
 	}
 	
-	public function replyPict($imageUrl, $previewImageUrl = false){
-		$api = $this->apiReply;
-		$webhook = $this->webhookEventObject;
-		$replyToken = $webhook->{"events"}[0]->{"replyToken"}; 
-		$body["replyToken"] = $replyToken;
-		$body["messages"][0] = array(
-			    'type' => 'image',
-			    'originalContentUrl' => $imageUrl,
-			    'previewImageUrl' => $previewImageUrl ? $previewImageUrl : $imageUrl
-			);
-			$body["messages"][1] = array(
-			    'type' => 'image',
-			    'originalContentUrl' => $imageUrl,
-			    'previewImageUrl' => $previewImageUrl ? $previewImageUrl : $imageUrl
-			);		
-			$body["messages"][2] = array(
-			    'type' => 'image',
-			    'originalContentUrl' => $imageUrl,
-			    'previewImageUrl' => $previewImageUrl ? $previewImageUrl : $imageUrl
-			);				
-		$result = $this->httpPost($api,$body);
-		return $result;
-	}
+	
 }
