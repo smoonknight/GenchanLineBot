@@ -65,11 +65,13 @@ class Index
     {
         $isKeyExist = $this->keyword->FindKeyword($this->bot->getMessageText(true)[0]);
 
-        if ($isKeyExist) {
+        if ($isKeyExist)
+        {
             return;
         }
 
-        if (strpos($this->textChat, ':') || $this->textChat[0] == ":") {
+        if (strpos($this->textChat, ':') || $this->textChat[0] == ":")
+        {
             $this->handleSticker();
             return;
         }
