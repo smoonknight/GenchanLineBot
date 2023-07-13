@@ -36,7 +36,8 @@ class Index
         $this->keyword = new Keyword();
         $this->textChat = $this->bot->getTextChat();
 
-        $this->reply();
+        $type = $this->bot->getType();
+        $this->$type();
     }
 
     public function getCommand()
@@ -49,11 +50,6 @@ class Index
         if ($this->bot->getJoinedMemberCondition() == true) {
             $this->bot->reply("Wah ada yang join, salken aku genchan (o´∀`o)");
         }
-    }
-
-    public function handleKeyword()
-    {
-
     }
 
     public function logChat()
