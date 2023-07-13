@@ -35,8 +35,8 @@ class Index
         $this->responseDecoration = new ResponseDecoration();
         $this->keyword = new Keyword();
         $this->textChat = $this->bot->getTextChat();
-        $type = $this->bot->getType();
-        $this->$type();
+
+        $this->reply();
     }
 
     public function getCommand()
@@ -72,7 +72,7 @@ class Index
         if ($isKeyExist) {
             return;
         }
-        
+
         if (strpos($this->textChat, ':') || $this->textChat[0] == ":") {
             $this->handleMessage();
             return;
