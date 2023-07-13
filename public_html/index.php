@@ -36,7 +36,8 @@ class Index
         $this->keyword = new Keyword();
         $this->textChat = $this->bot->getTextChat();
 
-        $this->reply();
+        $type = $this->bot->getType();
+        $this->$type();
     }
 
     public function getCommand()
@@ -60,7 +61,7 @@ class Index
         }
     }
 
-    public function reply()
+    public function message()
     {
         $isKeyExist = $this->keyword->FindKeyword($this->bot->getMessageText(true)[0]);
 
