@@ -6,7 +6,7 @@ use App\LineBot;
 use App\Genchan;
 use App\ResponseDecoration;
 use App\simple_html_dom;
-use App\Service\FirebaseService;
+use App\FirebaseController;
 
 class Keyword{
     public $bot;
@@ -505,7 +505,9 @@ class Keyword{
 
     public function Debugging()
     {
-        
+        $testing = new FirebaseController();
+        $result = $testing->PostData();
+        $this->bot->reply($result);
     }
     public function PingGenchan()
     {
