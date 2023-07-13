@@ -50,7 +50,8 @@ function getCommand()
     return json_decode(file_get_contents(COMMAND), true);
 }
 
-if ($bot->getJoinedMemberCondition() == true) {
+if ($bot->getJoinedMemberCondition() == true)
+{
     $bot->reply("Wah ada yang join, salken aku genchan (o´∀`o)");
 }
 
@@ -91,14 +92,7 @@ if ($bot->getMentionId())
 
 elseif (strpos(getTextChat(), ':') || getTextChat()[0] == ":") 
 {
-    $sticker = getStickerId();
-    $parseText = getParseText();
-    foreach ($parseText as $q) {
-        if ($sticker[$q] != null) {
-            $bot->replyImage($sticker[$q]);
-            return;
-        }
-    }
+    $bot->reply(MAINTENANCE);
 } 
 elseif (sizeof(getParseText()) < 7) 
 {
