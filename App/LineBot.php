@@ -352,11 +352,30 @@ class LineBot {
 		$type = $webhook->{"events"}[0]->{"type"};
 		return $type;
 	}
+
+	public function getStickerId()
+    {
+        return json_decode(file_get_contents(STICKER), true);
+    }
+
+	public function getTextChat()
+    {
+        return strtolower($this->getMessageText());
+    }
+
+	public function getCommand()
+    {
+        return json_decode(file_get_contents(COMMAND), true);
+    }
 	
-	public function getMessageText(){
+	public function getMessageText(bool $parseMessage = false){
 		$webhook = $this->webhookEventObject;
-		$messageText = $webhook->{"events"}[0]->{"message"}->{"text"}; 
-		return $messageText;
+		$messageText = $webhook->{"events"}[0]->{"message"}->{"text"};
+		if (!$parseMessage)
+		{
+			return $messageText;
+		} 
+		return explode(' ', trim(strtolower($messageText)));
 	}
 
 	public function getMessageId(){

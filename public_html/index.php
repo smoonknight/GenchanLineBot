@@ -1,4 +1,5 @@
 <?php
+
 require_once "../vendor/autoload.php";
 
 define("KEYWORD", "../storage/data/keyword.json");
@@ -19,109 +20,120 @@ use App\Genchan;
 use App\ResponseDecoration;
 use App\Keyword;
 
-//admin U4fb6e2e7339dea74d4b27de42543dec1
-//default on teyvat Cd7a78153c79fcc71c782f7bb65d84266
-//baitgroup C9057879014a23255bf2176f9238e8255
-
-$bot = new LineBot();
-$genchan = new Genchan();
-$responseDecoration = new ResponseDecoration();
-$keyword = new Keyword();
-
-function getTextChat()
+class Index
 {
-    $bot = new Linebot();
-    return strtolower($bot->getMessageText());
-}
+    private $bot;
+    private $genchan;
+    private $responseDecoration;
+    private $keyword;
+    private $textChat;
 
-function getParseText()
-{
-    $bot = new Linebot();
-    return explode(' ', trim(strtolower($bot->getMessageText())));
-}
-
-function getStickerId()
-{
-    return json_decode(file_get_contents(STICKER), true);
-}
-
-function getCommand()
-{
-    return json_decode(file_get_contents(COMMAND), true);
-}
-
-$bot->getType()();
-
-if ($bot->getJoinedMemberCondition() == true)
-{
-    $bot->reply("Wah ada yang join, salken aku genchan (o´∀`o)");
-}
-
-//////// if(file_exists($bot->getUserId())){
-////////     $file = file_get_contents($bot->getUserId());
-////////     $json = json_decode($file, true);
-////////     $chainKeyword = $json['chainKeyword'];
-////////     $keyword->FindKeyword($chainKeyword);
-//////// }
-
-$isKeyExist = $keyword->FindKeyword(getParseText()[0]);
-
-if ($isKeyExist)
-{
-    return;
-}
-
-if (strlen(getTextChat()) < 400 && $bot->getMessageText() != null)
-{
-    $path = LOGCHAT . $bot->getGroupId();
-    $put = file_get_contents($path);
-    file_put_contents($path, $put . $bot->getDisplayNameOnGroup($bot->getGroupId(), $bot->getUserId()) . " : " . $bot->getMessageText() . "\n");
-}
-
-if ($bot->getMentionId()) 
-{
-    $groupId = $bot->getGroupId();
-    $userIds = $bot->getEntireMentionId();
-
-    foreach ($userIds as $userId) {
-        $displayName .= "kak " . $bot->getDisplayNameOnGroup($groupId, $userId) . ", ";
-    }
-    
-    $response = array("<name>dicariin tuh", "<name>ada yang mention ayu bales", "<name>kemana ada yang tag tuh");
-    $result = str_replace("<name>", $displayName, $response[rand(0, sizeof($response) - 1)]);
-    $bot->reply($result);
-}
-
-function message()
-{
-    $bot = new LineBot();
-    if (strpos(getTextChat(), ':') || getTextChat()[0] == ":") 
+    public function __construct()
     {
-        $sticker = getStickerId();
-        $parseText = getParseText();
+        $this->bot = new LineBot();
+        $this->genchan = new Genchan();
+        $this->responseDecoration = new ResponseDecoration();
+        $this->keyword = new Keyword();
+        $this->textChat = $this->bot->getTextChat();
+        $type = $this->bot->getType();
+        $this->$type();
+    }
+
+    public function getCommand()
+    {
+        return json_decode(file_get_contents(COMMAND), true);
+    }
+
+    public function handleJoinedMember()
+    {
+        if ($this->bot->getJoinedMemberCondition() == true) {
+            $this->bot->reply("Wah ada yang join, salken aku genchan (o´∀`o)");
+        }
+    }
+
+    public function handleKeyword()
+    {
+        $isKeyExist = $this->keyword->FindKeyword($this->bot->getMessageText(true)[0]);
+
+        if ($isKeyExist) {
+            return;
+        }
+    }
+
+    public function logChat()
+    {
+        if (strlen($this->textChat) < 400 && $this->textChat != null) {
+            $path = LOGCHAT . $this->bot->getGroupId();
+            $put = file_get_contents($path);
+            file_put_contents($path, $put . $this->bot->getDisplayNameOnGroup($this->bot->getGroupId(), $this->bot->getUserId()) . " : " . $this->bot->getMessageText() . "\n");
+        }
+    }
+
+    public function reply()
+    {
+        if ($this->bot->getMentionId())
+        {
+            return;
+        }
+
+        if (strpos($this->textChat, ':') || $this->textChat[0] == ":") {
+            $this->handleMessage();
+            return;
+        }
+
+        $this->handleAutoResponse();
+    }
+
+    public function memberJoined()
+    {
+        $this->handleMention();
+    }
+
+    public function handleMention()
+    {
+        $groupId = $this->bot->getGroupId();
+        $userIds = $this->bot->getEntireMentionId();
+        $displayName = "";
+
+        foreach ($userIds as $userId) {
+            $displayName .= "kak " . $this->bot->getDisplayNameOnGroup($groupId, $userId) . ", ";
+        }
+
+        $response = array("<name>dicariin tuh", "<name>ada yang mention ayu bales", "<name>kemana ada yang tag tuh");
+        $result = str_replace("<name>", $displayName, $response[rand(0, sizeof($response) - 1)]);
+        $this->bot->reply($result);
+    }
+
+    public function handleMessage()
+    {
+        $sticker = $this->bot->getStickerId();
+        $parseText = $this->bot->getMessageText(true);
         foreach ($parseText as $q) {
             if ($sticker[$q] != null) {
-                $bot->replyImage($sticker[$q]);
+                $this->bot->replyImage($sticker[$q]);
                 return;
             }
         }
-    } 
-}
+    }
 
-if (sizeof(getParseText()) < 7) 
-{
-    $getTextChat = str_replace("?", "", getTextChat());
-    $parseText = str_replace('?', '', getParseText());
-    $autoResponse = json_decode(file_get_contents(RESPONSE), true);
-    $result = '';
-    foreach ($parseText as $q) {
-        if ($autoResponse['response'][$q] != null) {
-            $random = rand(1, sizeof($autoResponse['response'][$q]));
-            $result = $autoResponse['response'][$q][$random];
-            if ($result[1] == "reply") {
-                $kaomoji = mt_rand(0, 5) > 3 ? " " . $genchan->kaomojiGenerator(rand(1, 10)) : "";
+    public function handleAutoResponse()
+    {
+        $parseText = $this->bot->getMessageText(true);
+        if (sizeof($parseText) < 7) {
+            $getTextChat = str_replace("?", "", $this->textChat);
+            $parseText = str_replace('?', '', $parseText);
+            $autoResponse = json_decode(file_get_contents(RESPONSE), true);
+            $result = '';
+            foreach ($parseText as $q) {
+                if ($autoResponse['response'][$q] != null) {
+                    $random = rand(1, sizeof($autoResponse['response'][$q]));
+                    $result = $autoResponse['response'][$q][$random];
+                    if ($result[1] == "reply") {
+                        $kaomoji = mt_rand(0, 5) > 3 ? " " . $this->genchan->kaomojiGenerator(rand(1, 10)) : "";
+                    }
+                }
             }
+            $this->bot->botAutoResponse($result[0] . $kaomoji, $result[1]);
         }
     }
-    $bot->botAutoResponse($result[0] . $kaomoji, $result[1]);
 }

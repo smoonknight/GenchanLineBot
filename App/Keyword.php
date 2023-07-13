@@ -45,7 +45,7 @@ class Keyword{
     public function sticker()
     {
         $listSticker = "";
-        foreach (getStickerId() as $key => $id) {
+        foreach ($this->bot->getStickerId() as $key => $id) {
             $listSticker .= "" . $key . "\n";
         }
         $responseDecorationArray = array(
@@ -103,7 +103,7 @@ class Keyword{
 
     public function AskingGenchan()
     {
-        $parseText = getParseText();
+        $parseText = $this->bot->getMessageText(true);
         $text = $this->genchan->getTextRequest($parseText, 1);
         $result = $this->bot->openAI($text);
         $array = array();
@@ -116,7 +116,7 @@ class Keyword{
 
     public function AskForWikipedia()
     {
-        $parseText = getParseText();
+        $parseText = $this->bot->getMessageText(true);
         $result = array();
             
         $parseText = str_replace('?', '', $parseText);
@@ -182,7 +182,7 @@ class Keyword{
     public function FindWeaponGenshinImpact()
     {
         $description = "Name : {name}\nType : {type}\nRarity : {rarity}\nBase Attack : {baseAttack}\nSub Stat : {subStat}\nPassive Name : {passiveName}\nPassive Description : {passiveDesc}\nAscension Material : {ascensionMaterial}\nWeapon ini didapat dari {location}\n";
-        $parseText = getParseText();
+        $parseText = $this->bot->getMessageText(true);
         $textRequest = $this->genchan->getTextRequest($parseText, 1, "-");
         $type = $this->bot->getGenshinDevType("weapons");
         $predict = $this->genchan->predictQuestion($textRequest, $type);
@@ -248,7 +248,7 @@ class Keyword{
     
     public function CalculateGenshinImpact()
     {
-        $parseText = getParseText();
+        $parseText = $this->bot->getMessageText(true);
         $atk = $parseText[1];
         $critDmg = $parseText[2];
         $critDmgResult = $this->genchan->calculateCritDmg($atk, $critDmg);
@@ -261,7 +261,7 @@ class Keyword{
     {
         $sumOfDmg = 0;
         $simulationResult = "";
-        $parseText = getParseText();
+        $parseText = $this->bot->getMessageText(true);
 
         if ($parseText[1] == NULL) 
         {
@@ -350,7 +350,8 @@ class Keyword{
 
     public function CheckProfileLine()
     {
-        $userId = (getParseText()[1] != NULL ? $this->bot->getMentionId() : $this->bot->getUserId());
+        $parseText = $this->bot->getMessageText(true);
+        $userId = ($parseText[1] != NULL ? $this->bot->getMentionId() : $this->bot->getUserId());
         $description = "Name : [Name]\nDescription : [Description]\nUser ID : [UserId]";
         $name = $this->bot->getDisplayName($userId);
         $profile = $this->bot->getstatusMessage($userId) != null ? $this->bot->getstatusMessage($userId) : "...";
@@ -377,11 +378,13 @@ class Keyword{
 
     public function KissMentionLine()
     {
+        $parseText = $this->bot->getMessageText(true);
+
         $userId = $this->bot->getUserId();
-        $targetId = (getParseText()[1] != NULL ? $this->bot->getMentionId() : $userId);
+        $targetId = ($parseText[1] != NULL ? $this->bot->getMentionId() : $userId);
         $text = ($targetId == $userId ? "[Name] Mencium diri sendiri (selfcest moment)" : "[Name] mencium [target] dengan mesra ❤️❤️❤️");
         $name = $this->bot->getDisplayName($userId);
-        $targetName = ($targetId == NULL ? getParseText()[1] : $this->bot->getDisplayName($targetId));
+        $targetName = ($targetId == NULL ? $parseText[1] : $this->bot->getDisplayName($targetId));
         $text = str_replace(["[Name]", "[target]"], [$name, $targetName], $text);
         $this->bot->replyKiss($text);
     }
@@ -398,7 +401,7 @@ class Keyword{
 
     public function WangyCopypasta()
     {
-        $parseText = getParseText();
+        $parseText = $this->bot->getMessageText(true);
         $text = strtoupper($this->genchan->getTextRequest($parseText, 1));
         if ($parseText[1] != NULL) {
             if (sizeof($parseText) < 4) {
@@ -412,7 +415,7 @@ class Keyword{
 
     public function GemeteranCopypasta()
     {
-        $parseText = getParseText();
+        $parseText = $this->bot->getMessageText(true);
         $text = strtoupper($this->genchan->getTextRequest($parseText, 1));
         if ($parseText[1] != NULL) {
             if (sizeof($parseText) < 4) {
@@ -426,7 +429,7 @@ class Keyword{
 
     public function SimpCopypasta()
     {
-        $parseText = getParseText();
+        $parseText = $this->bot->getMessageText(true);
         $text = strtoupper($this->genchan->getTextRequest($parseText, 1));
         if ($parseText[1] != NULL) {
             if (sizeof($parseText) < 4) {
@@ -440,7 +443,7 @@ class Keyword{
 
     public function KlaimWaifuCopypasta()
     {
-        $parseText = getParseText();
+        $parseText = $this->bot->getMessageText(true);
         $text = strtoupper($this->genchan->getTextRequest($parseText, 1));
         if ($parseText[1] != NULL) {
             if (sizeof($parseText) < 4) {
@@ -454,7 +457,7 @@ class Keyword{
     
     public function ButuhkagaCopypasta()
     {
-        $parseText = getParseText();
+        $parseText = $this->bot->getMessageText(true);
         $text = $this->genchan->getTextRequest($parseText, 1);
         if ($parseText[1] != NULL) {
             if (sizeof($parseText) < 4) {
@@ -468,7 +471,7 @@ class Keyword{
 
     public function KasusCopypasta()
     {
-        $parseText = getParseText();
+        $parseText = $this->bot->getMessageText(true);
         $text = strtoupper($this->genchan->getTextRequest($parseText, 1));
         if ($parseText[1] != NULL) {
             if (sizeof($parseText) < 4) {
@@ -483,7 +486,7 @@ class Keyword{
     public function FindPictureBooru()
     {
 ////////$result = "";
-////////$parseText = getParseText();
+////////$parseText = $this->bot->getMessageText(true);
 ////////$requestText = $this->genchan->getTextRequest($parseText, 1);
 ////////$tag = explode(" & ", trim($requestText));
 ////////foreach ($tag as $tg) {
@@ -495,7 +498,7 @@ class Keyword{
 
     public function MockingText()
     {
-        $parseText = getParseText();
+        $parseText = $this->bot->getMessageText(true);
         $result = $this->genchan->mockingGenerator($this->genchan->getTextRequest($parseText, 1));
         $this->bot->reply($result);
     }
@@ -619,7 +622,7 @@ class Keyword{
             $this->bot->reply("Groupchat only");
             return;
         }
-        $parseText = getParseText();
+        $parseText = $this->bot->getMessageText(true);
         $logChat = [];
         $path = LOGCHAT . $this->bot->getGroupId();
 
@@ -644,7 +647,8 @@ class Keyword{
 
     public function KeywordList()
     {
-        $command = getCommand();
+        $parseText = $this->bot->getMessageText(true);
+        $command = $this->bot->getCommand();
         $resultGenshin = "";
         $resultOther = "";
 
