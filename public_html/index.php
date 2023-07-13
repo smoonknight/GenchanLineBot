@@ -64,7 +64,7 @@ if ($bot->getJoinedMemberCondition() == true)
 
 $isKeyExist = $keyword->FindKeyword(getParseText()[0]);
 
-if (!$isKeyExist)
+if ($isKeyExist)
 {
     return;
 }
