@@ -36,8 +36,7 @@ class Index
         $this->keyword = new Keyword();
         $this->textChat = $this->bot->getTextChat();
 
-        $type = $this->bot->getType();
-        $this->$type();
+        $this->reply();
     }
 
     public function getCommand()
@@ -70,7 +69,7 @@ class Index
         }
 
         if (strpos($this->textChat, ':') || $this->textChat[0] == ":") {
-            $this->handleMessage();
+            $this->bot->reply($this->bot->getType());
             return;
         }
 
