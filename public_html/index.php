@@ -40,27 +40,6 @@ class Index
         $this->$type();
     }
 
-    public function getCommand()
-    {
-        return json_decode(file_get_contents(COMMAND), true);
-    }
-
-    public function handleJoinedMember()
-    {
-        if ($this->bot->getJoinedMemberCondition() == true) {
-            $this->bot->reply("Wah ada yang join, salken aku genchan (o´∀`o)");
-        }
-    }
-
-    public function logChat()
-    {
-        if (strlen($this->textChat) < 400 && $this->textChat != null) {
-            $path = LOGCHAT . $this->bot->getGroupId();
-            $put = file_get_contents($path);
-            file_put_contents($path, $put . $this->bot->getDisplayNameOnGroup($this->bot->getGroupId(), $this->bot->getUserId()) . " : " . $this->bot->getMessageText() . "\n");
-        }
-    }
-
     public function message()
     {
         $isKeyExist = $this->keyword->FindKeyword($this->bot->getMessageText(true)[0]);
@@ -76,12 +55,26 @@ class Index
             return;
         }
 
+        if ($this->bot->getMentionId())
+        {
+            $this->handleMention();
+        }
+
         $this->handleAutoResponse();
     }
 
     public function memberJoined()
     {
-        $this->handleMention();
+        $this->bot->reply("Wah ada yang join, salken aku genchan (o´∀`o)");
+    }
+
+    public function logChat()
+    {
+        if (strlen($this->textChat) < 400 && $this->textChat != null) {
+            $path = LOGCHAT . $this->bot->getGroupId();
+            $put = file_get_contents($path);
+            file_put_contents($path, $put . $this->bot->getDisplayNameOnGroup($this->bot->getGroupId(), $this->bot->getUserId()) . " : " . $this->bot->getMessageText() . "\n");
+        }
     }
 
     public function handleMention()
@@ -90,7 +83,8 @@ class Index
         $userIds = $this->bot->getEntireMentionId();
         $displayName = "";
 
-        foreach ($userIds as $userId) {
+        foreach ($userIds as $userId)
+        {
             $displayName .= "kak " . $this->bot->getDisplayNameOnGroup($groupId, $userId) . ", ";
         }
 
