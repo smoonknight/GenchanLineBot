@@ -50,6 +50,8 @@ function getCommand()
     return json_decode(file_get_contents(COMMAND), true);
 }
 
+$bot->getType()();
+
 if ($bot->getJoinedMemberCondition() == true)
 {
     $bot->reply("Wah ada yang join, salken aku genchan (o´∀`o)");
