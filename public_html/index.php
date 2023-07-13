@@ -70,7 +70,7 @@ class Index
         }
 
         if (strpos($this->textChat, ':') || $this->textChat[0] == ":") {
-            $this->bot->reply($this->bot->getType());
+            $this->handleSticker();
             return;
         }
 
@@ -97,7 +97,7 @@ class Index
         $this->bot->reply($result);
     }
 
-    public function handleMessage()
+    public function handleSticker()
     {
         $sticker = $this->bot->getStickerId();
         $parseText = $this->bot->getMessageText(true);
