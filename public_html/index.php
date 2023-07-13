@@ -92,7 +92,14 @@ if ($bot->getMentionId())
 
 elseif (strpos(getTextChat(), ':') || getTextChat()[0] == ":") 
 {
-    $bot->reply(MAINTENANCE);
+    $sticker = getStickerId();
+    $parseText = getParseText();
+    foreach ($parseText as $q) {
+        if ($sticker[$q] != null) {
+            $bot->replyImage($sticker[$q]);
+            return;
+        }
+    }
 } 
 elseif (sizeof(getParseText()) < 7) 
 {
