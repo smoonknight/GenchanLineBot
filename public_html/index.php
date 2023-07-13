@@ -53,11 +53,7 @@ class Index
 
     public function handleKeyword()
     {
-        $isKeyExist = $this->keyword->FindKeyword($this->bot->getMessageText(true)[0]);
 
-        if ($isKeyExist) {
-            return;
-        }
     }
 
     public function logChat()
@@ -71,11 +67,12 @@ class Index
 
     public function reply()
     {
-        if ($this->bot->getMentionId())
-        {
+        $isKeyExist = $this->keyword->FindKeyword($this->bot->getMessageText(true)[0]);
+
+        if ($isKeyExist) {
             return;
         }
-
+        
         if (strpos($this->textChat, ':') || $this->textChat[0] == ":") {
             $this->handleMessage();
             return;
