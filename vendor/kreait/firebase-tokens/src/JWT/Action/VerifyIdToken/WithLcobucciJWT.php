@@ -7,42 +7,56 @@ namespace Kreait\Firebase\JWT\Action\VerifyIdToken;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
-use Kreait\Clock;
 use Kreait\Firebase\JWT\Action\VerifyIdToken;
 use Kreait\Firebase\JWT\Contract\Keys;
 use Kreait\Firebase\JWT\Contract\Token;
 use Kreait\Firebase\JWT\Error\IdTokenVerificationFailed;
 use Kreait\Firebase\JWT\Token as TokenInstance;
+use Kreait\Firebase\JWT\Util;
 use Lcobucci\Clock\FrozenClock;
-use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
-use Lcobucci\JWT\Token as JWT;
+use Lcobucci\JWT\Token\Parser;
+use Lcobucci\JWT\UnencryptedToken;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
+use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
-use Lcobucci\JWT\Validation\Constraint\ValidAt;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
+use Lcobucci\JWT\Validation\Validator;
+use StellaMaris\Clock\ClockInterface;
 use Throwable;
 
+/**
+ * @internal
+ */
 final class WithLcobucciJWT implements Handler
 {
     private string $projectId;
-
     private Keys $keys;
+    private ClockInterface $clock;
+    private Parser $parser;
+    private Signer $signer;
+    private Validator $validator;
 
-    private Clock $clock;
-
-    private Configuration $config;
-
-    public function __construct(string $projectId, Keys $keys, Clock $clock)
+    public function __construct(string $projectId, Keys $keys, ClockInterface $clock)
     {
         $this->projectId = $projectId;
         $this->keys = $keys;
         $this->clock = $clock;
+        $this->parser = new Parser(new JoseEncoder());
 
-        $this->config = Configuration::forSymmetricSigner(new Sha256(), InMemory::empty());
+        if (Util::authEmulatorHost() !== '') {
+            $this->signer = new None();
+        } else {
+            $this->signer = new Sha256();
+        }
+
+        $this->validator = new Validator();
     }
 
     public function handle(VerifyIdToken $action): Token
@@ -50,13 +64,10 @@ final class WithLcobucciJWT implements Handler
         $tokenString = $action->token();
 
         try {
-            $token = $this->config->parser()->parse($tokenString);
+            $token = $this->parser->parse($tokenString);
+            \assert($token instanceof UnencryptedToken);
         } catch (Throwable $e) {
             throw IdTokenVerificationFailed::withTokenAndReasons($tokenString, ['The token is invalid', $e->getMessage()]);
-        }
-
-        if (!($token instanceof JWT\Plain)) {
-            throw IdTokenVerificationFailed::withTokenAndReasons($tokenString, ['The token could not be decrypted']);
         }
 
         $key = $this->getKey($token);
@@ -64,15 +75,21 @@ final class WithLcobucciJWT implements Handler
         $leeway = new DateInterval('PT'.$action->leewayInSeconds().'S');
         $errors = [];
 
+        $constraints = [
+            new LooseValidAt($clock, $leeway),
+            new IssuedBy(...["https://securetoken.google.com/{$this->projectId}"]),
+            new PermittedFor($this->projectId),
+        ];
+
+        if ($key !== '' && Util::authEmulatorHost() === '') {
+            $constraints[] = new SignedWith($this->signer, InMemory::plainText($key));
+        }
+
         try {
-            $this->config->validator()->assert($token, ...[
-                new ValidAt($clock, $leeway),
-                new IssuedBy(...["https://securetoken.google.com/{$this->projectId}"]),
-                new PermittedFor($this->projectId),
-                new SignedWith($this->config->signer(), InMemory::plainText($key)),
-            ]);
+            $this->validator->assert($token, ...$constraints);
 
             $this->assertUserAuthedAt($token, $clock->now()->add($leeway));
+
             if ($tenantId = $action->expectedTenantId()) {
                 $this->assertTenantId($token, $tenantId);
             }
@@ -107,7 +124,7 @@ final class WithLcobucciJWT implements Handler
         return TokenInstance::withValues($tokenString, $headers, $claims);
     }
 
-    private function getKey(JWT $token): string
+    private function getKey(UnencryptedToken $token): string
     {
         if (empty($keys = $this->keys->all())) {
             throw IdTokenVerificationFailed::withTokenAndReasons($token->toString(), ["No keys are available to verify the token's signature."]);
@@ -119,10 +136,14 @@ final class WithLcobucciJWT implements Handler
             return $key;
         }
 
+        if ($this->signer instanceof None) {
+            return '';
+        }
+
         throw IdTokenVerificationFailed::withTokenAndReasons($token->toString(), ["No public key matching the key ID '{$keyId}' was found to verify the signature of this token."]);
     }
 
-    private function assertUserAuthedAt(JWT\Plain $token, DateTimeInterface $now): void
+    private function assertUserAuthedAt(UnencryptedToken $token, DateTimeInterface $now): void
     {
         /** @var int|DateTimeImmutable $authTime */
         $authTime = $token->claims()->get('auth_time');
@@ -144,7 +165,7 @@ final class WithLcobucciJWT implements Handler
         }
     }
 
-    private function assertTenantId(JWT\Plain $token, string $tenantId): void
+    private function assertTenantId(UnencryptedToken $token, string $tenantId): void
     {
         $claim = (array) $token->claims()->get('firebase', []);
 

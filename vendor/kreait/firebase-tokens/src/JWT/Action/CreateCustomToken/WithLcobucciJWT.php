@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Kreait\Firebase\JWT\Action\CreateCustomToken;
 
 use DateTimeInterface;
-use Kreait\Clock;
 use Kreait\Firebase\JWT\Action\CreateCustomToken;
 use Kreait\Firebase\JWT\Contract\Token;
 use Kreait\Firebase\JWT\Error\CustomTokenCreationFailed;
@@ -13,17 +12,25 @@ use Kreait\Firebase\JWT\Token as TokenInstance;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
+use StellaMaris\Clock\ClockInterface;
 use Throwable;
 
+/**
+ * @internal
+ */
 final class WithLcobucciJWT implements Handler
 {
     private string $clientEmail;
 
-    private Clock $clock;
+    private ClockInterface $clock;
 
     private Configuration $config;
 
-    public function __construct(string $clientEmail, string $privateKey, Clock $clock)
+    /**
+     * @param non-empty-string $clientEmail
+     * @param non-empty-string $privateKey
+     */
+    public function __construct(string $clientEmail, string $privateKey, ClockInterface $clock)
     {
         $this->clientEmail = $clientEmail;
         $this->clock = $clock;

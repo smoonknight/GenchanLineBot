@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Kreait\Firebase\Database\Query\Filter;
 
+use Beste\Json;
 use Kreait\Firebase\Database\Query\Filter;
 use Kreait\Firebase\Database\Query\ModifierTrait;
 use Kreait\Firebase\Exception\InvalidArgumentException;
-use Kreait\Firebase\Util\JSON;
 use Psr\Http\Message\UriInterface;
+
+use function is_scalar;
 
 final class StartAfter implements Filter
 {
@@ -22,7 +24,7 @@ final class StartAfter implements Filter
      */
     public function __construct($value)
     {
-        if (!\is_scalar($value)) {
+        if (!is_scalar($value)) {
             throw new InvalidArgumentException('Only scalar values are allowed for "startAfter" queries.');
         }
 
@@ -31,6 +33,6 @@ final class StartAfter implements Filter
 
     public function modifyUri(UriInterface $uri): UriInterface
     {
-        return $this->appendQueryParam($uri, 'startAfter', JSON::encode($this->value));
+        return $this->appendQueryParam($uri, 'startAfter', Json::encode($this->value));
     }
 }

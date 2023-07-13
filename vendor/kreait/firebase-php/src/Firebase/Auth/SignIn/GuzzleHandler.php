@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Kreait\Firebase\Auth\SignIn;
 
+use Beste\Json;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Utils;
+use Kreait\Firebase\Auth\AuthResourceUrlBuilder;
 use Kreait\Firebase\Auth\IsTenantAware;
+use Kreait\Firebase\Auth\ProjectAwareAuthResourceUrlBuilder;
 use Kreait\Firebase\Auth\SignIn;
 use Kreait\Firebase\Auth\SignInAnonymously;
 use Kreait\Firebase\Auth\SignInResult;
@@ -18,8 +21,17 @@ use Kreait\Firebase\Auth\SignInWithEmailAndOobCode;
 use Kreait\Firebase\Auth\SignInWithEmailAndPassword;
 use Kreait\Firebase\Auth\SignInWithIdpCredentials;
 use Kreait\Firebase\Auth\SignInWithRefreshToken;
-use Kreait\Firebase\Util\JSON;
+use Kreait\Firebase\Auth\TenantAwareAuthResourceUrlBuilder;
+use Kreait\Firebase\Util;
 use Psr\Http\Message\RequestInterface;
+use UnexpectedValueException;
+
+use const JSON_FORCE_OBJECT;
+
+use function array_merge;
+use function get_class;
+use function http_build_query;
+use function str_replace;
 
 /**
  * @internal
@@ -35,11 +47,12 @@ final class GuzzleHandler implements Handler
     private static array $defaultHeaders = [
         'Content-Type' => 'application/json; charset=UTF-8',
     ];
-
+    private string $projectId;
     private ClientInterface $client;
 
-    public function __construct(ClientInterface $client)
+    public function __construct(string $projectId, ClientInterface $client)
     {
+        $this->projectId = $projectId;
         $this->client = $client;
     }
 
@@ -58,8 +71,8 @@ final class GuzzleHandler implements Handler
         }
 
         try {
-            $data = JSON::decode((string) $response->getBody(), true);
-        } catch (\InvalidArgumentException $e) {
+            $data = Json::decode((string) $response->getBody(), true);
+        } catch (UnexpectedValueException $e) {
             throw FailedToSignIn::fromPrevious($e);
         }
 
@@ -71,50 +84,56 @@ final class GuzzleHandler implements Handler
         switch (true) {
             case $action instanceof SignInAnonymously:
                 return $this->anonymous($action);
+
             case $action instanceof SignInWithCustomToken:
                 return $this->customToken($action);
+
             case $action instanceof SignInWithEmailAndPassword:
                 return $this->emailAndPassword($action);
+
             case $action instanceof SignInWithEmailAndOobCode:
                 return $this->emailAndOobCode($action);
+
             case $action instanceof SignInWithIdpCredentials:
                 return $this->idpCredentials($action);
+
             case $action instanceof SignInWithRefreshToken:
                 return $this->refreshToken($action);
+
             default:
-                throw new FailedToSignIn(self::class.' does not support '.\get_class($action));
+                throw new FailedToSignIn(self::class.' does not support '.get_class($action));
         }
     }
 
     private function anonymous(SignInAnonymously $action): Request
     {
-        $uri = Utils::uriFor('https://identitytoolkit.googleapis.com/v1/accounts:signUp');
+        $url = AuthResourceUrlBuilder::create()->getUrl('/accounts:signUp');
 
-        $body = Utils::streamFor(JSON::encode(self::prepareBody($action), JSON_FORCE_OBJECT));
+        $body = Utils::streamFor(Json::encode($this->prepareBody($action), JSON_FORCE_OBJECT));
 
         $headers = self::$defaultHeaders;
 
-        return new Request('POST', $uri, $headers, $body);
+        return new Request('POST', $url, $headers, $body);
     }
 
     private function customToken(SignInWithCustomToken $action): Request
     {
-        $uri = Utils::uriFor('https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken');
+        $url = AuthResourceUrlBuilder::create()->getUrl('/accounts:signInWithCustomToken');
 
-        $body = Utils::streamFor(JSON::encode(\array_merge(self::prepareBody($action), [
+        $body = Utils::streamFor(Json::encode(array_merge($this->prepareBody($action), [
             'token' => $action->customToken(),
         ]), JSON_FORCE_OBJECT));
 
         $headers = self::$defaultHeaders;
 
-        return new Request('POST', $uri, $headers, $body);
+        return new Request('POST', $url, $headers, $body);
     }
 
     private function emailAndPassword(SignInWithEmailAndPassword $action): Request
     {
-        $uri = Utils::uriFor('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword');
+        $url = AuthResourceUrlBuilder::create()->getUrl('/accounts:signInWithPassword');
 
-        $body = Utils::streamFor(JSON::encode(\array_merge(self::prepareBody($action), [
+        $body = Utils::streamFor(Json::encode(array_merge($this->prepareBody($action), [
             'email' => $action->email(),
             'password' => $action->clearTextPassword(),
             'returnSecureToken' => true,
@@ -122,14 +141,14 @@ final class GuzzleHandler implements Handler
 
         $headers = self::$defaultHeaders;
 
-        return new Request('POST', $uri, $headers, $body);
+        return new Request('POST', $url, $headers, $body);
     }
 
     private function emailAndOobCode(SignInWithEmailAndOobCode $action): Request
     {
-        $uri = Utils::uriFor('https://www.googleapis.com/identitytoolkit/v3/relyingparty/emailLinkSignin');
+        $url = AuthResourceUrlBuilder::create()->getUrl('/accounts:signInWithEmailLink');
 
-        $body = Utils::streamFor(JSON::encode(\array_merge(self::prepareBody($action), [
+        $body = Utils::streamFor(Json::encode(array_merge($this->prepareBody($action), [
             'email' => $action->email(),
             'oobCode' => $action->oobCode(),
             'returnSecureToken' => true,
@@ -137,12 +156,12 @@ final class GuzzleHandler implements Handler
 
         $headers = self::$defaultHeaders;
 
-        return new Request('POST', $uri, $headers, $body);
+        return new Request('POST', $url, $headers, $body);
     }
 
     private function idpCredentials(SignInWithIdpCredentials $action): Request
     {
-        $uri = Utils::uriFor('https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp');
+        $url = AuthResourceUrlBuilder::create()->getUrl('/accounts:signInWithIdp');
 
         $postBody = [
             'access_token' => $action->accessToken(),
@@ -158,8 +177,8 @@ final class GuzzleHandler implements Handler
             $postBody['nonce'] = $rawNonce;
         }
 
-        $rawBody = \array_merge(self::prepareBody($action), [
-            'postBody' => \http_build_query($postBody),
+        $rawBody = array_merge($this->prepareBody($action), [
+            'postBody' => http_build_query($postBody),
             'returnIdpCredential' => true,
             'requestUri' => $action->requestUri(),
         ]);
@@ -168,11 +187,11 @@ final class GuzzleHandler implements Handler
             $rawBody['idToken'] = $action->linkingIdToken();
         }
 
-        $body = Utils::streamFor(JSON::encode($rawBody, JSON_FORCE_OBJECT));
+        $body = Utils::streamFor(Json::encode($rawBody, JSON_FORCE_OBJECT));
 
         $headers = self::$defaultHeaders;
 
-        return new Request('POST', $uri, $headers, $body);
+        return new Request('POST', $url, $headers, $body);
     }
 
     private function refreshToken(SignInWithRefreshToken $action): Request
@@ -187,22 +206,34 @@ final class GuzzleHandler implements Handler
             'Accept' => 'application/json',
         ];
 
-        $uri = Utils::uriFor('https://securetoken.googleapis.com/v1/token');
+        $emulatorHost = Util::authEmulatorHost();
 
-        return new Request('POST', $uri, $headers, $body);
+        if ($emulatorHost !== '') {
+            // The emulator host requires an api key query parameter.
+            $url = str_replace('{host}', $emulatorHost, 'http://{host}/securetoken.googleapis.com/v1/token?key=any');
+        } else {
+            $url = 'https://securetoken.googleapis.com/v1/token';
+        }
+
+        return new Request('POST', $url, $headers, $body);
     }
 
     /**
      * @return array<string, mixed>
      */
-    private static function prepareBody(SignIn $action): array
+    private function prepareBody(SignIn $action): array
     {
         $body = self::$defaultBody;
+        $body['targetProjectId'] = $this->projectId;
 
         if ($action instanceof IsTenantAware && $tenantId = $action->tenantId()) {
-            $body['tenantId'] = $tenantId->toString();
+            $body['tenantId'] = $tenantId;
         }
 
         return $body;
     }
+
+    /**
+     * @return AuthResourceUrlBuilder|ProjectAwareAuthResourceUrlBuilder|TenantAwareAuthResourceUrlBuilder
+     */
 }

@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace Kreait\Firebase\Auth\CreateSessionCookie;
 
+use Beste\Json;
+use InvalidArgumentException;
 use Kreait\Firebase\Auth\CreateSessionCookie;
 use Kreait\Firebase\Exception\FirebaseException;
-use Kreait\Firebase\Util\JSON;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 use Throwable;
 
-final class FailedToCreateSessionCookie extends \RuntimeException implements FirebaseException
+final class FailedToCreateSessionCookie extends RuntimeException implements FirebaseException
 {
     private CreateSessionCookie $action;
-    private ?ResponseInterface $response = null;
+    private ?ResponseInterface $response;
 
-    public function __construct(CreateSessionCookie $action, ?ResponseInterface $response, string $message = null, int $code = null, ?Throwable $previous = null)
+    public function __construct(CreateSessionCookie $action, ?ResponseInterface $response, ?string $message = null, ?int $code = null, ?Throwable $previous = null)
     {
         $message ??= '';
         $code ??= 0;
@@ -31,8 +33,8 @@ final class FailedToCreateSessionCookie extends \RuntimeException implements Fir
         $fallbackMessage = 'Failed to create session cookie';
 
         try {
-            $message = JSON::decode((string) $response->getBody(), true)['error']['message'] ?? $fallbackMessage;
-        } catch (\InvalidArgumentException $e) {
+            $message = Json::decode((string) $response->getBody(), true)['error']['message'] ?? $fallbackMessage;
+        } catch (InvalidArgumentException $e) {
             $message = $fallbackMessage;
         }
 

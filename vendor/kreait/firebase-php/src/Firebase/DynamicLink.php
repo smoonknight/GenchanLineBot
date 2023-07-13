@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Kreait\Firebase;
 
+use Beste\Json;
 use GuzzleHttp\Psr7\Utils;
 use JsonSerializable;
-use Kreait\Firebase\Util\JSON;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
+
+use function trim;
 
 final class DynamicLink implements JsonSerializable
 {
@@ -19,13 +21,18 @@ final class DynamicLink implements JsonSerializable
     {
     }
 
+    public function __toString(): string
+    {
+        return (string) $this->uri();
+    }
+
     /**
      * @internal
      */
     public static function fromApiResponse(ResponseInterface $response): self
     {
         $link = new self();
-        $link->data = JSON::decode((string) $response->getBody(), true);
+        $link->data = Json::decode((string) $response->getBody(), true);
 
         return $link;
     }
@@ -47,7 +54,7 @@ final class DynamicLink implements JsonSerializable
 
     public function suffix(): string
     {
-        return \trim($this->uri()->getPath(), '/');
+        return trim($this->uri()->getPath(), '/');
     }
 
     /**
@@ -69,10 +76,5 @@ final class DynamicLink implements JsonSerializable
     public function jsonSerialize(): array
     {
         return $this->data;
-    }
-
-    public function __toString(): string
-    {
-        return (string) $this->uri();
     }
 }

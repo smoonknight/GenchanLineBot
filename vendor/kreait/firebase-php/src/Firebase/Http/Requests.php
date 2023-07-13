@@ -8,7 +8,12 @@ use IteratorAggregate;
 use Psr\Http\Message\RequestInterface;
 use Traversable;
 
+use function array_pop;
+use function explode;
+
 /**
+ * @internal
+ *
  * @implements IteratorAggregate<RequestInterface>
  */
 final class Requests implements IteratorAggregate
@@ -21,22 +26,12 @@ final class Requests implements IteratorAggregate
         $this->requests = $requests;
     }
 
-    /**
-     * @deprecated 5.14.0
-     */
-    public function findBy(callable $callable): ?RequestInterface
-    {
-        $results = \array_filter($this->requests, $callable);
-
-        return \array_shift($results) ?: null;
-    }
-
     public function findByContentId(string $contentId): ?RequestInterface
     {
         foreach ($this->requests as $request) {
             $contentIdHeader = $request->getHeaderLine('Content-ID');
-            $contentIdHeaderParts = \explode('-', $contentIdHeader);
-            $requestContentId = \array_pop($contentIdHeaderParts);
+            $contentIdHeaderParts = explode('-', $contentIdHeader);
+            $requestContentId = array_pop($contentIdHeaderParts);
 
             if ($contentId === $requestContentId) {
                 return $request;

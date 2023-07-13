@@ -6,9 +6,16 @@ namespace Kreait\Firebase\DynamicLink;
 
 use Countable;
 use IteratorAggregate;
+use Traversable;
+
+use function array_column;
+use function array_filter;
+use function array_sum;
+use function assert;
 
 /**
  * @see https://firebase.google.com/docs/reference/dynamic-links/analytics#response_body
+ *
  * @implements IteratorAggregate<array>
  */
 final class EventStatistics implements Countable, IteratorAggregate
@@ -104,23 +111,25 @@ final class EventStatistics implements Countable, IteratorAggregate
 
     public function filter(callable $filter): self
     {
-        return new self(\array_filter($this->events, $filter));
+        return new self(array_filter($this->events, $filter));
     }
 
     /**
      * @codeCoverageIgnore
      *
-     * @return \Traversable<array<string, string>>
+     * @return Traversable<array<string, string>>
      */
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
         yield from $this->events;
     }
 
     public function count(): int
     {
-        $count = (int) \array_sum(\array_column($this->events, 'count'));
+        $result = (int) array_sum(array_column($this->events, 'count'));
 
-        return max($count, 0);
+        assert($result >= 0);
+
+        return $result;
     }
 }

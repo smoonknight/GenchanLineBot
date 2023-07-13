@@ -505,7 +505,7 @@ class Keyword{
 
     public function Debugging()
     {
-
+        
     }
     public function PingGenchan()
     {

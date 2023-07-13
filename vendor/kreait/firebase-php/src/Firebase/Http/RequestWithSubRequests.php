@@ -10,7 +10,15 @@ use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\UriInterface;
 
+use function array_keys;
+use function implode;
+use function mb_strtolower;
+use function sha1;
+use function uniqid;
+
 /**
+ * @internal
+ *
  * This is basically a Multipart Request, except that in the parts the sub request start lines
  * are injected between the headers and the body.
  *
@@ -24,13 +32,9 @@ use Psr\Http\Message\UriInterface;
 final class RequestWithSubRequests implements HasSubRequests, RequestInterface
 {
     use WrappedPsr7Request;
-
     private string $method = 'POST';
-
     private string $boundary;
-
     private AppendStream $body;
-
     private Requests $subRequests;
 
     /**
@@ -39,7 +43,7 @@ final class RequestWithSubRequests implements HasSubRequests, RequestInterface
      */
     public function __construct($uri, Requests $subRequests, string $version = '1.1')
     {
-        $this->boundary = \sha1(\uniqid('', true));
+        $this->boundary = sha1(uniqid('', true));
 
         $headers = [
             'Content-Type' => 'multipart/mixed; boundary='.$this->boundary,
@@ -55,12 +59,10 @@ final class RequestWithSubRequests implements HasSubRequests, RequestInterface
         $this->appendStream("--{$this->boundary}--");
 
         $request = new Request($this->method, $uri, $headers, $this->body, $version);
+        $contentLength = $request->getBody()->getSize();
 
-        if (($requestBody = $request->getBody()) !== null) {
-            $contentLength = $requestBody->getSize();
-            if ($contentLength !== null) {
-                $request = $request->withHeader('Content-Length', (string) $contentLength);
-            }
+        if ($contentLength !== null) {
+            $request = $request->withHeader('Content-Length', (string) $contentLength);
         }
 
         $this->wrappedRequest = $request;
@@ -86,17 +88,17 @@ final class RequestWithSubRequests implements HasSubRequests, RequestInterface
 
     private function subRequestHeadersAsString(RequestInterface $request): string
     {
-        $headerNames = \array_keys($request->getHeaders());
+        $headerNames = array_keys($request->getHeaders());
 
         $headers = [];
 
         foreach ($headerNames as $name) {
-            if (\mb_strtolower($name) === 'host') {
+            if (mb_strtolower($name) === 'host') {
                 continue;
             }
             $headers[] = "{$name}: {$request->getHeaderLine($name)}";
         }
 
-        return \implode("\r\n", $headers);
+        return implode("\r\n", $headers);
     }
 }

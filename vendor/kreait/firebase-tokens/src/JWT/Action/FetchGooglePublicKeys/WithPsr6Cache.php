@@ -4,22 +4,25 @@ declare(strict_types=1);
 
 namespace Kreait\Firebase\JWT\Action\FetchGooglePublicKeys;
 
-use Kreait\Clock;
 use Kreait\Firebase\JWT\Action\FetchGooglePublicKeys;
 use Kreait\Firebase\JWT\Contract\Expirable;
 use Kreait\Firebase\JWT\Contract\Keys;
 use Kreait\Firebase\JWT\Error\FetchingGooglePublicKeysFailed;
 use Psr\Cache\CacheItemPoolInterface;
+use StellaMaris\Clock\ClockInterface;
 
+/**
+ * @internal
+ */
 final class WithPsr6Cache implements Handler
 {
     private Handler $handler;
 
     private CacheItemPoolInterface $cache;
 
-    private Clock $clock;
+    private ClockInterface $clock;
 
-    public function __construct(Handler $handler, CacheItemPoolInterface $cache, Clock $clock)
+    public function __construct(Handler $handler, CacheItemPoolInterface $cache, ClockInterface $clock)
     {
         $this->handler = $handler;
         $this->cache = $cache;
@@ -34,7 +37,7 @@ final class WithPsr6Cache implements Handler
         /** @noinspection PhpUnhandledExceptionInspection */
         $cacheItem = $this->cache->getItem($cacheKey);
 
-        /** @var Keys|null $keys */
+        /** @var Keys|Expirable|null $keys */
         $keys = $cacheItem->get();
 
         // We deliberately don't care if the cache item is expired here, as long as the keys

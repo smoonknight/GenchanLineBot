@@ -11,13 +11,13 @@ Achieve more with the [Firebase Admin SDK](https://github.com/kreait/firebase-ph
 [![Monthly Downloads](https://img.shields.io/packagist/dm/kreait/firebase-tokens.svg)](https://packagist.org/packages/kreait/firebase-tokens/stats)
 [![Total Downloads](https://img.shields.io/packagist/dt/kreait/firebase-tokens.svg)](https://packagist.org/packages/kreait/firebase-tokens/stats)
 [![Tests](https://github.com/kreait/firebase-tokens-php/workflows/Tests/badge.svg)](https://github.com/kreait/firebase-tokens-php/actions)
-[![Discord](https://img.shields.io/discord/807679292573220925.svg?color=7289da&logo=discord)](https://discord.gg/Yacm7unBsr)
 [![Sponsor](https://img.shields.io/static/v1?logo=GitHub&label=Sponsor&message=%E2%9D%A4&color=ff69b4)](https://github.com/sponsors/jeromegamez)
 
 - [Installation](#installation)
 - [Simple Usage](#simple-usage)
   - [Create a custom token](#create-a-custom-token)
   - [Verify an ID token](#verify-an-id-token)
+  - [Verify a Session Cookie](#verify-a-session-cookie)
   - [Tokens](#tokens)
   - [Tenant Awareness](#tenant-awareness) 
 - [Advanced Usage](#advanced-usage)
@@ -81,6 +81,41 @@ try {
 try {
     $token = $verifier->verifyIdTokenWithLeeway($idToken, $leewayInSeconds = 10000000);
 } catch (IdTokenVerificationFailed $e) {
+    print $e->getMessage();
+    exit;
+}
+```
+
+### Verify a Session Cookie
+
+Session cookie verification is similar to ID Token verification.
+
+See [Manage Session Cookies](https://firebase.google.com/docs/auth/admin/manage-cookies) for more information.
+
+```php
+<?php
+
+use Kreait\Firebase\JWT\Error\SessionCookieVerificationFailed;
+use Kreait\Firebase\JWT\SessionCookieVerifier;
+
+$projectId = '...';
+$sessionCookie = 'eyJhb...'; // A session cookie given to your backend by a Client application
+
+$verifier = SessionCookieVerifier::createWithProjectId($projectId);
+
+try {
+    $token = $verifier->verifySessionCookie($sessionCookie);
+} catch (SessionCookieVerificationFailed $e) {
+    echo $e->getMessage();
+    // Example Output:
+    // The value 'eyJhb...' is not a verified ID token:
+    // - The token is expired.
+    exit;
+}
+
+try {
+    $token = $verifier->verifySessionCookieWithLeeway($sessionCookie, $leewayInSeconds = 10000000);
+} catch (SessionCookieVerificationFailed $e) {
     print $e->getMessage();
     exit;
 }
@@ -167,6 +202,7 @@ $verifier = IdTokenVerifier::createWithProjectId('my-project-id');
 $tenantAwareVerifier = $verifier->withExpectedTenantId('my-tenant-id');
 ```
 
+Session cookies currently don't support tenants.
 
 ## Advanced usage
 
@@ -184,9 +220,9 @@ Here's an example using the [Symfony Cache Component](https://symfony.com/doc/cu
 
 ```php
 use Kreait\Firebase\JWT\IdTokenVerifier;
-use Symfony\Component\Cache\Simple\FilesystemCache;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
-$cache = new FilesystemCache();
+$cache = new FilesystemAdapter();
 
 $verifier = IdTokenVerifier::createWithProjectIdAndCache($projectId, $cache);
 ```

@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Kreait\Firebase\JWT;
 
+use Beste\Clock\SystemClock;
+use GuzzleHttp\Client;
 use InvalidArgumentException;
-use Kreait\Clock\SystemClock;
-use Kreait\Firebase\JWT\Action\FetchGooglePublicKeys\WithHandlerDiscovery;
-use Kreait\Firebase\JWT\Action\FetchGooglePublicKeys\WithPsr16SimpleCache;
+use Kreait\Firebase\JWT\Action\FetchGooglePublicKeys\WithGuzzle;
 use Kreait\Firebase\JWT\Action\FetchGooglePublicKeys\WithPsr6Cache;
 use Kreait\Firebase\JWT\Action\VerifyIdToken;
 use Kreait\Firebase\JWT\Action\VerifyIdToken\Handler;
-use Kreait\Firebase\JWT\Cache\InMemoryCache;
+use Kreait\Firebase\JWT\Action\VerifyIdToken\WithLcobucciJWT;
 use Kreait\Firebase\JWT\Contract\Token;
 use Kreait\Firebase\JWT\Error\IdTokenVerificationFailed;
 use Psr\Cache\CacheItemPoolInterface;
-use Psr\SimpleCache\CacheInterface;
 
 final class IdTokenVerifier
 {
@@ -30,33 +29,34 @@ final class IdTokenVerifier
 
     public static function createWithProjectId(string $projectId): self
     {
-        return self::createWithProjectIdAndCache($projectId, InMemoryCache::createEmpty());
-    }
-
-    /**
-     * @param CacheInterface|CacheItemPoolInterface $cache
-     */
-    public static function createWithProjectIdAndCache(string $projectId, $cache): self
-    {
-        $clock = new SystemClock();
-        $keyHandler = new WithHandlerDiscovery($clock);
-
-        $keyHandler = $cache instanceof CacheInterface
-            ? new WithPsr16SimpleCache($keyHandler, $cache, $clock)
-            : new WithPsr6Cache($keyHandler, $cache, $clock);
+        $clock = SystemClock::create();
+        $keyHandler = new WithGuzzle(new Client(['http_errors' => false]), $clock);
 
         $keys = new GooglePublicKeys($keyHandler, $clock);
-        $handler = new VerifyIdToken\WithHandlerDiscovery($projectId, $keys, $clock);
+        $handler = new WithLcobucciJWT($projectId, $keys, $clock);
+
+        return new self($handler);
+    }
+
+    public static function createWithProjectIdAndCache(string $projectId, CacheItemPoolInterface $cache): self
+    {
+        $clock = SystemClock::create();
+
+        $innerKeyHandler = new WithGuzzle(new Client(['http_errors' => false]), $clock);
+        $keyHandler = new WithPsr6Cache($innerKeyHandler, $cache, $clock);
+
+        $keys = new GooglePublicKeys($keyHandler, $clock);
+        $handler = new WithLcobucciJWT($projectId, $keys, $clock);
 
         return new self($handler);
     }
 
     public function withExpectedTenantId(string $tenantId): self
     {
-        $generator = clone $this;
-        $generator->expectedTenantId = $tenantId;
+        $verifier = clone $this;
+        $verifier->expectedTenantId = $tenantId;
 
-        return $generator;
+        return $verifier;
     }
 
     public function execute(VerifyIdToken $action): Token

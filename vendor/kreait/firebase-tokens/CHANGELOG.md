@@ -1,16 +1,68 @@
 # CHANGELOG
 
-## 1.17.0 - 2022-08-22
+## 3.0.3 - 2022-08-22
 
-Dropped support for `lcobucci/jwt` 3.x
+* Ensured (PHPStan) compatibility with `lcobucci/jwt` ^4.2
 
-## 1.16.3 - 2022-08-22
+## 3.0.2 - 2022-06-22
 
-Ensure compatibility with `lcobucci/jwt` ^4.2 (this time for real) 
+* Raised minimum version of Guzzle to address [CVE-2022-31090](https://github.com/advisories/GHSA-25mq-v84q-4j7r)
+  and [CVE-2022-31091](https://github.com/advisories/GHSA-q559-8m2m-g699)
 
-## 1.16.2 - 2022-08-22
+## 3.0.1 - 2022-06-10
 
-Ensure compatibility with `lcobucci/jwt` ^4.2
+* Raise minimum version of Guzzle to address [CVE-2022-31042](https://github.com/advisories/GHSA-f2wf-25xc-69c9)
+
+## 3.0 - 2022-04-24
+
+Implemented forward compatible Clock-Interface
+  
+The [stella-maris/clock](https://packagist.org/packages/stella-maris/clock) package provides an interface based on the 
+currently proposed status of [PSR-20](https://github.com/php-fig/fig-standards/blob/6666a48cabf651bb0c06e090e028fe100100a45c/proposed/clock.md).
+Due to the inactivity of the PSR20 working group this is a way to already provide interoperability while still
+maintaining forward compatibility. When the current status of PSR20 will be released at one point in time the 
+stella-maris/clock package will extend the PSR-20 interface so that this package becomes immeadiately PSR20 compatible 
+without any further work necessary.
+
+## 2.3.0 - 2022-04-16
+
+* Removed `firebase/php-jwt` dev dependency and simplified test token generation.
+* Added support for verifying tokens returned from the Auth Emulator.
+
+## 2.2.0 - 2022-01-28
+
+Added tenant support to Session Cookie Verification. It doesn't seem to be supported at the moment
+(executing it with a tenant-enabled Firebase project yields an `UNSUPPORTED_TENANT_OPERATION`)
+error, but once it _is_ supported, this library will need no or just minimal updates.
+
+The [Firebase Admin SDK for PHP](https://github.com/kreait/firebase-php) has integration tests 
+checking for this error so that we know early on when it starts working.
+
+## 2.1.1 - 2022-01-28
+
+Fixed method name `Kreait\Firebase\JWT\SessionCookieVerifier::sessionCookieWithLeeway` to
+`Kreait\Firebase\JWT\SessionCookieVerifier::verifySessionCookieWithLeeway` 🤦‍. This is technically
+a breaking change, but since 2.1.0 was released just a few minutes ago, it was most certainly not
+used yet.
+
+## 2.1.0 - 2022-01-28
+
+Added `Kreait\Firebase\JWT\SessionCookieVerifier` that works similarly as the existing ID Token verifier.
+You can find its documentation in the README.
+
+## 2.0.1 - 2022-01-03
+
+Fixed failing ID token verification when the `nbf` claim is not present.
+
+## 2.0.0 - 2022-01-03
+
+After updating, please refer to the [Migration Documentation](MIGRATE-1.x-to-2.0.md) to be ready for the 2.0 release of this library.
+
+* Removed `Firebase\Auth` namespace
+* Ensured compatibility with PHP 8.1 by adding it to the test matrix.
+* Dropped support for `lcobucci/jwt` <4.1
+* Dropped support for `guzzlehttp/guzzle` <7.0
+* Dropped direct support for `psr/simple-cache`
 
 ## 1.16.1 - 2021-10-03
 

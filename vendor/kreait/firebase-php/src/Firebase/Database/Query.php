@@ -5,7 +5,18 @@ declare(strict_types=1);
 namespace Kreait\Firebase\Database;
 
 use Kreait\Firebase\Database\Query\Filter;
+use Kreait\Firebase\Database\Query\Filter\EndAt;
+use Kreait\Firebase\Database\Query\Filter\EndBefore;
+use Kreait\Firebase\Database\Query\Filter\EqualTo;
+use Kreait\Firebase\Database\Query\Filter\LimitToFirst;
+use Kreait\Firebase\Database\Query\Filter\LimitToLast;
+use Kreait\Firebase\Database\Query\Filter\Shallow;
+use Kreait\Firebase\Database\Query\Filter\StartAfter;
+use Kreait\Firebase\Database\Query\Filter\StartAt;
 use Kreait\Firebase\Database\Query\Sorter;
+use Kreait\Firebase\Database\Query\Sorter\OrderByChild;
+use Kreait\Firebase\Database\Query\Sorter\OrderByKey;
+use Kreait\Firebase\Database\Query\Sorter\OrderByValue;
 use Kreait\Firebase\Exception\Database\DatabaseNotFound;
 use Kreait\Firebase\Exception\Database\UnsupportedQuery;
 use Kreait\Firebase\Exception\DatabaseException;
@@ -28,8 +39,9 @@ class Query
 {
     private Reference $reference;
     private ApiClient $apiClient;
+
     /** @var Filter[] */
-    private array $filters;
+    private array $filters = [];
     private ?Sorter $sorter = null;
 
     /**
@@ -39,7 +51,16 @@ class Query
     {
         $this->reference = $reference;
         $this->apiClient = $apiClient;
-        $this->filters = [];
+    }
+
+    /**
+     * Returns the absolute URL for this location.
+     *
+     * @see getUri()
+     */
+    public function __toString(): string
+    {
+        return (string) $this->getUri();
     }
 
     /**
@@ -59,8 +80,12 @@ class Query
      */
     public function getSnapshot(): Snapshot
     {
+        $uri = $this->getUri();
+
+        $pathAndQuery = $uri->getPath().'?'.$uri->getQuery();
+
         try {
-            $value = $this->apiClient->get($this->getUri());
+            $value = $this->apiClient->get($pathAndQuery);
         } catch (DatabaseNotFound $e) {
             throw $e;
         } catch (DatabaseException $e) {
@@ -102,7 +127,7 @@ class Query
      */
     public function endAt($value): self
     {
-        return $this->withAddedFilter(new Filter\EndAt($value));
+        return $this->withAddedFilter(new EndAt($value));
     }
 
     /**
@@ -114,7 +139,7 @@ class Query
      */
     public function endBefore($value): self
     {
-        return $this->withAddedFilter(new Filter\EndBefore($value));
+        return $this->withAddedFilter(new EndBefore($value));
     }
 
     /**
@@ -126,7 +151,7 @@ class Query
      */
     public function equalTo($value): self
     {
-        return $this->withAddedFilter(new Filter\EqualTo($value));
+        return $this->withAddedFilter(new EqualTo($value));
     }
 
     /**
@@ -138,7 +163,7 @@ class Query
      */
     public function startAt($value): self
     {
-        return $this->withAddedFilter(new Filter\StartAt($value));
+        return $this->withAddedFilter(new StartAt($value));
     }
 
     /**
@@ -150,7 +175,7 @@ class Query
      */
     public function startAfter($value): self
     {
-        return $this->withAddedFilter(new Filter\StartAfter($value));
+        return $this->withAddedFilter(new StartAfter($value));
     }
 
     /**
@@ -160,7 +185,7 @@ class Query
      */
     public function limitToFirst(int $limit): self
     {
-        return $this->withAddedFilter(new Filter\LimitToFirst($limit));
+        return $this->withAddedFilter(new LimitToFirst($limit));
     }
 
     /**
@@ -170,7 +195,7 @@ class Query
      */
     public function limitToLast(int $limit): self
     {
-        return $this->withAddedFilter(new Filter\LimitToLast($limit));
+        return $this->withAddedFilter(new LimitToLast($limit));
     }
 
     /**
@@ -185,7 +210,7 @@ class Query
      */
     public function orderByChild(string $childKey): self
     {
-        return $this->withSorter(new Sorter\OrderByChild($childKey));
+        return $this->withSorter(new OrderByChild($childKey));
     }
 
     /**
@@ -202,7 +227,7 @@ class Query
      */
     public function orderByKey(): self
     {
-        return $this->withSorter(new Sorter\OrderByKey());
+        return $this->withSorter(new OrderByKey());
     }
 
     /**
@@ -220,7 +245,7 @@ class Query
      */
     public function orderByValue(): self
     {
-        return $this->withSorter(new Sorter\OrderByValue());
+        return $this->withSorter(new OrderByValue());
     }
 
     /**
@@ -235,7 +260,7 @@ class Query
      */
     public function shallow(): self
     {
-        return $this->withAddedFilter(new Filter\Shallow());
+        return $this->withAddedFilter(new Shallow());
     }
 
     /**
@@ -261,16 +286,6 @@ class Query
         }
 
         return $uri;
-    }
-
-    /**
-     * Returns the absolute URL for this location.
-     *
-     * @see getUri()
-     */
-    public function __toString(): string
-    {
-        return (string) $this->getUri();
     }
 
     private function withAddedFilter(Filter $filter): self

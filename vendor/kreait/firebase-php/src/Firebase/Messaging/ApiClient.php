@@ -21,9 +21,6 @@ class ApiClient
     private ClientInterface $client;
     private MessagingApiExceptionConverter $errorHandler;
 
-    /**
-     * @internal
-     */
     public function __construct(ClientInterface $client, MessagingApiExceptionConverter $errorHandler)
     {
         $this->client = $client;
@@ -33,13 +30,13 @@ class ApiClient
     /**
      * @param array<string, mixed> $options
      *
-     * @throws MessagingException
      * @throws FirebaseException
+     * @throws MessagingException
      */
     public function send(RequestInterface $request, array $options = []): ResponseInterface
     {
         try {
-            return $this->client->send($request);
+            return $this->client->send($request, $options);
         } catch (Throwable $e) {
             throw $this->errorHandler->convertException($e);
         }
@@ -53,7 +50,6 @@ class ApiClient
         return $this->client->sendAsync($request, $options)
             ->then(null, function (Throwable $e): void {
                 throw $this->errorHandler->convertException($e);
-            })
-        ;
+            });
     }
 }
