@@ -1,0 +1,27 @@
+<?php
+
+namespace App;
+
+class AutoResponse
+{
+    private $bot;
+    private $genchan;
+
+    function __construct()
+    {
+        $this->bot = new LineBot();
+        $this->genchan = new Genchan();
+    }
+    public function genchanAutoResponseReply($function, $param)
+    {
+		$this->$function($param);
+    }
+
+    private function textReply($param)
+    {
+        $kaomoji = mt_rand(0, 5) > 3 ? " " . $this->genchan->kaomojiGenerator() : "";
+        $this->bot->reply($param . $kaomoji);
+    }
+}
+
+?>

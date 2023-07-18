@@ -1,4 +1,5 @@
 <?php
+use App\AutoResponse;
 
 require_once "../vendor/autoload.php";
 
@@ -107,22 +108,27 @@ class Index
 
     public function handleAutoResponse()
     {
+        $autoResponse = new AutoResponse();
         $parseText = $this->bot->getMessageText(true);
-        if (sizeof($parseText) < 7) {
-            $getTextChat = str_replace("?", "", $this->textChat);
-            $parseText = str_replace('?', '', $parseText);
-            $autoResponse = json_decode(file_get_contents(RESPONSE), true);
-            $result = '';
-            foreach ($parseText as $q) {
-                if ($autoResponse['response'][$q] != null) {
-                    $random = rand(1, sizeof($autoResponse['response'][$q]));
-                    $result = $autoResponse['response'][$q][$random];
-                    if ($result[1] == "reply") {
-                        $kaomoji = mt_rand(0, 5) > 3 ? " " . $this->genchan->kaomojiGenerator(rand(1, 10)) : "";
-                    }
-                }
+        $sizeOfParseText = sizeof($parseText);
+        if ($sizeOfParseText > 7)
+        {
+            return;
+        }
+
+        $parseText = str_replace('?', '', $parseText);
+        $autoResponse = json_decode(file_get_contents(RESPONSE), true);
+        
+        $result = '';
+        foreach ($parseText as $q)
+        {
+            if ($autoResponse['response'][$q] != null)
+            {
+                $random = rand(1, sizeof($autoResponse['response'][$q]));
+                $result = $autoResponse['response'][$q][$random];
+                $autoResponse->genchanAutoResponseReply($result[1], $result[0]);
+                return;
             }
-            $this->bot->botAutoResponse($result[0] . $kaomoji, $result[1]);
         }
     }
 }
