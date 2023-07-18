@@ -89,7 +89,8 @@ class Genchan
     public function kaomojiGenerator()
     {
         $kaomoji = json_decode(file_get_contents(KAOMOJI), true);
-        return array_search(sizeof($kaomoji), $kaomoji);
+        $randomNeedle = random_int(0, sizeof($kaomoji));
+        return array_search($randomNeedle, $kaomoji);
     }
 
     public function searchCharacterById($array, $id)
