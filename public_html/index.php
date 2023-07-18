@@ -1,5 +1,4 @@
 <?php
-use App\AutoResponse;
 
 require_once "../vendor/autoload.php";
 
@@ -20,6 +19,7 @@ use App\LineBot;
 use App\Genchan;
 use App\ResponseDecoration;
 use App\Keyword;
+use App\AutoResponse;
 
 class Index
 {
