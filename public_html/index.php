@@ -117,16 +117,16 @@ class Index
         }
 
         $parseText = str_replace('?', '', $parseText);
-        $autoResponse = json_decode(file_get_contents(RESPONSE), true);
+        $response = json_decode(file_get_contents(RESPONSE), true);
         
         $result = '';
         foreach ($parseText as $q)
         {
-            if ($autoResponse['response'][$q] != null)
+            if ($response['response'][$q] != null)
             {
-                $random = rand(1, sizeof($autoResponse['response'][$q]));
-                $result = $autoResponse['response'][$q][$random];
-                $this->bot->reply($result[1]);
+                $random = rand(1, sizeof($response['response'][$q]));
+                $result = $response['response'][$q][$random];
+                $autoResponse->genchanAutoResponseReply($result[1], $result[0]);
                 return;
             }
         }
