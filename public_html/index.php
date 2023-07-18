@@ -126,7 +126,7 @@ class Index
             {
                 $random = rand(1, sizeof($autoResponse['response'][$q]));
                 $result = $autoResponse['response'][$q][$random];
-                $autoResponse->genchanAutoResponseReply($result[1], $result[0]);
+                $this->bot->reply($result[0]);
                 return;
             }
         }
