@@ -214,6 +214,16 @@ class ComposerStaticInit9098624a1f028d02efa9d8de1a463b61
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'S' => 
+        array (
+            'Sunra\\PhpSimple\\HtmlDomParser' => 
+            array (
+                0 => __DIR__ . '/..' . '/sunra/php-simple-html-dom-parser/Src',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
@@ -229,6 +239,7 @@ class ComposerStaticInit9098624a1f028d02efa9d8de1a463b61
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit9098624a1f028d02efa9d8de1a463b61::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit9098624a1f028d02efa9d8de1a463b61::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit9098624a1f028d02efa9d8de1a463b61::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit9098624a1f028d02efa9d8de1a463b61::$classMap;
 
         }, null, ClassLoader::class);
