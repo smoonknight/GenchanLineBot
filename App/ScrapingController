@@ -9,8 +9,9 @@ class ScrapingController
     public static function GenshinImpactHoneyScraping($characterName)
     {
         $url = @"https://genshin.honeyhunterworld.com/$characterName/?lang=EN";
+        return $url;
         $html = file_get_html($url);
-        $characterDescription = $html->find('table.genshin_table.main_table', 0);
+        $characterDescription = $html->find('', 0);
 
         if ($characterDescription)
         {
