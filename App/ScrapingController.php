@@ -30,7 +30,7 @@ class ScrapingController
         $koreanSeuyu = $characterDescription->find("tr", 14)->find("td", 1)->plaintext;
         $description = $characterDescription->find("tr", 15)->find("td", 1)->plaintext;
         
-        return $constellationIntroduced;
+        return $description;
     }
 }
 ?>
