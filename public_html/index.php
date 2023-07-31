@@ -38,8 +38,6 @@ class Index
         $this->keyword = new Keyword();
         $this->textChat = $this->bot->getTextChat();
 
-        ScrapingController::GenshinImpactHoneyScraping("fischl_031");
-
         $type = $this->bot->getType();
         $this->$type();
     }
