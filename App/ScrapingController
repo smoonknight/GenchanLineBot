@@ -14,7 +14,7 @@ class ScrapingController
 
         if ($characterDescription)
         {
-            $name = $characterDescription->find("tr", 0)->find("td", 2)->plaintext;
+            $name = $characterDescription->find("tr", 0)->find("td", 1)->plaintext;
             return $name;
         }
 
