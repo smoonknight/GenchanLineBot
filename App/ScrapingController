@@ -8,9 +8,7 @@ class ScrapingController
 {
     public static function GenshinImpactHoneyScraping($characterName)
     {
-        $url = @"https://genshin.honeyhunterworld.com/$characterName/?lang=EN";
-        return $url;
-
+        return $characterName;
     }
 }
 ?>
