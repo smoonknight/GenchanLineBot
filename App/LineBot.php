@@ -147,7 +147,7 @@ class LineBot {
 		return $result;
 	}
 
-	public function conyReply($text){
+	public function paimonReply($text){
 		$api = $this->apiReply;
 		$webhook = $this->webhookEventObject;
 		$replyToken = $webhook->{"events"}[0]->{"replyToken"}; 
@@ -156,8 +156,7 @@ class LineBot {
 			"type" => "text",
 			"text"=>$text,
 			"sender" => array(
-				"name" => "Cony",
-				"iconUrl" => "https://line.me/conyprof"
+				"name" => "Paimon",
 			)
 		);
 		$result = $this->httpPost($api,$body);

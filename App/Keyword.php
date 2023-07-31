@@ -505,7 +505,7 @@ class Keyword{
 
     public function Debugging()
     {
-        $this->bot->conyReply("Test");
+        $this->bot->paimonReply("Test");
         // $testing = new FirebaseController();
         // $result = $testing->PostData();
         // $this->bot->reply($result);
