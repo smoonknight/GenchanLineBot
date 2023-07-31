@@ -243,9 +243,8 @@ class Keyword{
 
     public function FindCharacterGenshinImpact()
     {
-        $result = ScrapingController::GenshinImpactHoneyScraping("fischl_031");
         
-        $this->bot->contextReply("Paimon", $result);
+        $this->bot->contextReply("Paimon","Tes");
     }
     
     public function CalculateGenshinImpact()

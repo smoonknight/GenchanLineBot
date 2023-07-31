@@ -3,7 +3,7 @@
         'name' => 'smoonknight/genchanline',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '24a29e58a1422caaa64d67cc2fec1ba2b7955c93',
+        'reference' => '7953b31a02c39bd3606ed9faa657e4a7aacec3f6',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -319,7 +319,7 @@
         'smoonknight/genchanline' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '24a29e58a1422caaa64d67cc2fec1ba2b7955c93',
+            'reference' => '7953b31a02c39bd3606ed9faa657e4a7aacec3f6',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
