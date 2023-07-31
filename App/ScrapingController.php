@@ -2,14 +2,14 @@
 
 namespace App;
 
-use Sunra\PhpSimple\HtmlDomParser;
+require_once("simple_html_dom.php");
 
 class ScrapingController
 {
     public static function GenshinImpactHoneyScraping($characterName)
     {
         $url = @"https://genshin.honeyhunterworld.com/$characterName/?lang=EN";
-        $html = HtmlDomParser::file_get_html($url);
+        $html = file_get_html($url);
 
         $characterDescription = $html->find('table[class="genshin_table main_table"]', 0);
 
