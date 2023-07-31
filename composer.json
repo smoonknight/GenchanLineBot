@@ -14,7 +14,6 @@
         }
     ],
     "require": {
-        "kreait/firebase-php": "^6.2.0",
-        "simple-html-dom/simple-html-dom": "^1.5"
+        "kreait/firebase-php": "^6.2.0"
     }
 }
