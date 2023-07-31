@@ -505,9 +505,10 @@ class Keyword{
 
     public function Debugging()
     {
-        $testing = new FirebaseController();
-        $result = $testing->PostData();
-        $this->bot->reply($result);
+        $this->bot->conyReply("Test");
+        // $testing = new FirebaseController();
+        // $result = $testing->PostData();
+        // $this->bot->reply($result);
     }
     public function PingGenchan()
     {

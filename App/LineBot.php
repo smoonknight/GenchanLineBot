@@ -147,6 +147,23 @@ class LineBot {
 		return $result;
 	}
 
+	public function conyReply($text){
+		$api = $this->apiReply;
+		$webhook = $this->webhookEventObject;
+		$replyToken = $webhook->{"events"}[0]->{"replyToken"}; 
+		$body["replyToken"] = $replyToken;
+		$body["messages"][0] = array(
+			"type" => "text",
+			"text"=>$text,
+			"sender" => array(
+				"name" => "Cony",
+				"iconUrl" => "https://line.me/conyprof"
+			)
+		);
+		$result = $this->httpPost($api,$body);
+		return $result;
+	}
+
 	public function multiReply($text){
 		$api = $this->apiReply;
 		$webhook = $this->webhookEventObject;
