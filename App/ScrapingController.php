@@ -10,11 +10,11 @@ class ScrapingController
     {
         $url = @"https://genshin.honeyhunterworld.com/$characterName/?lang=EN";
         $html = file_get_html($url);
-        $characterDescription = $html->find('', 0);
+        $characterDescription = $html->find('table[class="genshin_table main_table"]', 0);
 
         if ($characterDescription)
         {
-            $name = $characterDescription->find("tr", 2)->plaintext;
+            $name = $characterDescription->find("tr", 0)->find("td", 1)->plaintext;
             return $name;
         }
 
