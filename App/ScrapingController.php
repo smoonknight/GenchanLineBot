@@ -22,7 +22,7 @@ class ScrapingController
             $increment++;
             $builder = $debug->find("td",0);
             $nameBuilder = $debug->find("td", 1);
-            $text .= '${builder} = $characterDescription->find("tr", {increment})->find("td", 1)->plaintext;';
+            $text .= str_replace('${builder} = $characterDescription->find("tr", {increment})->find("td", 1)->plaintext;', ['{builder}', '{increment}'], [$builder, $increment]) . "\n";
         }
         return $text;
     }
