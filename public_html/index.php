@@ -20,6 +20,7 @@ use App\Genchan;
 use App\ResponseDecoration; 
 use App\Keyword;
 use App\AutoResponse;
+use App\ScrapingController;
 
 class Index
 {
@@ -36,6 +37,8 @@ class Index
         $this->responseDecoration = new ResponseDecoration();
         $this->keyword = new Keyword();
         $this->textChat = $this->bot->getTextChat();
+
+        ScrapingController::GenshinImpactHoneyScraping("fischl_031");
 
         $type = $this->bot->getType();
         $this->$type();
