@@ -15,15 +15,8 @@ class ScrapingController
 
         $name = $characterDescription->find("tr", 0)->find("td", 2)->plaintext;
         $title = $characterDescription->find("tr", 1)->find("td", 1)->plaintext;
-        $text = "";
-        $increment = 1;
-        foreach ($characterDescription->find("tr") as $debug)
-        {
-            $increment++;
-            $builder = ($debug->find("td",0) != null ? $debug->find("td",0) : "kosong");
-            $nameBuilder = $debug->find("td", 1);
-            $text .= str_replace('${builder} = $characterDescription->find("tr", {increment})->find("td", 1)->plaintext;', ['{builder}', '{increment}'], [$builder, $increment]);
-        }
+
+        return $title;
     }
 }
 ?>
