@@ -6,6 +6,7 @@ use App\LineBot;
 use App\Genchan;
 use App\ResponseDecoration;
 use App\FirebaseController;
+use App\ScrapingController;
 
 class Keyword{
     public $bot;
