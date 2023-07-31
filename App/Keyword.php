@@ -5,7 +5,6 @@ namespace App;
 use App\LineBot;
 use App\Genchan;
 use App\ResponseDecoration;
-use App\simple_html_dom;
 use App\FirebaseController;
 
 class Keyword{
@@ -243,7 +242,9 @@ class Keyword{
 
     public function FindCharacterGenshinImpact()
     {
-        $this->bot->reply("Dalam perbaikan~");
+        $result = ScrapingController::GenshinImpactHoneyScraping("fischl_031");
+        
+        $this->bot->contextReply("Paimon", $result);
     }
     
     public function CalculateGenshinImpact()

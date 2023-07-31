@@ -17,7 +17,7 @@ define("OPENAIAPIKEY", "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");
 
 use App\LineBot;
 use App\Genchan;
-use App\ResponseDecoration;
+use App\ResponseDecoration; 
 use App\Keyword;
 use App\AutoResponse;
 

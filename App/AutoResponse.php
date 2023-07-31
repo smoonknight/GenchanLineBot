@@ -18,10 +18,11 @@ class AutoResponse
     }
 
     private function reply($param)
-    {
+    { 
         $kaomoji = mt_rand(0, 5) > 3 ? " " . $this->genchan->kaomojiGenerator() : "";
         $this->bot->reply($param . $kaomoji);
     }
+
 }
 
 ?>
