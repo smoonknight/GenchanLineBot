@@ -20,11 +20,10 @@ class ScrapingController
         foreach ($characterDescription->find("tr") as $debug)
         {
             $increment++;
-            $builder = $debug->find("td",0);
+            $builder = ($debug->find("td",0) != null ? $debug->find("td",0) : "kosong");
             $nameBuilder = $debug->find("td", 1);
             $text .= str_replace('${builder} = $characterDescription->find("tr", {increment})->find("td", 1)->plaintext;', ['{builder}', '{increment}'], [$builder, $increment]);
         }
-        return $text;
     }
 }
 ?>
