@@ -13,13 +13,18 @@ class ScrapingController
 
         $characterDescription = $html->find('table[class="genshin_table main_table"]', 0);
 
-        if ($characterDescription)
+        $name = $characterDescription->find("tr", 0)->find("td", 2)->plaintext;
+        $title = $characterDescription->find("tr", 1)->find("td", 1)->plaintext;
+        $text = "";
+        $increment = 1;
+        foreach ($characterDescription->find("tr") as $debug)
         {
-            $name = $characterDescription->find("tr", 0)->find("td", 1)->plaintext;
-            return $name;
+            $increment++;
+            $builder = $debug->find("td",0);
+            $nameBuilder = $debug->find("td", 1);
+            $text .= '${builder} = $characterDescription->find("tr", {increment})->find("td", 1)->plaintext;';
         }
-
-        return "kosong";
+        return $text;
     }
 }
 ?>
