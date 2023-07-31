@@ -2,7 +2,7 @@
 
 namespace App;
 
-use simplehtmldom_1_5\simple_html_dom;
+use App\simple_html_dom;
 
 class ScrapingController
 {
