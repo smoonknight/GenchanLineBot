@@ -81,7 +81,7 @@ class ScrapingController
         $theadTDs = $characterStat->find("thead", 0)->find("td");
         foreach($theadTDs as $theadTD)
         {
-            $headerNames[] = $theadTD->plaintext;
+            $headerNames[] = str_replace($theadTD->plaintext, "%", "");
         }
         $tr = $characterStat->find("tr");
         $requireBodyContentIndex = array(12, 14);
