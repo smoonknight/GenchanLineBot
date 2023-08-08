@@ -121,7 +121,7 @@ class ScrapingController
                 $bodyContentArray[$headerNames[$increment]] = $content;
             }
 
-            $characterStatData[] = $bodyContentArray;
+            $characterStatData[$bodyContentIndex] = $bodyContentArray;
         }
         // membuat isi konten
 
