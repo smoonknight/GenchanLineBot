@@ -112,13 +112,14 @@ class ScrapingController
                     $content = Genchan::ArrayToText($hyperlinkArray, 0, ", ");
                 }
 
-                $increment++;
-
                 if ($content == "")
                 {
+                    $increment++;
                     continue;
                 }
                 $bodyContentArray[$headerNames[$increment]] = $content;
+                $increment++;
+
             }
 
             $characterStatData[$bodyContentIndex] = $bodyContentArray;
