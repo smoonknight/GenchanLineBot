@@ -134,7 +134,7 @@ class ScrapingController
         
         // #endregion
         #region mengolah konten informasi data pada karakter
-        $characterInformationData["imageUrl"] = $html->find('img[class="main_img"]')->src;
+        $characterInformationData["imageUrl"] = $html->find('img[class="main_img"]', 0)->src;
         $characterInformationData["refrenceUrl"] = $url;
         #endregion
         $data["Character Description"] = $characterDescriptionData;
