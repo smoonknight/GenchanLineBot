@@ -91,23 +91,7 @@ class ScrapingController
             foreach($tbodyTR->find("td") as $tbodyTD)
             {
                 $plainText = $tbodyTD->plaintext;
-                if ($plainText == "")
-                {
-                    $hyperlinks = $tbodyTD->find("a");
-                    if ($hyperlinks == null)
-                    {
-                        $increment;
-                        continue;
-                    }
 
-                    $altArray = array();
-                    foreach ($hyperlinks as $hyperlink)
-                    {
-                        $altArray[] = $hyperlink->find("span")->plaintext . $hyperlink->find("img")->alt;
-                    }
-
-                    $plainText = Genchan::ArrayToText($altArray, 0, ", ");
-                }
                 
                 $bodyCell[] = $plainText;
                 $increment++;
