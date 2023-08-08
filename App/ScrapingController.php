@@ -86,7 +86,7 @@ class ScrapingController
         // membuat isi konten
         
 
-        $characterStatData[] = substr($characterStat->find("tbody", 0), 0, 500);
+        $characterStatData[] = substr($characterStat->find("thead", 1), 0, 500);
 
         $data["Character Description"] = $characterDescriptionData;
         $data["Character Stat"] = $characterStatData;
