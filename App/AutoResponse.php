@@ -27,6 +27,11 @@ class AutoResponse
     {
         $this->bot->replyImage($param);
     }
+
+    private function replyAudio($param)
+    {
+        $this->bot->replyAudio($param);
+    }
 }
 
 ?>

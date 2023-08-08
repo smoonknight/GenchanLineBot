@@ -522,7 +522,7 @@ class LineBot {
 		return $result;
 	}
 
-	public function replyAudio($audioUrl, $duration){
+	public function replyAudio($audioUrl){
 		$api = $this->apiReply;
 		$webhook = $this->webhookEventObject;
 		$replyToken = $webhook->{"events"}[0]->{"replyToken"}; 
@@ -530,7 +530,6 @@ class LineBot {
 		$body["messages"][0] =  array(
 			    'type' => 'audio',
 			    'originalContentUrl' => $audioUrl,
-			    'duration' => $duration
 			);		
 		$result = $this->httpPost($api,$body);
 		return $result;

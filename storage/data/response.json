@@ -111,7 +111,8 @@
             "2" : ["https://c.tenor.com/VmxCjy966YwAAAAd/the-wok-the-rock.gif", "replyImage"],
             "3" : ["https://c.tenor.com/ij5WLJIu8A4AAAAi/the-rock.gif", "replyImage"],
             "4" : ["https://c.tenor.com/_3RUSj3OXxsAAAAS/the-jock-the-rock.gif", "replyImage"],
-            "5" : ["https://c.tenor.com/CQIMmoU_ipcAAAAC/no-bitches-bitches.gif", "replyImage"]
+            "5" : ["https://c.tenor.com/CQIMmoU_ipcAAAAC/no-bitches-bitches.gif", "replyImage"],
+            "6" : ["https://www.myinstants.com/media/sounds/eh-eh-ehhhh.mp3", "replyAudio"]
         },
         "muat" : {
             "1" : ["ya mana muat", "reply"],
