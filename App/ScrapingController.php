@@ -83,14 +83,7 @@ class ScrapingController
             $headerNames[] = $theadTD->plaintext;
         }
 
-        // membuat isi konten
-        $bodyCell = array();
-        foreach($characterStat->find("tbody", 0)->find("tr") as $tbodyTR)
-        {
-            $bodyCell[] = $tbodyTR->find("td", 0)->plaintext;
-        }
 
-        $characterStatData[] = Genchan::ArrayToText($bodyCell);
 
         $data["Character Description"] = $characterDescriptionData;
         $data["Character Stat"] = $characterStatData;
