@@ -91,7 +91,10 @@ class ScrapingController
             foreach($tbodyTR->find("td") as $tbodyTD)
             {
                 $plainText = $tbodyTD->plaintext;
-
+                if ($plainText == "")
+                {
+                    continue;
+                }
                 
                 $bodyCell[] = $plainText;
                 $increment++;
