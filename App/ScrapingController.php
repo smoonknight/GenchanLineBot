@@ -90,8 +90,6 @@ class ScrapingController
         {
             $increment = 0;
             $bodyContentArray = array();
-            $contentKeyAndValue = array();
-
             foreach ($tr[$bodyContentIndex]->find("td") as $td)
             {
                 $plainText = $td->plaintext;
@@ -120,9 +118,8 @@ class ScrapingController
                 {
                     continue;
                 }
-                $contentKeyAndValue[$headerNames[$increment]] = $content;
+                $bodyContentArray[$headerNames[$increment]] = $content;
             }
-            $bodyContentArray[] = $contentKeyAndValue;
 
             $characterStatData[] = $bodyContentArray;
         }
