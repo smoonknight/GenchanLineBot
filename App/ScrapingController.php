@@ -102,7 +102,7 @@ class ScrapingController
                 // deteksi apakah terdapat hyperlink yang memiliki gambar
                 // dengan asumsi bahwa hal tersebut merupakan material
                 $hyperlinks = $td->find("a");
-                if ($hyperlinks->find("img") != "")
+                if ($hyperlinks->find("img", 0) != "")
                 {
                     $hyperlinkArray = array();
                     foreach ($hyperlinks as $hyperlink)
