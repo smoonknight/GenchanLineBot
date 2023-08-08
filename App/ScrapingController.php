@@ -101,7 +101,7 @@ class ScrapingController
             }
         }
 
-        $characterStatData[] = $bodyCell;
+        $characterStatData[] = substr(Genchan::ArrayToText($bodyCell), 0, 500);
 
         $data["Character Description"] = $characterDescriptionData;
         $data["Character Stat"] = $characterStatData;
