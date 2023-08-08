@@ -79,7 +79,7 @@ class ScrapingController
         $headerNames = array();
         foreach($characterStat->find("thead", 0)->find("td") as $theadTD)
         {
-            $haderNames[] = $theadTD->plaintext;
+            $headerNames[] = $theadTD->plaintext;
         }
         $characterStatData[] = $headerNames;
         
