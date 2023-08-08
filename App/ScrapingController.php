@@ -99,7 +99,7 @@ class ScrapingController
                     $content = $headerNames[$increment] . " " . $plainText;
                 }
                 $hyperlinks = $td->find("a");
-                if ($hyperlinks != "")
+                if ($hyperlinks->find("img") != "")
                 {
                     $hyperlinkArray = array();
                     foreach ($hyperlinks as $hyperlink)
