@@ -87,21 +87,10 @@ class ScrapingController
         $bodyCell = array();
         foreach($characterStat->find("tbody", 0)->find("tr") as $tbodyTR)
         {
-            $increment = 0;
-            foreach($tbodyTR->find("td") as $tbodyTD)
-            {
-                $plainText = $tbodyTD->plaintext;
-                if ($plainText == "")
-                {
-                    continue;
-                }
-                
-                $bodyCell[] = $plainText;
-                $increment++;
-            }
+            $bodyCell[] = $tbodyTR->find("td", 0)->plaintext;
         }
 
-        $characterStatData[] = substr(Genchan::ArrayToText($bodyCell), 0, 500);
+        $characterStatData[] = Genchan::ArrayToText($bodyCell);
 
         $data["Character Description"] = $characterDescriptionData;
         $data["Character Stat"] = $characterStatData;
