@@ -96,7 +96,7 @@ class ScrapingController
                 $content = "";
                 if ($plainText != "")
                 {
-                    $content = $headerNames[$increment] . " " . $plainText;
+                    $content = $plainText;
                 }
 
                 // deteksi apakah terdapat hyperlink yang memiliki gambar
@@ -109,7 +109,7 @@ class ScrapingController
                     {
                         $hyperlinkArray[] = $hyperlink->plaintext . $hyperlink->find("img", 0)->alt;
                     }
-                    $content = $headerNames[$increment] . " " . Genchan::ArrayToText($hyperlinkArray, 0, ", ");
+                    $content = Genchan::ArrayToText($hyperlinkArray, 0, ", ");
                 }
 
                 $increment++;
@@ -118,7 +118,9 @@ class ScrapingController
                 {
                     continue;
                 }
-                $bodyContentArray[] = $content;
+                $contentKeyAndValue = array();
+                $contentKeyAndValue[$headerNames[$increment]] = $content;
+                $bodyContentArray[] = $contentKeyAndValue;
             }
 
             $characterStatData[] = $bodyContentArray;
