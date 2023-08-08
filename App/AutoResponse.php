@@ -30,7 +30,7 @@ class AutoResponse
 
     private function replyAudio($param)
     {
-        $this->bot->replyAudio($param);
+        $this->bot->replyAudio($param, 10);
     }
 }
 
