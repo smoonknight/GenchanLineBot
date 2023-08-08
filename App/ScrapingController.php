@@ -14,12 +14,12 @@ class ScrapingController
         $url = @"https://genshin.honeyhunterworld.com/$characterName/?lang=EN";
         $html = file_get_html($url);
 
-        // mengolah konten deskripsi karakter
+        $data = array();
+        #region mengolah konten deskripsi karakter
         $characterDescription = $html->find('table[class="genshin_table main_table"]', 0);
 
+        $characterDescriptionData = array();
         $increment = 0;
-        $data = array();
-
         foreach ($characterDescription->find("tr") as $tr)
         {
             $key = $tr->find("td", 0)->plaintext;
@@ -27,7 +27,7 @@ class ScrapingController
             {
                 $key = $tr->find("td", 1)->plaintext;
                 $value = $tr->find("td", 2)->plaintext;
-                $data[$key] = $value;
+                $characterDescriptionData[$key] = $value;
                 $increment++;
                 continue;
             }
@@ -38,39 +38,41 @@ class ScrapingController
             {
                 $value = $increment;
             }
-            $data[$key] = $value;
+            $characterDescriptionData[$key] = $value;
             $increment++;
         }
-
         // mengolah array Rarity
-        if (key_exists("Rarity", $data))
+        if (key_exists("Rarity", $characterDescriptionData))
         {
-            $value = count($characterDescription->find("tr", $data["Rarity"])->find("td", 1)->find('img[class="cur_icon"]'));
-            $data["Rarity"] = $value;
+            $value = count($characterDescription->find("tr", $characterDescriptionData["Rarity"])->find("td", 1)->find('img[class="cur_icon"]'));
+            $characterDescriptionData["Rarity"] = $value;
         }
 
         // mengolah array Character Ascension Materials
-        if (key_exists("Character Ascension Materials", $data))
+        if (key_exists("Character Ascension Materials", $characterDescriptionData))
         {
             $array = array();
-            foreach ($characterDescription->find("tr", $data["Character Ascension Materials"])->find("td", 1)->find("img") as $img)
+            foreach ($characterDescription->find("tr", $characterDescriptionData["Character Ascension Materials"])->find("td", 1)->find("img") as $img)
             {
                 $array[] = $img->alt;
             }
-            $data["Character Ascension Materials"] = Genchan::ArrayToText($array, "0", ",");
+            $characterDescriptionData["Character Ascension Materials"] = Genchan::ArrayToText($array, "0", ",");
         }
 
         // mengolah array "Skill Ascension Materials
-        if (key_exists("Skill Ascension Materials", $data))
+        if (key_exists("Skill Ascension Materials", $characterDescriptionData))
         {
             $array = array();
-            foreach ($characterDescription->find("tr", $data["Skill Ascension Materials"])->find("td", 1)->find("img") as $img)
+            foreach ($characterDescription->find("tr", $characterDescriptionData["Skill Ascension Materials"])->find("td", 1)->find("img") as $img)
             {
                 $array[] = $img->alt;
             }
-            $data["Skill Ascension Materials"] = Genchan::ArrayToText($array, "0", ",");
+            $characterDescriptionData["Skill Ascension Materials"] = Genchan::ArrayToText($array, "0", ", ");
         }
-        return json_encode($data, JSON_PRETTY_PRINT);
+
+        #endregion
+        $data["Character Description"] = $characterDescriptionData;
+        return json_encode($characterDescriptionData, JSON_PRETTY_PRINT);
     }
 }
 ?>
