@@ -4,6 +4,8 @@ namespace App;
 
 require_once("simple_html_dom.php");
 
+use App\Genchan;
+
 class ScrapingController
 {
     public static function GenshinImpactHoneyScraping($characterName)
@@ -50,12 +52,12 @@ class ScrapingController
         // mengolah array Character Ascension Materials
         if (key_exists("Character Ascension Materials", $data))
         {
-            $text = "";
+            $array = array();
             foreach ($characterDescription->find("tr", $data["Character Ascension Materials"])->find("td", 1)->find("img") as $img)
             {
-                $text .= $img->alt;
+                $array[] = $img->alt;
             }
-            $data["Character Ascension Materials"] = $text;
+            $data["Character Ascension Materials"] = Genchan::ArrayToText($array);
         }
         return json_encode($data, JSON_PRETTY_PRINT);
     }

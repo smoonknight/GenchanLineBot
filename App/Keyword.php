@@ -79,11 +79,11 @@ class Keyword{
                     break;
             }
             if ($int == 10) {
-                $gachaResult .= ($guaranted ? "" . $this->genchan->roll(mt_rand(942, 1000) / 10) . "\n" : "" . $this->genchan->roll($rand) . "\n");
+                $gachaResult .= ($guaranted ? "" . Genchan::roll(mt_rand(942, 1000) / 10) . "\n" : "" . Genchan::roll($rand) . "\n");
                 break;
             }
             if ($guaranted) $guaranted = ($rand > 94.1 ? false : true);
-            $gachaResult .= "" . $this->genchan->roll($rand) . "\n";
+            $gachaResult .= "" . Genchan::roll($rand) . "\n";
             $max = ($rand > $max ? $rand : $max);
             $min = ($rand < $min ? $rand : $min);
         }
@@ -104,7 +104,7 @@ class Keyword{
     public function AskingGenchan()
     {
         $parseText = $this->bot->getMessageText(true);
-        $text = $this->genchan->getTextRequest($parseText, 1);
+        $text = Genchan::getTextRequest($parseText, 1);
         $result = $this->bot->openAI($text);
         $array = array();
         foreach ($result["choices"] as $choice)
@@ -120,7 +120,7 @@ class Keyword{
         $result = array();
             
         $parseText = str_replace('?', '', $parseText);
-        $requestText = $this->genchan->getTextRequest($parseText, 3, '_');
+        $requestText = Genchan::getTextRequest($parseText, 3, '_');
         $wikipediaApiTexts = $this->bot->getWikipedia($requestText);
         if(count($wikipediaApiTexts) != 0){
             $result[] = "Berikut adalah informasi yang genchan dapat";
@@ -183,9 +183,9 @@ class Keyword{
     {
         $description = "Name : {name}\nType : {type}\nRarity : {rarity}\nBase Attack : {baseAttack}\nSub Stat : {subStat}\nPassive Name : {passiveName}\nPassive Description : {passiveDesc}\nAscension Material : {ascensionMaterial}\nWeapon ini didapat dari {location}\n";
         $parseText = $this->bot->getMessageText(true);
-        $textRequest = $this->genchan->getTextRequest($parseText, 1, "-");
+        $textRequest = Genchan::getTextRequest($parseText, 1, "-");
         $type = $this->bot->getGenshinDevType("weapons");
-        $predict = $this->genchan->predictQuestion($textRequest, $type);
+        $predict = Genchan::predictQuestion($textRequest, $type);
         if ($predict[0] == null)
         {
             $this->bot->reply("Tidak ditemukan~");
@@ -253,7 +253,7 @@ class Keyword{
         $parseText = $this->bot->getMessageText(true);
         $atk = $parseText[1];
         $critDmg = $parseText[2];
-        $critDmgResult = $this->genchan->calculateCritDmg($atk, $critDmg);
+        $critDmgResult = Genchan::calculateCritDmg($atk, $critDmg);
         $text = "= = = = = = = = =\nCalculate critical\n= = = = = = = = =\natk : <atk>\ncritical damage : <critDmg>\n\nCritical damage result is <critDmgResult>";
         $result = str_replace(['<atk>', '<critDmg>', '<critDmgResult>'], [$atk, $critDmg, $critDmgResult], $text);
         $this->bot->reply($result);
@@ -279,16 +279,16 @@ class Keyword{
         $levelCharacter = ($parseText[6] != NULL ? $parseText[6] : 90);
         $levelEnemy = ($parseText[7] != NULL ? $parseText[7] : 82);
         $resistEnemy = 10;
-        $outgoingDmg = $this->genchan->calculateOutgoingDmg($atk, $ability, $dmgBonus);
-        $nonCritDmgResult = $this->genchan->calculateCritDmg($outgoingDmg, 0);
-        $critDmgResult = $this->genchan->calculateCritDmg($outgoingDmg, $critDmg);
+        $outgoingDmg = Genchan::calculateOutgoingDmg($atk, $ability, $dmgBonus);
+        $nonCritDmgResult = Genchan::calculateCritDmg($outgoingDmg, 0);
+        $critDmgResult = Genchan::calculateCritDmg($outgoingDmg, $critDmg);
 
         for ($int = 0; $int < 5; $int++)
         {
             $random = mt_rand(0, 1000) / 10;
             $dealtCritDmg = ($random < $critRate ? $critDmgResult : $outgoingDmg);
             $text = ($random < $critRate ? "dealt critical damage by " : "dealt damage by ");
-            $incomingDmg = $this->genchan->calculateIncomingDmg($dealtCritDmg, $levelEnemy, $levelCharacter, $resistEnemy);
+            $incomingDmg = Genchan::calculateIncomingDmg($dealtCritDmg, $levelEnemy, $levelCharacter, $resistEnemy);
             $sumOfDmg += $incomingDmg;
             $simulationResult .= $text . $incomingDmg;
             $simulationResult .= ($int < 5 ? "\n" : '');
@@ -297,7 +297,7 @@ class Keyword{
         $text = "= = = = = = = = =\nDamage simulation\n= = = = = = = = =\nAtk : <atk>\nTalent : <ability>%\nElemental/physical bonus : <dmgBonus>%\nCritical damage : <critDmg>%\nCritical rate : <critRate>%\n\nIf outgoing damage(raw) non critical : <nonCriDmgResult>\nIf outgoing damage(raw) get critical : <critDmgResult>";
         $firstResult = str_replace(['<atk>', '<ability>', '<dmgBonus>', '<critDmg>', '<critRate>', '<critDmgResult>', '<nonCriDmgResult>'], [$atk, $ability, $dmgBonus, $critDmg, $critRate, $critDmgResult, $nonCritDmgResult], $text);
         $text = "- - - - - - - - - - - -\nResult demage\n- - - - - - - - - - - -\nIni adalah damage murni(atk, talent stat dan ele/pys bonus) ke musuh dengan reduksi def dan resist.\n\nName enemy : hilicurl\nLevel enemy : <levelEnemy>\nResist enemy : <resistEnemy>%\n\nDef multiplier((<levelCharacter> + 100) / (<levelCharacter> + <levelEnemy> + 200)) = <DefEnemy>\nRes multiplier(1 - <resistEnemy>) = <resEnemy>\n\n<simulationResult>\nTotal damage : <total>\nAverage damage : <avg>\n\nHasil bisa tidak akurat dikarenakan faktor dari weapon memiliki efek special ability, set artefak, constel, level enemy yang dilawan dan level character yang digunakan. jadi, jika weapon memiliki efek special ability/set artefak/constel coba untuk menambahkan ke ele/pys bonus (ele/pys bonus = ele/pys bonus + special ability + set artefak + constel)";
-        $secondResult = str_replace(['<levelCharacter>', '<levelEnemy>', '<resistEnemy>', '<simulationResult>', '<total>', '<avg>', '<DefEnemy>', '<resEnemy>'], [$levelCharacter, $levelEnemy, $resistEnemy, $simulationResult, $sumOfDmg, ($sumOfDmg / 5), round($this->genchan->getDefMultiplier($levelCharacter, $levelEnemy), 2), round($this->genchan->getResMultiplier($resistEnemy), 2)], $text);
+        $secondResult = str_replace(['<levelCharacter>', '<levelEnemy>', '<resistEnemy>', '<simulationResult>', '<total>', '<avg>', '<DefEnemy>', '<resEnemy>'], [$levelCharacter, $levelEnemy, $resistEnemy, $simulationResult, $sumOfDmg, ($sumOfDmg / 5), round(Genchan::getDefMultiplier($levelCharacter, $levelEnemy), 2), round(Genchan::getResMultiplier($resistEnemy), 2)], $text);
         $this->bot->secondReply($firstResult, $secondResult);
     }
 
@@ -404,10 +404,10 @@ class Keyword{
     public function WangyCopypasta()
     {
         $parseText = $this->bot->getMessageText(true);
-        $text = strtoupper($this->genchan->getTextRequest($parseText, 1));
+        $text = strtoupper(Genchan::getTextRequest($parseText, 1));
         if ($parseText[1] != NULL) {
             if (sizeof($parseText) < 4) {
-                $result = $this->genchan->wangyGenerator($text);
+                $result = Genchan::wangyGenerator($text);
                 $this->bot->reply($result);
             } else {
                 $this->bot->reply("nama terlalu panjang");
@@ -418,10 +418,10 @@ class Keyword{
     public function GemeteranCopypasta()
     {
         $parseText = $this->bot->getMessageText(true);
-        $text = strtoupper($this->genchan->getTextRequest($parseText, 1));
+        $text = strtoupper(Genchan::getTextRequest($parseText, 1));
         if ($parseText[1] != NULL) {
             if (sizeof($parseText) < 4) {
-                $result = $this->genchan->gemeteranGenerator($text);
+                $result = Genchan::gemeteranGenerator($text);
                 $this->bot->reply($result);
             } else {
                 $this->bot->reply("nama terlalu panjang");
@@ -432,10 +432,10 @@ class Keyword{
     public function SimpCopypasta()
     {
         $parseText = $this->bot->getMessageText(true);
-        $text = strtoupper($this->genchan->getTextRequest($parseText, 1));
+        $text = strtoupper(Genchan::getTextRequest($parseText, 1));
         if ($parseText[1] != NULL) {
             if (sizeof($parseText) < 4) {
-                $result = $this->genchan->simpGenerator($text);
+                $result = Genchan::simpGenerator($text);
                 $this->bot->reply($result);
             } else {
                 $this->bot->reply("nama terlalu panjang");
@@ -446,10 +446,10 @@ class Keyword{
     public function KlaimWaifuCopypasta()
     {
         $parseText = $this->bot->getMessageText(true);
-        $text = strtoupper($this->genchan->getTextRequest($parseText, 1));
+        $text = strtoupper(Genchan::getTextRequest($parseText, 1));
         if ($parseText[1] != NULL) {
             if (sizeof($parseText) < 4) {
-                $result = $this->genchan->klaimWaifuGenerator($text);
+                $result = Genchan::klaimWaifuGenerator($text);
                 $this->bot->reply($result);
             } else {
                 $this->bot->reply("nama terlalu panjang");
@@ -460,10 +460,10 @@ class Keyword{
     public function ButuhkagaCopypasta()
     {
         $parseText = $this->bot->getMessageText(true);
-        $text = $this->genchan->getTextRequest($parseText, 1);
+        $text = Genchan::getTextRequest($parseText, 1);
         if ($parseText[1] != NULL) {
             if (sizeof($parseText) < 4) {
-                $result = $this->genchan->butuhKagaGenerator($text);
+                $result = Genchan::butuhKagaGenerator($text);
                 $this->bot->multiReply($result);
             } else {
                 $this->bot->reply("nama terlalu panjang");
@@ -474,10 +474,10 @@ class Keyword{
     public function KasusCopypasta()
     {
         $parseText = $this->bot->getMessageText(true);
-        $text = strtoupper($this->genchan->getTextRequest($parseText, 1));
+        $text = strtoupper(Genchan::getTextRequest($parseText, 1));
         if ($parseText[1] != NULL) {
             if (sizeof($parseText) < 4) {
-                $result = $this->genchan->kasusGenerator($text);
+                $result = Genchan::kasusGenerator($text);
                 $this->bot->reply($result);
             } else {
                 $this->bot->reply("nama terlalu panjang");
@@ -489,7 +489,7 @@ class Keyword{
     {
 ////////$result = "";
 ////////$parseText = $this->bot->getMessageText(true);
-////////$requestText = $this->genchan->getTextRequest($parseText, 1);
+////////$requestText = Genchan::getTextRequest($parseText, 1);
 ////////$tag = explode(" & ", trim($requestText));
 ////////foreach ($tag as $tg) {
 ////////    $result .= "*" . str_replace(' ', '_', $tg) . "*%20";
@@ -501,7 +501,7 @@ class Keyword{
     public function MockingText()
     {
         $parseText = $this->bot->getMessageText(true);
-        $result = $this->genchan->mockingGenerator($this->genchan->getTextRequest($parseText, 1));
+        $result = Genchan::mockingGenerator(Genchan::getTextRequest($parseText, 1));
         $this->bot->reply($result);
     }
 
@@ -636,7 +636,7 @@ class Keyword{
         $logChat = $file;
         if ($parseText[1] != null)
         {
-            $searchword = $this->genchan->getTextRequest($parseText);
+            $searchword = Genchan::getTextRequest($parseText);
             $logChat = array_filter($logChat, function($var) use ($searchword) { return preg_match("/\b$searchword\b/i", $var); });
         }
         $logChat = array_slice($logChat, -20);

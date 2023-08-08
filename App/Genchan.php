@@ -4,7 +4,7 @@ namespace App;
 
 class Genchan
 {
-    public function predictQuestion($key, $sources, $returnSuggest = true)
+    public static function predictQuestion($key, $sources, $returnSuggest = true)
     {
         $result = array();
         $suggest = array();
@@ -15,11 +15,11 @@ class Genchan
             }
         }
         if ($returnSuggest) {
-            $result[1] = "Mungkin maksud kakak : " . $this->getTextRequest($suggest, 0, ", ");
+            $result[1] = "Mungkin maksud kakak : " . Genchan::getTextRequest($suggest, 0, ", ");
         }
         return $result;
     }
-    public function SplitToArray($text)
+    public static function SplitToArray($text)
     {
         $count = 0;
         $array = array();
@@ -33,8 +33,8 @@ class Genchan
 
     }
 
-    public function getTextRequest($array, $index = 1, $space = " ")
-    {
+    public static function getTextRequest($array, $index = 1, $space = " ")
+    { 
         $result = '';
         for($int = $index; $int < sizeof($array); $int++) {
             $result .= $array[$int];
@@ -43,7 +43,17 @@ class Genchan
         return $result;
     }
 
-    public function getLinkWebsite($url, $fill, $parse, $index)
+    public static function ArrayToText($array, $index = 0, $space = " ")
+    { 
+        $result = '';
+        for($int = $index; $int < sizeof($array); $int++) {
+            $result .= $array[$int];
+            $result .= ($int < (sizeof($array)-1) ? $space : "");
+        }
+        return $result;
+    }
+
+    public static function getLinkWebsite($url, $fill, $parse, $index)
     {
         $text = '';
         for($int = $index; $int < sizeof($fill); $int++) {
@@ -53,47 +63,27 @@ class Genchan
         return str_replace('<url>', $text, $url);
     }
 
-    public function keyFilter($text)
-    {
-        return str_replace(['/db/weapon/','/db/char/','/?lang=EN'], ['',''], $text);
-    }
-
-
-    public function roll($rate)
+    public static function roll($rate)
     {
         $character_name = json_decode(file_get_contents('character.json'), true);
         if($rate <= 94.1) {
-            $get = "★★★ - " . $this->searchCharacterById($character_name["r"], rand(1, sizeof($character_name["r"])));
+            $get = "★★★ - " . Genchan::searchCharacterById($character_name["r"], rand(1, sizeof($character_name["r"])));
         } elseif($rate <= 99.3 && $rate > 94.1) {
-            $get = "★★★★ - " . $this->searchCharacterById($character_name["sr"], rand(1, sizeof($character_name["sr"])));
+            $get = "★★★★ - " . Genchan::searchCharacterById($character_name["sr"], rand(1, sizeof($character_name["sr"])));
         } elseif($rate <= 100 && $rate > 99.3) {
-            $get = "★★★★★ - " . $this->searchCharacterById($character_name["ssr"], rand(1, sizeof($character_name["ssr"])));
-        }
-        return $get;
-    }
-    public function recruit($rate)
-    {
-        $character_name = json_decode(file_get_contents('character-counterside.json'));
-        if($rate <= 42.4) {
-            $get = "N - " . $this->searchCharacterById($character_name->n, rand(1, 11));
-        } elseif($rate <= 81.4 && $rate > 42.5) {
-            $get = "R - " . $this->searchCharacterById($character_name->r, rand(1, 34));
-        } elseif($rate <= 96.4 && $rate > 81.5) {
-            $get = "SR - " . $this->searchCharacterById($character_name->sr, rand(1, 34));
-        } elseif($rate <= 100 && $rate > 96.5) {
-            $get = "SSR - " . $this->searchCharacterById($character_name->ssr, rand(1, 27));
+            $get = "★★★★★ - " . Genchan::searchCharacterById($character_name["ssr"], rand(1, sizeof($character_name["ssr"])));
         }
         return $get;
     }
 
-    public function kaomojiGenerator()
+    public static function kaomojiGenerator()
     {
         $kaomoji = json_decode(file_get_contents(KAOMOJI), true);
         $randomNeedle = random_int(0, sizeof($kaomoji));
         return array_search($randomNeedle, $kaomoji);
     }
 
-    public function searchCharacterById($array, $id)
+    public static function searchCharacterById($array, $id)
     {
         foreach($array as $name => $val) {
             if($val == $id) {
@@ -102,58 +92,58 @@ class Genchan
         }
     }
 
-    public function calculateCritDmg($outgoingDmg, $critDmg)
+    public static function calculateCritDmg($outgoingDmg, $critDmg)
     {
         return round(($outgoingDmg * (1+($critDmg/100))), 0);
     }
 
-    public function calculateOutgoingDmg($atk, $ability, $dmgBonus)
+    public static function calculateOutgoingDmg($atk, $ability, $dmgBonus)
     {
         return round(($atk * ($ability/100) * (1+($dmgBonus/100))), 0);
     }
 
-    public function calculateIncomingDmg($outgoingDmg, $levelEnemy, $levelCharacter, $resistEnemy)
+    public static function calculateIncomingDmg($outgoingDmg, $levelEnemy, $levelCharacter, $resistEnemy)
     {
-        $defMultiplier = $this->getDefMultiplier($levelCharacter, $levelEnemy);
-        $resMultiplier = $this->getResMultiplier($resistEnemy);
+        $defMultiplier = Genchan::getDefMultiplier($levelCharacter, $levelEnemy);
+        $resMultiplier = Genchan::getResMultiplier($resistEnemy);
         return round($outgoingDmg * $defMultiplier * $resMultiplier, 0);
     }
 
-    public function getDefMultiplier($levelCharacter, $levelEnemy)
+    public static function getDefMultiplier($levelCharacter, $levelEnemy)
     {
         return ($levelCharacter+100)/($levelCharacter+$levelEnemy+200);
     }
-    public function getResMultiplier($resistEnemy)
+    public static function getResMultiplier($resistEnemy)
     {
         return (1-($resistEnemy/100));
     }
 
-    public function wangyGenerator($key)
+    public static function wangyGenerator($key)
     {
         return str_replace("<name>", $key, "<name> <name> <name>   ❤️ ❤️ WANGI WANGI WANGI WANGI HU HA HU HA HU HA, aaaah baunya rambut <name> wangi aku mau nyiumin aroma wanginya <name> AAAAAAAAH ~ Rambutnya.... aaah rambutnya juga pengen aku elus-elus ~~~~ AAAAAH <name> keluar pertama kali di anime juga manis ❤️ ❤️ ❤️ banget AAAAAAAAH <name> AAAAA LUCCUUUUUUUUUUUUUUU............<name> AAAAAAAAAAAAAAAAAAAAGH ❤️ ❤️ ❤️apa ? <name> itu gak nyata ? Cuma HALU katamu ? nggak, ngak ngak ngak ngak NGAAAAAAAAK GUA GAK PERCAYA ITU DIA NYATA NGAAAAAAAAAAAAAAAAAK PEDULI BANGSAAAAAT !! GUA GAK PEDULI SAMA KENYATAAN POKOKNYA GAK PEDULI. ❤️ ❤️ ❤️ <name> gw ...<name> di laptop ngeliatin gw, <name> .. kamu percaya sama aku ? aaaaaaaaaaah syukur <name> aku gak mau merelakan <name> aaaaaah ❤️ ❤️ ❤️ YEAAAAAAAAAAAH GUA MASIH PUNYA <name> SENDIRI PUN NGGAK SAMA AAAAAAAAAAAAAAH");
     }
 
-    public function gemeteranGenerator($key)
+    public static function gemeteranGenerator($key)
     {
         return str_replace("<name>", $key, "Bro, gue gemeteran. GUE GEMETERAN ANJING Gue gak pernah mau berkembangbiak dengan siapapun lebih daripada seorang <name>. Badannya yang cakep, TETE GEDE, pinggul seksi dari seorang BIDADARI. Jujur aja, sakit hati kalau tau KENYATAANNYA gue GAK AKAN PERNAH BISA BUAT KAWIN SAMA DIA, ngewarisin gen gue lewat dia, dan ngebiarin dia ngelahirin anak yang sempurna dari gue.Gue rela ngelakuin APAPUN demi kesempatan buat bikin <name> hamil. A P A P U N. Dan gue bener-bener gk bisa terima kenyataan. Kenapa Authornya rela bikin suatu hal yang sempurna kyk dia? Buat ngegoda kita? NGETAWAIN KITA DI DEPAN MUKA?SUMPAH BRO, GUE UDAH BENER BENER GAK TAHAN. ANJING.");
     }
 
-    public function simpGenerator($key)
+    public static function simpGenerator($key)
     {
         return str_replace("<name>", $key, "Buruan, panggil gue SIMP, ato BAPERAN. ini MURNI PERASAAN GUE. Gue pengen genjot bareng <name>. Ini seriusan, suaranya yang imut, mukanya yang cantik, apalagi badannya yang aduhai ningkatin gairah gue buat genjot <name>. Setiap lapisan kulitnya pengen gue jilat. Saat gue mau crot, gue bakal moncrot sepenuh hati, bisa di perut, muka, badan, teteknya, sampai lubang burit pun bakal gue crot sampai puncak klimaks. Gue bakal meluk dia abis gue moncrot, lalu nanya gimana kabarnya, ngrasain enggas bareng saat telanjang. Dia bakal bilang kalau genjotan gue mantep dan nyatain perasaannya ke gue, bilang kalo dia cinta ama gue. Gue bakal bilang balik seberapa gue cinta ama dia, dan dia bakal kecup gue di pipi. Terus kita ganti pakaian dan ngabisin waktu nonton film, sambil pelukan ama makan hidangan favorit. Gue mau <name> jadi pacar, pasangan, istri, dan idup gue. Gue cinta dia dan ingin dia jadi bagian tubuh gue. Lo kira ini copypasta? Kagak cok. Gue ngetik tiap kata nyatain prasaan gue. Setiap kali elo nanya dia siapa, denger ini baik-baik : DIA ISTRI GUE. Gue sayang <name>, dan INI MURNI PIKIRAN DAN PERASAAN GUE.");
     }
 
-    public function klaimWaifuGenerator($key)
+    public static function klaimWaifuGenerator($key)
     {
         return str_replace("<name>", $key, "Sejujurnya gw ga nyangka ama tindakan lo yg ga dewasa begini Kita udh temenan dri kecil ,melalui berbagai kenangan ,tapi sikaplo begini ke gw ,ga habis pikir. Padahal sudah berjanji tidak mengusik hubungan satu sama lain lagi ,tapi maksud tindakan mu sekarang ini apa? Tiba tiba di pagi bangun tidur lu make Pp <name>. Lu kira lucu begitu anjing? Make waifu pp org seenaknya? Ngeklaim pula bangsad maksudnya apa apaan coba . Pertemanan dari kecil kita ga dihargai sama sekali.\nGw tunggu klarifikasi lo ");
     }
 
-    public function kasusGenerator($key)
+    public static function kasusGenerator($key)
     {
         return str_replace("<name>", $key, "Jika dalam kasus investigasi oleh entitas federal atau sejenisnya, saya tidak terlibat dengan grup ini atau dengan orang-orang di dalamnya, saya tidak tahu bagaimana saya di sini, mungkin ditambahkan oleh pihak ketiga. Saya juga tidak  mendukung tindakan apa pun oleh anggota grup ini. Saya menyatakan <name> bertanggung jawab sepenuhnya atas ucapan yang dilontarkan di grup ini.");
     }
 
-    public function butuhKagaGenerator($key)
+    public static function butuhKagaGenerator($key)
     {
         $result = array();
         $result[] = str_replace("<name>", $key, "awkwkkw tapi lu butuh kagak <name>");
@@ -162,7 +152,7 @@ class Genchan
         return $result;
     }
 
-    public function mockingGenerator($key)
+    public static function mockingGenerator($key)
     {
         $clone = '';
         $skip = 0;
