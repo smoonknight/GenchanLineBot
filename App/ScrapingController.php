@@ -40,8 +40,7 @@ class ScrapingController
         }
 
         // mengolah array rarity
-        $value = count($characterDescription->find("tr", $data["Rarity"])->find("td", 1)->find('img[class="cur_icon"]'));
-        $data["Rarity"] = $value;
+
 
         return json_encode($data, JSON_PRETTY_PRINT);
     }
