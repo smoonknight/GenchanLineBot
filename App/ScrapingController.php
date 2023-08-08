@@ -26,6 +26,7 @@ class ScrapingController
                 $key = $tr->find("td", 1)->plaintext;
                 $value = $tr->find("td", 2)->plaintext;
                 $data[$key] = $value;
+                $increment++;
                 continue;
             }
 
