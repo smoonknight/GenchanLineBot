@@ -8,11 +8,14 @@ class ScrapingController
 {
     public static function GenshinImpactHoneyScraping($characterName)
     {
+        // mendapatkan html element
         $url = @"https://genshin.honeyhunterworld.com/$characterName/?lang=EN";
         $html = file_get_html($url);
 
+        // mengolah konten deskripsi karakter
         $characterDescription = $html->find('table[class="genshin_table main_table"]', 0);
 
+        $increment = 0;
         $data = array();
 
         foreach ($characterDescription->find("tr") as $tr)
@@ -25,18 +28,20 @@ class ScrapingController
                 $data[$key] = $value;
                 continue;
             }
-            if ($key == "Rarity")
-            {
-                $value = count($tr->find("td", 1)->find('img[class="cur_icon"]'));
-                $data[$key] = $value;
-                continue;
-            }
+
             $value = $tr->find("td", 1)->plaintext;
+
+            if ($value == "")
+            {
+                $value = $increment;
+            }
             $data[$key] = $value;
+            $increment++;
         }
 
-        unset($data["Character Ascension Materials"]);
-        unset($data["Skill Ascension Materials"]);
+        // mengolah array rarity
+        $value = count($characterDescription->find("tr", $data["Rarity"])->find("td", 1)->find('img[class="cur_icon"]'));
+        $data["Rarity"] = $value;
 
         return json_encode($data, JSON_PRETTY_PRINT);
     }
