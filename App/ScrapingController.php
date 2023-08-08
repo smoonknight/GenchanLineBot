@@ -57,7 +57,18 @@ class ScrapingController
             {
                 $array[] = $img->alt;
             }
-            $data["Character Ascension Materials"] = Genchan::ArrayToText($array);
+            $data["Character Ascension Materials"] = Genchan::ArrayToText($array, "0", ",");
+        }
+
+        // mengolah array "Skill Ascension Materials
+        if (key_exists("Skill Ascension Materials", $data))
+        {
+            $array = array();
+            foreach ($characterDescription->find("tr", $data["Skill Ascension Materials"])->find("td", 1)->find("img") as $img)
+            {
+                $array[] = $img->alt;
+            }
+            $data["Skill Ascension Materials"] = Genchan::ArrayToText($array, "0", ",");
         }
         return json_encode($data, JSON_PRETTY_PRINT);
     }
