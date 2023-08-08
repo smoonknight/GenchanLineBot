@@ -134,7 +134,7 @@ class ScrapingController
         
         // #endregion
         #region mengolah konten informasi data pada karakter
-        $characterInformationData["imageUrl"] = $html->find('img[class="main_image"]', 0)->src;
+        $characterInformationData["imageUrl"] = "https://genshin.honeyhunterworld.com/" . $html->find('img[class="main_image"]', 0)->src;
         $characterInformationData["refrenceUrl"] = $url;
         #endregion
         $data["Character Description"] = $characterDescriptionData;
