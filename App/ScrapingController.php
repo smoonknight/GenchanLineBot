@@ -84,10 +84,20 @@ class ScrapingController
             $headerNames[] = $theadTD->plaintext;
         }
         $tr = $characterStat->find("tr");
-        $count_tr = count($tr);
-        $requireBodyContentIndex = array($count_tr, $count_tr - 2);
+        $requireBodyContentIndex = array(2);
 
-        $characterStatData[] = $requireBodyContentIndex;
+        foreach ($requireBodyContentIndex as $bodyContentIndex)
+        {
+            $increment = 0;
+            $bodyContentArray = array();
+            foreach ($tr[$bodyContentIndex]->find("td") as $td)
+            {
+                $bodyContentArray[] = $headerNames[$increment] . " " . $td->plaintext;
+                $increment++;
+            }
+
+            $characterStatData[] = $bodyContentArray;
+        }
         // membuat isi konten
 
         $data["Character Description"] = $characterDescriptionData;
