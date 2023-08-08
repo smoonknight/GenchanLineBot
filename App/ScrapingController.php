@@ -87,18 +87,7 @@ class ScrapingController
         $count_tr = count($tr);
         $requireBodyContentIndex = array($count_tr, $count_tr - 2);
 
-        foreach ($requireBodyContentIndex as $bodyContentIndex)
-        {
-            $increment = 0;
-            $bodyContentArray = array();
-            foreach ($tr[$bodyContentIndex]->find("td") as $td)
-            {
-                $bodyContentArray[] = $headerNames[$increment] . " " . $td->plaintext;
-                $increment++;
-            }
-
-            $characterStatData[] = $bodyContentArray;
-        }
+        $characterStatData[] = $requireBodyContentIndex;
         // membuat isi konten
 
         $data["Character Description"] = $characterDescriptionData;
