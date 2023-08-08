@@ -92,7 +92,11 @@ class ScrapingController
             $bodyContentArray = array();
             foreach ($tr[$bodyContentIndex]->find("td") as $td)
             {
-                $bodyContentArray[] = $headerNames[$increment] . " " . $td->plaintext;
+                $plainText = $td->plaintext;
+                if ($plainText != "")
+                {
+                    $bodyContentArray[] = $headerNames[$increment] . " " . $plainText;
+                }
                 $increment++;
             }
 
