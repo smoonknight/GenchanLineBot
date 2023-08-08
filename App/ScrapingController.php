@@ -40,10 +40,23 @@ class ScrapingController
             $increment++;
         }
 
-        // mengolah array rarity
-        $value = count($characterDescription->find("tr", $data["Rarity"])->find("td", 1)->find('img[class="cur_icon"]'));
-        $data["Rarity"] = $value;
+        // mengolah array Rarity
+        if (key_exists("Rarity", $data))
+        {
+            $value = count($characterDescription->find("tr", $data["Rarity"])->find("td", 1)->find('img[class="cur_icon"]'));
+            $data["Rarity"] = $value;
+        }
 
+        // mengolah array Character Ascension Materials
+        if (key_exists("Character Ascension Materials", $data))
+        {
+            $text = "";
+            foreach ($characterDescription->find("tr", $data["Character Ascension Materials"])->find("td", 1)->find("img") as $img)
+            {
+                $text .= $img->alt;
+            }
+            $data["Character Ascension Materials"] = $text;
+        }
         return json_encode($data, JSON_PRETTY_PRINT);
     }
 }
