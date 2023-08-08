@@ -77,7 +77,7 @@ class ScrapingController
         $characterStatData = array();
 
         $headerNames = array();
-        foreach($characterStat->find("thead")->find("td") as $theadTD)
+        foreach($characterStat->find("thead", 0)->find("td") as $theadTD)
         {
             $haderNames[] = $theadTD->plaintext;
         }
