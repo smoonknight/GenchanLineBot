@@ -93,10 +93,20 @@ class ScrapingController
             foreach ($tr[$bodyContentIndex]->find("td") as $td)
             {
                 $plainText = $td->plaintext;
+                $content = "";
                 if ($plainText != "")
                 {
-                    $bodyContentArray[] = $headerNames[$increment] . " " . $plainText;
+                    $content = $headerNames[$increment] . " " . $plainText;
                 }
+                $hyperlinks = $td->find("a");
+                if ($hyperlinks != "")
+                {
+                    foreach ($hyperlinks as $hyperlink)
+                    {
+                        $content = $hyperlinks->plaintext . " " . $hyperlink->find("img", 0)->alt;
+                    }
+                }
+                $bodyContentArray[] = $content;
                 $increment++;
             }
 
