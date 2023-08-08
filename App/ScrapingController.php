@@ -107,12 +107,18 @@ class ScrapingController
                     $hyperlinkArray = array();
                     foreach ($hyperlinks as $hyperlink)
                     {
-                        $hyperlinkArray[] = $hyperlink->plaintext . " " . $hyperlink->find("img", 0)->alt;
+                        $hyperlinkArray[] = $hyperlink->plaintext . $hyperlink->find("img", 0)->alt;
                     }
-                    $content = Genchan::ArrayToText($hyperlinkArray, 0, ", ");
+                    $content = $headerNames[$increment] . " " . Genchan::ArrayToText($hyperlinkArray, 0, ", ");
+                }
+
+                $increment++;
+
+                if ($content = "")
+                {
+                    continue;
                 }
                 $bodyContentArray[] = $content;
-                $increment++;
             }
 
             $characterStatData[] = $bodyContentArray;
