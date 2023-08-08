@@ -71,7 +71,20 @@ class ScrapingController
         }
 
         #endregion
+        #region mengolah konten stat karakter
+
+        $characterStat = $html->find('section[id="char_stats"]', 0);
+        $characterStatData = array();
+
+        $headerNames = array();
+        foreach($characterStat->find("thead")->find("td") as $theadTD)
+        {
+            $haderNames[] = $theadTD->plaintext;
+        }
+        $characterStatData[] = $headerNames;
+        
         $data["Character Description"] = $characterDescriptionData;
+        $data["Character Stat"] = $characterStatData;
         return json_encode($data, JSON_PRETTY_PRINT);
     }
 }
