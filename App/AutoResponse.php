@@ -23,6 +23,10 @@ class AutoResponse
         $this->bot->reply($param . $kaomoji);
     }
 
+    private function replyImage($param)
+    {
+        $this->bot->replyImage($param);
+    }
 }
 
 ?>
