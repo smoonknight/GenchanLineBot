@@ -114,7 +114,7 @@ class ScrapingController
 
                 $increment++;
 
-                if ($content = "")
+                if ($content == "")
                 {
                     continue;
                 }
