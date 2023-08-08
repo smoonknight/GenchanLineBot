@@ -82,11 +82,8 @@ class ScrapingController
         {
             $headerNames[] = $theadTD->plaintext;
         }
-
+        $characterStatData[] = $characterStat->find("tr", 1)->find("td", 0)->plaintext;
         // membuat isi konten
-        
-
-        $characterStatData[] = substr($characterStat->find('table[class"genshin_table stat_table"]', 0)->find("tbody", 0), 0, 500);
 
         $data["Character Description"] = $characterDescriptionData;
         $data["Character Stat"] = $characterStatData;
