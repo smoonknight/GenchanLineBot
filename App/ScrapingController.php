@@ -81,7 +81,7 @@ class ScrapingController
         $theadTDs = $characterStat->find("thead", 0)->find("td");
         foreach($theadTDs as $theadTD)
         {
-            $headerNames[] = str_replace($theadTD->plaintext, "%", "");
+            $headerNames[] = str_replace("%", "", $theadTD->plaintext);
         }
         $tr = $characterStat->find("tr");
         $requireBodyContentIndex = array(12, 14);
@@ -101,10 +101,12 @@ class ScrapingController
                 $hyperlinks = $td->find("a");
                 if ($hyperlinks != "")
                 {
+                    $hyperlinkArray = array();
                     foreach ($hyperlinks as $hyperlink)
                     {
-                        $content = $hyperlinks->plaintext . " " . $hyperlink->find("img", 0)->alt;
+                        $hyperlinkArray[] = $hyperlink->plaintext . " " . $hyperlink->find("img", 0)->alt;
                     }
+                    $content = Genchan::ArrayToText($hyperlinkArray, 0, ", ");
                 }
                 $bodyContentArray[] = $content;
                 $increment++;
