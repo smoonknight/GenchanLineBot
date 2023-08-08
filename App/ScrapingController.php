@@ -8,7 +8,7 @@ use App\Genchan;
 
 class ScrapingController
 {
-    public static function GenshinImpactHoneyScraping($characterName)
+    public static function GenshinImpactHoneyScrapingCharacter($characterName)
     {
         // mendapatkan html element
         $url = @"https://genshin.honeyhunterworld.com/$characterName/?lang=EN";
@@ -119,15 +119,27 @@ class ScrapingController
                 }
                 $bodyContentArray[$headerNames[$increment]] = $content;
                 $increment++;
-
             }
 
             $characterStatData[$bodyContentIndex] = $bodyContentArray;
         }
-        // membuat isi konten
-
+        #endregion
+        // #region mengolah konten skill karakter
+        // $characterSkill = $html->find('section[id="char_skills"]', 0);
+        // $characterSkillData = array();
+        
+        // $skillNormalAttack = $characterSkill->find('table[class="genshin_table skill_table"]', 0);
+        // $skillNormalAttackText = $skillNormalAttack->find("tr", 0)->plaintext . "\n";
+        // $skillNormalAttackText .= $skillNormalAttack->find("tr", 1)->plaintext . "\n";
+        
+        // #endregion
+        #region mengolah konten informasi data pada karakter
+        $characterInformationData["imageUrl"] = $html->find('img[class="main_img"]')->src;
+        $characterInformationData["refrenceUrl"] = $url;
+        #endregion
         $data["Character Description"] = $characterDescriptionData;
         $data["Character Stat"] = $characterStatData;
+        $data["Character Infomation"] = $characterInformationData;
         return json_encode($data, JSON_PRETTY_PRINT);
     }
 }

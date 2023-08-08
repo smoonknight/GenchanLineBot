@@ -227,10 +227,12 @@ class Keyword{
     {
         $result = "";
         $character = "";
-        $type = $this->bot->getGenshinDevType("characters");
-        foreach($type as $char){
-            $character .= "- " . str_replace("-", " ", $char) . "\n";
-        }
+        // $type = $this->bot->getGenshinDevType("characters");
+        // foreach($type as $char){
+        //     $character .= "- " . str_replace("-", " ", $char) . "\n";
+        // }
+
+        
         $responseDecorationArray = array(
             array("h1", "Characters"),
             array("text", $character),
@@ -243,7 +245,7 @@ class Keyword{
 
     public function FindCharacterGenshinImpact()
     {
-        $result = ScrapingController::GenshinImpactHoneyScraping("fischl_031");
+        $result = ScrapingController::GenshinImpactHoneyScrapingCharacter("fischl_031");
         
         $this->bot->contextReply("Paimon", $result);
     }
@@ -487,15 +489,14 @@ class Keyword{
 
     public function FindPictureBooru()
     {
-////////$result = "";
-////////$parseText = $this->bot->getMessageText(true);
-////////$requestText = Genchan::getTextRequest($parseText, 1);
-////////$tag = explode(" & ", trim($requestText));
-////////foreach ($tag as $tg) {
-////////    $result .= "*" . str_replace(' ', '_', $tg) . "*%20";
-////////}
-////////$data = $this->bot->getSafebooruByTags($result);
-        $this->bot->reply(MAINTENANCE);
+        $result = "";
+        $parseText = $this->bot->getMessageText(true);
+        $requestText = Genchan::getTextRequest($parseText, 1);
+        $tag = explode(" & ", trim($requestText));
+        foreach ($tag as $tg) {
+            $result .= "*" . str_replace(' ', '_', $tg) . "*%20";
+        }
+        $data = $this->bot->getSafebooruByTags($result);
     }
 
     public function MockingText()
