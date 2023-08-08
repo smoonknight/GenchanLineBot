@@ -125,7 +125,7 @@ class Index
         {
             if ($response['response'][$q] != null)
             {
-                $random = rand(1, sizeof($response['response'][$q]));
+                $random = rand(1, sizeof($response['response'][$q]['reaction']));
                 $result = $response['response'][$q]['reaction'][$random];
                 $autoResponse->genchanAutoResponseReply($result[1], $result[0]);
                 return;
