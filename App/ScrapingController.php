@@ -98,6 +98,9 @@ class ScrapingController
                 {
                     $content = $headerNames[$increment] . " " . $plainText;
                 }
+
+                // deteksi apakah terdapat hyperlink yang memiliki gambar
+                // dengan asumsi bahwa hal tersebut merupakan material
                 $hyperlinks = $td->find("a");
                 if ($hyperlinks->find("img") != "")
                 {
