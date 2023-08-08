@@ -15,17 +15,23 @@ class ScrapingController
 
         $data = array();
 
-        foreach ($characterDescription->find("tr") as $td)
+        foreach ($characterDescription->find("tr") as $tr)
         {
-            $key = $td->find("td", 0)->plaintext;
+            $key = $tr->find("td", 0)->plaintext;
             if ($key == "")
             {
-                $key = $td->find("td", 1)->plaintext;
-                $value = $td->find("td", 2)->plaintext;
+                $key = $tr->find("td", 1)->plaintext;
+                $value = $tr->find("td", 2)->plaintext;
                 $data[$key] = $value;
                 continue;
             }
-            $value = $td->find("td", 1)->plaintext;
+            if ($key == "Rarity")
+            {
+                $value = count($tr->find("td", 1)->find('img[class="cur_icon"]'));
+                $data[$key] = $value;
+                continue;
+            }
+            $value = $tr->find("td", 1)->plaintext;
             $data[$key] = $value;
         }
 
