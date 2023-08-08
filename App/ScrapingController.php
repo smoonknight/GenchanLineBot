@@ -76,13 +76,46 @@ class ScrapingController
         $characterStat = $html->find('section[id="char_stats"]', 0);
         $characterStatData = array();
 
+        // membuat header
         $headerNames = array();
         foreach($characterStat->find("thead", 0)->find("td") as $theadTD)
         {
             $headerNames[] = $theadTD->plaintext;
         }
-        $characterStatData[] = $headerNames;
-        
+
+        // membuat isi konten
+        $bodyCell = array();
+        foreach($characterStat->find("tbody", 0)->find("tr") as $tbodyTR)
+        {
+            $increment = 0;
+            foreach($tbodyTR->find("td") as $tbodyTD)
+            {
+                $plainText = $tbodyTD->plaintext;
+                if ($plainText == "")
+                {
+                    $hyperlinks = $tbodyTD->find("a");
+                    if ($hyperlinks == null)
+                    {
+                        $increment;
+                        continue;
+                    }
+
+                    $altArray = array();
+                    foreach ($hyperlinks as $hyperlink)
+                    {
+                        $altArray[] = $hyperlink->find("span")->plaintext . $hyperlink->find("img")->alt;
+                    }
+
+                    $plainText = Genchan::ArrayToText($altArray, 0, ", ");
+                }
+                
+                $bodyCell[] = $plainText;
+                $increment++;
+            }
+        }
+
+        $characterStatData[] = $bodyCell;
+
         $data["Character Description"] = $characterDescriptionData;
         $data["Character Stat"] = $characterStatData;
         return json_encode($data, JSON_PRETTY_PRINT);
