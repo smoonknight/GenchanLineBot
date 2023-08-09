@@ -93,7 +93,6 @@ class Index
         $jsonDecode = json_decode(file_get_contents(RESPONSE), true);
         $mentionResponse = $jsonDecode["mention"];
         $result = str_replace("<name>", $displayName, $mentionResponse[rand(0, sizeof($mentionResponse) - 1)]);
-
         $kaomoji = Genchan::kaomojiGenerator();
         $result = $result . " " . $kaomoji;
         $this->bot->reply($result);
@@ -130,8 +129,10 @@ class Index
             if ($response['response'][$text] != null)
             {
                 $random = rand(0, sizeof($response['response'][$text]['reaction']) - 1);
+                $feeling = $response['response'][$text]['feeling'];
+
                 $result = $response['response'][$text]['reaction'][$random];
-                $autoResponse->genchanAutoResponseReply($result[1], $result[0]);
+                $autoResponse->genchanAutoResponseReply($result[1], $result[0], $feeling);
                 return;
             }
         }

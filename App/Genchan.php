@@ -76,10 +76,10 @@ class Genchan
         return $get;
     }
 
-    public static function kaomojiGenerator()
+    public static function kaomojiGenerator($feeling = "normal")
     {
         $kaomoji = json_decode(file_get_contents(KAOMOJI), true);
-        $randomNeedle = random_int(0, sizeof($kaomoji));
+        $randomNeedle = random_int(0, sizeof($kaomoji) - 1);
         return array_search($randomNeedle, $kaomoji);
     }
 
