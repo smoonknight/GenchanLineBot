@@ -95,7 +95,7 @@ class Index
         $result = str_replace("<name>", $displayName, $mentionResponse[rand(0, sizeof($mentionResponse) - 1)]);
 
         $kaomoji = Genchan::kaomojiGenerator();
-        $result = $result . $kaomoji;
+        $result = $result . " " . $kaomoji;
         $this->bot->reply($result);
     }
 
