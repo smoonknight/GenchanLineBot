@@ -133,6 +133,7 @@ class Index
 
                 $result = $response['response'][$text]['reaction'][$random];
                 $autoResponse->genchanAutoResponseReply($result[1], $result[0], $feeling);
+                
                 return;
             }
         }
