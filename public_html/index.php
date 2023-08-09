@@ -90,8 +90,9 @@ class Index
             $displayName .= "kak " . $this->bot->getDisplayNameOnGroup($groupId, $userId) . ", ";
         }
 
-        $response = array("<name>dicariin tuh", "<name>ada yang mention ayu bales", "<name>kemana ada yang tag tuh");
-        $result = str_replace("<name>", $displayName, $response[rand(0, sizeof($response) - 1)]);
+        $jsonDecode = json_decode(file_get_contents(RESPONSE), true);
+        $mentionResponse = $jsonDecode["mention"];
+        $result = str_replace("<name>", $displayName, $mentionResponse[rand(0, sizeof($mentionResponse) - 1)]);
         $this->bot->reply($result);
     }
 
@@ -99,9 +100,9 @@ class Index
     {
         $sticker = $this->bot->getStickerId();
         $parseText = $this->bot->getMessageText(true);
-        foreach ($parseText as $q) {
-            if ($sticker[$q] != null) {
-                $this->bot->replyImage($sticker[$q]);
+        foreach ($parseText as $text) {
+            if ($sticker[$text] != null) {
+                $this->bot->replyImage($sticker[$text]);
                 return;
             }
         }
@@ -121,12 +122,12 @@ class Index
         $response = json_decode(file_get_contents(RESPONSE), true);
         
         $result = '';
-        foreach ($parseText as $q)
+        foreach ($parseText as $text)
         {
-            if ($response['response'][$q] != null)
+            if ($response['response'][$text] != null)
             {
-                $random = rand(0, sizeof($response['response'][$q]['reaction']) - 1);
-                $result = $response['response'][$q]['reaction'][$random];
+                $random = rand(0, sizeof($response['response'][$text]['reaction']) - 1);
+                $result = $response['response'][$text]['reaction'][$random];
                 $autoResponse->genchanAutoResponseReply($result[1], $result[0]);
                 return;
             }
