@@ -93,6 +93,9 @@ class Index
         $jsonDecode = json_decode(file_get_contents(RESPONSE), true);
         $mentionResponse = $jsonDecode["mention"];
         $result = str_replace("<name>", $displayName, $mentionResponse[rand(0, sizeof($mentionResponse) - 1)]);
+
+        $kaomoji = Genchan::kaomojiGenerator();
+        $result = $result . $kaomoji;
         $this->bot->reply($result);
     }
 
