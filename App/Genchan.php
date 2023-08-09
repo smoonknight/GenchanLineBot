@@ -80,7 +80,7 @@ class Genchan
     {
         $kaomoji = json_decode(file_get_contents(KAOMOJI), true);
         $randomNeedle = random_int(0, sizeof($kaomoji) - 1);
-        return array_search($randomNeedle, $kaomoji[$feeling]);
+        return $kaomoji[$feeling][$randomNeedle];
     }
 
     public static function searchCharacterById($array, $id)
