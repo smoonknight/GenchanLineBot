@@ -83,13 +83,13 @@ class Index
     {
         $groupId = $this->bot->getGroupId();
         $userIds = $this->bot->getEntireMentionId();
-        $displayName = "";
+        $displayNames = array();
 
         foreach ($userIds as $userId)
         {
-            $displayName .= "kak " . $this->bot->getDisplayNameOnGroup($groupId, $userId) . ", ";
+            $displayNames[] = $this->bot->getDisplayNameOnGroup($groupId, $userId);
         }
-
+        $displayName = Genchan::ArrayToText($displayNames, 0, ", ");
         $jsonDecode = json_decode(file_get_contents(RESPONSE), true);
         $mentionResponse = $jsonDecode["mention"];
         $result = str_replace("<name>", $displayName, $mentionResponse[rand(0, sizeof($mentionResponse) - 1)]);
