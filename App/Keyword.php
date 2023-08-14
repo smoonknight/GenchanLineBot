@@ -250,7 +250,7 @@ class Keyword{
         
         $responseDecorationArray = array(
             array("h1", "Characters"),
-            array("text", $character),
+            array("text", json_encode($character)),
             array("text", "tulis /character [name] untuk lebih spesifik (tidak harus ditulis lengkap)"),
             array("footer", "")
         );
