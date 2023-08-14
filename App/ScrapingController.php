@@ -17,6 +17,11 @@ class ScrapingController
         #region mengolah konten deskripsi karakter
         $characterDescription = $html->find('table[class="genshin_table main_table"]', 0);
 
+        if ($characterDescription == "")
+        {
+            return false;
+        }
+
         $characterDescriptionData = array();
         $increment = 0;
         foreach ($characterDescription->find("tr") as $tr)
@@ -55,7 +60,7 @@ class ScrapingController
             {
                 $array[] = $img->alt;
             }
-            $characterDescriptionData["Character Ascension Materials"] = Genchan::ArrayToText($array, "0", ",");
+            $characterDescriptionData["Character Ascension Materials"] = Genchan::ArrayToText($array, "0", ", ");
         }
 
         // mengolah array "Skill Ascension Materials

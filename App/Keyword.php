@@ -7,6 +7,7 @@ use App\Genchan;
 use App\ResponseDecoration;
 use App\FirebaseController;
 use App\ScrapingController;
+use App\TextTemplate;
 
 class Keyword{
     public $bot;
@@ -278,11 +279,20 @@ class Keyword{
         {
             $getUrl = $firebaseController->GetData(@"scraping/honey hunter world/genshin impact/characters/$nameCharacter");
             $result = ScrapingController::GenshinImpactHoneyScrapingCharacter($getUrl);
+            if ($result == false)
+            {
+                $this->bot->reply("Gagal memuat");
+                return;
+            }
             $firebaseController->PostData(@"genshin impact/character/data/$nameCharacter", $result);
-            $this->bot->reply("Sedang melakukan proses data, silahkan kakak coba lagi beberapa detik lagi");
+            $getTemplateCharacter = TextTemplate::GenshinImpactCharacter($result);
+            
+            $this->bot->contextMultiReply($getTemplateCharacter, "Paimon");
         }
         
-        $this->bot->contextReply("Paimon", json_encode($getData));
+        $getTemplateCharacter = TextTemplate::GenshinImpactCharacter($getData);
+            
+        $this->bot->contextMultiReply($getTemplateCharacter, "Paimon");
     }
     
     public function CalculateGenshinImpact()

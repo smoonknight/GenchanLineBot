@@ -194,6 +194,24 @@ class LineBot {
 		return $result;
 	}
 
+	public function contextMultiReply($text, $context){
+		$api = $this->apiReply;
+		$webhook = $this->webhookEventObject;
+		$replyToken = $webhook->{"events"}[0]->{"replyToken"}; 
+		$body["replyToken"] = $replyToken;
+		for($int = 0; $int < sizeof($text); $int++){
+			$body["messages"][$int] = array(
+				"type" => "text",
+				"text"=>$text[$int],
+				"sender" => array(
+					"name" => $context,
+				)
+			);
+		}
+		$result = $this->httpPost($api,$body);
+		return $result;
+	}
+
 	public function autoMultiReply($text)
 	{
 		$api = $this->apiReply;
