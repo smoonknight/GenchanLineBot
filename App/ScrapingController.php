@@ -124,7 +124,7 @@ class ScrapingController
                 $bodyContentArray[$headerNames[$increment]] = $content;
                 $increment++;
             }
-
+            
             $characterStatData[$bodyContentIndex] = $bodyContentArray;
         }
         #endregion

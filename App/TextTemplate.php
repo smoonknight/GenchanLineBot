@@ -30,20 +30,20 @@ class TextTemplate
         $textCharacterStat = "";
 
         $characterStat80Level = $characterStat["12"];
-        $lv = $characterStat80Level["lv"];
-        unset($characterStat80Level["lv"]);
-        $characterStat80Level = ["level" => $lv] + $characterStat80Level;
+        $lv = $characterStat80Level["Lv"];
+        unset($characterStat80Level["Lv"]);
+        $characterStat80Level = ["Level" => $lv] + $characterStat80Level;
 
         foreach ($characterStat80Level as $key => $value)
         {
             $textCharacterStat .= @"$key : $value \n";
         }
-        $textCharacterStat .= "\n\n";
+        $textCharacterStat .= "\n";
 
         $characterStat90Level = $characterStat["14"];
-        $lv = $characterStat90Level["lv"];
-        unset($characterStat90Level["lv"]);
-        $characterStat90Level = ["level" => $lv] + $characterStat90Level;
+        $lv = $characterStat90Level["Lv"];
+        unset($characterStat90Level["Lv"]);
+        $characterStat90Level = ["Level" => $lv] + $characterStat90Level;
 
         foreach ($characterStat90Level as $key => $value)
         {
