@@ -1,0 +1,6 @@
+{
+    "character" : {
+        "genshin" : "FindCharacterGenshinImpact",
+        "arknights" : "FindOperator"
+    }
+}

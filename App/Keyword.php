@@ -33,6 +33,24 @@ class Keyword{
         return true;
     }
 
+    public function GetCharacter()
+    {
+        $parseText = $this->bot->getMessageText(true);
+        $subRequest = $parseText[1];
+
+        $subrequestList = json_decode("../storage/data/subrequest.json", true);
+        $subRequestListCharacter = $subrequestList["character"];
+
+        if ($subRequestListCharacter[$subRequest] == null)
+        {
+            $this->bot->reply("Tolong maafin ya, bisa kakak cek lagi requestnya? Mungkin ada typo. 🙈");
+            return;
+        }
+        $keys = $subRequestListCharacter[$subRequest];
+        $this->$keys();
+        return;
+    }
+
     public function GroupChatSummary()
     {
         $description = "ID Group : {groupId}\nName Group : {groupName}\n";
@@ -226,7 +244,7 @@ class Keyword{
     public function FindEntireCharacterGenshinImpact()
     {
         $result = "";
-        $character = ScrapingController::GenshinImpactHoneyScrapingAllCharacters();
+        $character = "";
         
         $responseDecorationArray = array(
             array("h1", "Characters"),

@@ -7,7 +7,7 @@
     "/weapon-list" : "FindEntireWeaponGenshinImpact",
     "/weapon" : "FindWeaponGenshinImpact",
     "/character-list" : "FindEntireCharacterGenshinImpact",
-    "/character" : "FindCharacterGenshinImpact",
+    "/character" : "GetCharacter",
     "/calculate" : "CalculateGenshinImpact",
     "/simulate" : "SimulateGenshinImpact",
     "/event" : "FindEventInformationGenshinImpact",
