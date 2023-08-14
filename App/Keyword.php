@@ -43,7 +43,7 @@ class Keyword{
 
         if ($subRequestListCharacter[$subRequest] == null)
         {
-            $this->bot->reply($subRequest);
+            $this->bot->reply(json_encode($subrequestList));
             return;
         }
         $keys = $subRequestListCharacter[$subRequest];
