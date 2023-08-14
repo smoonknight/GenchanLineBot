@@ -156,7 +156,7 @@ class Keyword{
         $this->bot->reply(mt_rand(0, 100));
     }
 
-    public function FindOperatorList()
+    public function FindOperatorArknights()
     {
         $url = "https://gamepress.gg/arknights/operator/suzuran";
         $scrap = file_get_html($url);
@@ -181,7 +181,7 @@ class Keyword{
         {
             $imageArray[] = $image->find('a', 0)->href;
         }
-        $this->bot->replyChatWithImage($talentText, $imageArray[0]);
+        $this->bot->replyChatWithImage($talentText . "\nSoon, silahkan nikmati hasil dari suzuran dulu ya", $imageArray[0]);
     }
 
     // public function FindAllOperatorList()

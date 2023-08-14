@@ -28,7 +28,6 @@
     "/genchan" : "CheckBotInfo",
     "/check" : "TesEndpoint",
     "/group" : "GroupChatSummary",
-    "/operator" : "FindOperatorList",
     "/keyword" : "KeywordList",
     "/help" : "KeywordList",
     "/command" : "KeywordList"
