@@ -139,7 +139,7 @@ class ScrapingController
         $data["Character Description"] = $characterDescriptionData;
         $data["Character Stat"] = $characterStatData;
         $data["Character Infomation"] = $characterInformationData;
-        return json_encode($data, JSON_PRETTY_PRINT);
+        return $data;
     }
 
     public static function GenshinImpactHoneyScrapingAllCharacters()
@@ -154,7 +154,7 @@ class ScrapingController
             $charactersData[$tr->find('td', 1)->plaintext] = $tr->find('a', 0)->href;
         }
 
-        return json_encode($charactersData, JSON_PRETTY_PRINT);
+        return $charactersData;
     }
 }
 ?>
