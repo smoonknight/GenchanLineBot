@@ -38,12 +38,12 @@ class Keyword{
         $parseText = $this->bot->getMessageText(true);
         $subRequest = $parseText[1];
 
-        $subrequestList = json_decode("../storage/data/subrequest.json", true);
+        $subrequestList = json_decode(file_get_contents("../storage/data/subrequest.json"), true);
         $subRequestListCharacter = $subrequestList["character"];
 
         if ($subRequestListCharacter[$subRequest] == null)
         {
-            $this->bot->reply(json_encode($subrequestList));
+            $this->bot->reply("Tolong maafin ya, bisa kakak cek lagi requestnya? Mungkin ada typo. 🙈");
             return;
         }
         $keys = $subRequestListCharacter[$subRequest];
