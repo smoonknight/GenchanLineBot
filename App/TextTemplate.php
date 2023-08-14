@@ -23,7 +23,7 @@ class TextTemplate
         $koreanSeuyu = $characterData["Character Description"]["Korean Seuyu"];
         $description = $characterData["Character Description"]["Description"];
 
-        $data[] = "Karakter ini bernama $name, dengan gelar $title, dan bekerja sebagai $occupation. Ia memiliki tingkat kelangkaan $rarity, menggunakan senjata tipe $weapon, dan memiliki elemen $element. Lahir pada tanggal $dayOfBirth bulan $monthOfBirth, ia diperkenalkan dengan visi $visionIntroduced dan konstelasi $constellationIntroduced. Pemeran suaranya dalam bahasa Tionghoa dikenal sebagai $chineseSeuyu, dalam bahasa Jepang sebagai $japaneseSeuyu, dalam bahasa Inggris sebagai $englishSeuyu, dan dalam bahasa Korea sebagai $koreanSeuyu. Deskripsi karakter ini adalah: $description.";
+        $data[] = mb_convert_encoding("Karakter ini bernama $name, dengan gelar $title, dan bekerja sebagai $occupation. Ia memiliki tingkat kelangkaan $rarity, menggunakan senjata tipe $weapon, dan memiliki elemen $element. Lahir pada tanggal $dayOfBirth bulan $monthOfBirth, ia diperkenalkan dengan visi $visionIntroduced dan konstelasi $constellationIntroduced. Pemeran suaranya dalam bahasa Tionghoa dikenal sebagai $chineseSeuyu, dalam bahasa Jepang sebagai $japaneseSeuyu, dalam bahasa Inggris sebagai $englishSeuyu, dan dalam bahasa Korea sebagai $koreanSeuyu. Deskripsi karakter ini adalah: $description.", 'HTML-ENTITIES', 'UTF-8');
         #endregion
         return $data;
     }
