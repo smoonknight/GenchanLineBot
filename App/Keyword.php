@@ -282,7 +282,7 @@ class Keyword{
             $this->bot->reply("Sedang melakukan proses data, silahkan kakak coba lagi beberapa detik lagi");
         }
         
-        $this->bot->contextReply("Paimon", $result);
+        $this->bot->contextReply("Paimon", json_encode($getData));
     }
     
     public function CalculateGenshinImpact()

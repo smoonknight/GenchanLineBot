@@ -9,7 +9,7 @@ class FirebaseController extends FirebaseService
 {
     public function PostData($reference, $data)
     {
-        $post = $this->firebase->getReference($reference)->push($data);
+        $post = $this->firebase->getReference($reference)->set($data);
 
         return $post->getKey();
     }
