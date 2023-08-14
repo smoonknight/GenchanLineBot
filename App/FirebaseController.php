@@ -16,4 +16,10 @@ class FirebaseController extends FirebaseService
 
         return $post->getKey();
     }
+
+    public function GetData($reference)
+    {
+        $get = $this->firebase->getReference($reference)->getValue();
+        return $get;
+    }
 }

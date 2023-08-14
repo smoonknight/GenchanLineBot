@@ -243,8 +243,10 @@ class Keyword{
 
     public function FindEntireCharacterGenshinImpact()
     {
+        $firebaseController = new FirebaseController();
         $result = "";
-        $character = "";
+        
+        $character = $firebaseController->GetData("genshin impact/character/alias");
         
         $responseDecorationArray = array(
             array("h1", "Characters"),

@@ -2,5 +2,8 @@
     "character" : {
         "genshin" : "FindCharacterGenshinImpact",
         "arknights" : "FindOperatorArknights"
+    },
+    "character-list" : {
+        "genshin" : "FindEntireCharacterGenshinImpact"
     }
 }
