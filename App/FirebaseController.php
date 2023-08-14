@@ -7,12 +7,9 @@ use App\Service\FirebaseService;
 
 class FirebaseController extends FirebaseService
 {
-    public function PostData()
+    public function PostData($reference, $data)
     {
-        $post = $this->firebase->getReference('debug')->push([
-            'title' => "ini ujicoba",
-            'body' => "menggunakan firebase"
-        ]);
+        $post = $this->firebase->getReference($reference)->push($data);
 
         return $post->getKey();
     }

@@ -260,7 +260,27 @@ class Keyword{
 
     public function FindCharacterGenshinImpact()
     {
-        $result = ScrapingController::GenshinImpactHoneyScrapingCharacter("fischl_031");
+        $firebaseController = new FirebaseController();
+        $result = "";
+        
+        $parseText = $this->bot->getMessageText(true);
+        $name = Genchan::ArrayToText($parseText, 2, " ");
+        $nameCharacter = $firebaseController->GetData(@"genshin impact/character/alias/$name");
+
+        if ($nameCharacter == null)
+        {
+            $this->bot->reply("Nama tidak ditemukan kakk");
+            return;
+        }
+
+        $getData = $firebaseController->GetData(@"genshin impact/character/data/$nameCharacter");
+        if ($getData == null)
+        {
+            $getUrl = $firebaseController->GetData(@"scraping/honey hunter world/genshin impact/characters/$nameCharacter");
+            $result = ScrapingController::GenshinImpactHoneyScrapingCharacter($getUrl);
+            $firebaseController->PostData(@"genshin impact/character/data/$nameCharacter", $result);
+            $this->bot->reply("Sedang melakukan proses data, silahkan kakak coba lagi beberapa detik lagi");
+        }
         
         $this->bot->contextReply("Paimon", $result);
     }

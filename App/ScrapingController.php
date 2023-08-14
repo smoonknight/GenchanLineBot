@@ -8,10 +8,9 @@ use App\Genchan;
 
 class ScrapingController
 {
-    public static function GenshinImpactHoneyScrapingCharacter($characterName)
+    public static function GenshinImpactHoneyScrapingCharacter($url)
     {
         // mendapatkan html element
-        $url = @"https://genshin.honeyhunterworld.com/$characterName/?lang=EN";
         $html = file_get_html($url);
 
         $data = array();
