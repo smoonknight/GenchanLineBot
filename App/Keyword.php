@@ -226,12 +226,7 @@ class Keyword{
     public function FindEntireCharacterGenshinImpact()
     {
         $result = "";
-        $character = "";
-        // $type = $this->bot->getGenshinDevType("characters");
-        // foreach($type as $char){
-        //     $character .= "- " . str_replace("-", " ", $char) . "\n";
-        // }
-
+        $character = ScrapingController::GenshinImpactHoneyScrapingAllCharacters();
         
         $responseDecorationArray = array(
             array("h1", "Characters"),

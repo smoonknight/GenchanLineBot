@@ -142,5 +142,20 @@ class ScrapingController
         $data["Character Infomation"] = $characterInformationData;
         return json_encode($data, JSON_PRETTY_PRINT);
     }
+
+    public static function GenshinImpactHoneyScrapingAllCharacters()
+    {
+        $url = "https://genshin.honeyhunterworld.com/fam_chars/?lang=EN";
+        $html = file_get_html($url);
+
+        $characters = $html->find('section[id="characters"]', 0);
+        $charactersData = array();
+        foreach ($characters->find('tr') as $tr)
+        {
+            $charactersData[$tr->find('td', 1)->plaintext] = $tr->find('a', 0)->href;
+        }
+
+        return json_encode($charactersData, JSON_PRETTY_PRINT);
+    }
 }
 ?>
