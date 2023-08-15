@@ -191,15 +191,22 @@ class Keyword{
 
         $listSticker = "";
         foreach ($this->bot->getStickerId() as $key => $id) {
-            $listSticker .= "" . $key . "\n";
+            $listSticker .= $key . "\n";
         }
 
         $listStickerGroup = "";
         $getData = $firebaseController->GetData("group-data/$groupId/sticker/");
+        foreach (array_keys($getData) as $key)
+        {
+            $listStickerGroup .= $key . "\n";
+        }
         $responseDecorationArray = array(
             array("h1", "List sticker"),
+            array("text", "Sticker global"),
             array("text", $listSticker),
-            array("text", json_encode($getData)),
+            array("lb", ""),
+            array("text", "Sticker group"),
+            array("text", $listStickerGroup),
             array("footer", "")
         );
         $result = $this->responseDecoration->decorationResponse($responseDecorationArray);
