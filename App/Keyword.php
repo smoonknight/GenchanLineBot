@@ -154,7 +154,7 @@ class Keyword{
         $contentType = $headers["Content-Type"];
         if (str_contains($contentType, @"image/") == false)
         {
-            $this->bot->reply(@"URL-nya nggak berisi gambar, yuk pastiin lagi kalau isinya memang gambar ya. Kakak bisa nyari gambarnya di imgur, tenor, atau tempat lain yang menyediakan gambar lucu. 📸");
+            $this->bot->reply(@"URL-nya nggak berisi gambar, yuk pastiin lagi kalau isinya memang gambar ya (nggak usah lewat link website, langsung gambarnya aja ya! Misalnya buat Tenor, kamu bisa klik kanan gambar, terus pilih \"copy image address\"! Kalau di ponsel, tahan gambar, buka di tab baru, terus salin URL-nya.). Kakak bisa nyari gambarnya di imgur, tenor, atau tempat lain yang menyediakan gambar lucu. 📸");
             return;
         }
 
@@ -169,7 +169,7 @@ class Keyword{
         
         $firebaseController->PostData(@"group-data/$groupId/sticker/$stickerName", $url);
 
-        $text = @"$url Yey, gambarnya berhasil dimasukkan! 🎉 Silakan bisa diketik seperti ini nih: \n$stickerName";
+        $text = @"Yey, gambarnya berhasil dimasukkan! 🎉 Silakan bisa diketik seperti ini nih: \n$stickerName";
 
         $this->bot->replyChatWithImage($text, $url);
     }
