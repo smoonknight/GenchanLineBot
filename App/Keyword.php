@@ -194,11 +194,15 @@ class Keyword{
             $listSticker .= $key . "\n";
         }
 
-        $listStickerGroup = "";
+        $listStickerGroup = "belum tersedia, silahkan ketik /genchan-create sticker";
         $getData = $firebaseController->GetData("group-data/$groupId/sticker/");
-        foreach (array_keys($getData) as $key)
+        if ($getData != null)
         {
-            $listStickerGroup .= $key . "\n";
+            $listStickerGroup = "";
+            foreach (array_keys($getData) as $key)
+            {
+                $listStickerGroup .= $key . "\n";
+            }
         }
         $responseDecorationArray = array(
             array("h1", "List sticker"),
