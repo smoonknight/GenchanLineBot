@@ -121,7 +121,7 @@ class Keyword{
             $arrayText = array();
             $arrayText[0] = "Tolong maafin ya, bisa kakak cek lagi requestnya? Mungkin ada typo. 🙈";
             $arrayText[1] = "Request yang tersedia : \n";
-            foreach ($subRequestListGenchan as $request)
+            foreach (array_keys($subRequestListGenchan) as $request)
             {
                 $arrayText[1] .= @"- $request \n";
             }
@@ -136,7 +136,7 @@ class Keyword{
 
     public function AddSticker()
     {
-        
+
     }
 
 
