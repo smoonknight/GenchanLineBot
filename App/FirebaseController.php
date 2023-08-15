@@ -19,4 +19,10 @@ class FirebaseController extends FirebaseService
         $get = $this->firebase->getReference($reference)->getValue();
         return $get;
     }
+
+    public function GetDataChildKeys($reference)
+    {
+        $getChildKeys = $this->firebase->getReference($reference)->getChildKeys();
+        return $getChildKeys;
+    }
 }
