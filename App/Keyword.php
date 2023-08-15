@@ -125,7 +125,7 @@ class Keyword{
             {
                 $arrayText[1] .= @"- $request \n";
             }
-            $arrayText[2] = "Silahkan kak ketik sesuai dengan requestnya, contoh : /genchan-create sticker";
+            $arrayText[2] = "Silahkan kak ketik sesuai dengan requestnya, contoh : \n/genchan-create sticker";
             $this->bot->multiReply($arrayText);
             return;
         }
@@ -136,7 +136,46 @@ class Keyword{
 
     public function AddSticker()
     {
+        $firebaseController = new FirebaseController();
+        $groupId = $this->bot->getGroupId();
 
+        $request = "/genchan-create";
+        $context = "sticker";
+        $parseText = $this->bot->getMessageText(true);
+        $url = $parseText[2];
+        $stickerName = Genchan::ArrayToText($parseText, 3, " ");
+        if ($url == null)
+        {
+            $this->bot->reply(@"URL kosong nih~ Mohon masukkan dulu URL-nya ya! Seperti contoh ini nih: \n $request $context https://i.imgur.com/2jjh9z4.gif [nama sticker]");
+            return;
+        }
+
+        $headers = get_headers($url, 1);
+        $contentType = $headers["Content-Type"];
+        if (strpos($contentType, "image/") !== false)
+        {
+            $this->bot->reply(@"URL-nya nggak berisi gambar, yuk pastiin lagi kalau isinya memang gambar ya. Kakak bisa nyari gambarnya di imgur, tenor, atau tempat lain yang menyediakan gambar lucu. 📸");
+            return;
+        }
+
+        if ($parseText[3] == null)
+        {
+            $this->bot->reply(@"Nama stickernya kosong nih~ Mohon masukkan dulu nama-nya ya! Seperti contoh ini nih: \n $request $context https://i.imgur.com/2jjh9z4.gif kleelaugh");
+            return;
+        }
+
+        $stickerName = preg_replace('/[^a-zA-Z0-9]/', '', $stickerName);
+        $stickerName = @":$stickerName:";
+
+        $stickerArray = array(
+            $stickerName => $url
+        );
+        
+        $firebaseController->PostData(@"group-data/$groupId/sticker", $stickerArray);
+
+        $text = "Yey, gambarnya berhasil dimasukkan! 🎉 Silakan bisa diketik seperti ini nih: \n$stickerName";
+
+        $this->bot->replyChatWithImage($text, $url);
     }
 
 
