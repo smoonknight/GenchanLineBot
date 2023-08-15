@@ -154,7 +154,7 @@ class Keyword{
         $contentType = $headers["Content-Type"];
         if (str_contains($contentType, @"image/") == false)
         {
-            $this->bot->reply(@"$contentType URL-nya nggak berisi gambar, yuk pastiin lagi kalau isinya memang gambar ya. Kakak bisa nyari gambarnya di imgur, tenor, atau tempat lain yang menyediakan gambar lucu. 📸");
+            $this->bot->reply(@"URL-nya nggak berisi gambar, yuk pastiin lagi kalau isinya memang gambar ya. Kakak bisa nyari gambarnya di imgur, tenor, atau tempat lain yang menyediakan gambar lucu. 📸");
             return;
         }
 

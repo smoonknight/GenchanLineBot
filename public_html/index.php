@@ -1,4 +1,5 @@
 <?php
+use App\FirebaseController;
 
 require_once "../vendor/autoload.php";
 
@@ -100,11 +101,21 @@ class Index
 
     public function handleSticker()
     {
+        $groupId = $this->bot->getGroupId();
+
+        $firebaseController = new FirebaseController();
         $sticker = $this->bot->getStickerId();
         $parseText = $this->bot->getMessageText(true);
+        $stickerGroup = $firebaseController->GetData("group-data/$groupId/sticker/");
+
         foreach ($parseText as $text) {
             if ($sticker[$text] != null) {
                 $this->bot->replyImage($sticker[$text]);
+                return;
+            }
+            if ($stickerGroup[$text != null])
+            {
+                $this->bot->replyImage($stickerGroup[$text]);
                 return;
             }
         }
