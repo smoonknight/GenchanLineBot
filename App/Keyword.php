@@ -202,10 +202,10 @@ class Keyword{
         }
         $responseDecorationArray = array(
             array("h1", "List sticker"),
-            array("text", "Sticker global\n\n"),
+            array("text", "Global sticker \n\n"),
             array("text", $listSticker),
             array("lb", ""),
-            array("text", "Sticker group\n\n"),
+            array("text", "Group sticker \n\n"),
             array("text", $listStickerGroup),
             array("footer", "")
         );
