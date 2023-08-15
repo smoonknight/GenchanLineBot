@@ -286,7 +286,7 @@ class Keyword{
         $firebaseController = new FirebaseController();
         $result = "";
         
-        $character = $firebaseController->GetDataChildKeys("scraping/honey impact world/genshin impact/characters");
+        $character = $firebaseController->GetDataChildKeys("/scraping/honey hunter world/genshin impact/characters");
         
         $responseDecorationArray = array(
             array("h1", "Characters"),
