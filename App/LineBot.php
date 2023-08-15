@@ -194,7 +194,7 @@ class LineBot {
 		return $result;
 	}
 
-	public function contextMultiReply($text, $context){
+	public function contextMultiReply($text, $context, $image = null){
 		$api = $this->apiReply;
 		$webhook = $this->webhookEventObject;
 		$replyToken = $webhook->{"events"}[0]->{"replyToken"}; 
@@ -205,6 +205,7 @@ class LineBot {
 				"text"=>$text[$int],
 				"sender" => array(
 					"name" => $context,
+					"iconUrl" => $image
 				)
 			);
 		}

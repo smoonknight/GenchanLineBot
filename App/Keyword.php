@@ -308,12 +308,12 @@ class Keyword{
             $firebaseController->PostData(@"genshin impact/character/data/$nameCharacter", $result);
             $getTemplateCharacter = TextTemplate::GenshinImpactCharacter($result);
             
-            $this->bot->contextMultiReply($getTemplateCharacter, "Paimon");
+            $this->bot->contextMultiReply($getTemplateCharacter, "Little Miko", "https://raw.githubusercontent.com/smoonknight/GenchanLineBot/master/storage/image/little%20miko.png");
         }
         
         $getTemplateCharacter = TextTemplate::GenshinImpactCharacter($getData);
             
-        $this->bot->contextMultiReply($getTemplateCharacter, "Paimon");
+        $this->bot->contextMultiReply($getTemplateCharacter, "Little Miko", "https://raw.githubusercontent.com/smoonknight/GenchanLineBot/master/storage/image/little%20miko.png");
     }
     
     public function CalculateGenshinImpact()
