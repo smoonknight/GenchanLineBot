@@ -169,7 +169,7 @@ class Keyword{
         
         $firebaseController->PostData(@"group-data/$groupId/sticker/$stickerName", $url);
 
-        $text = "Yey, gambarnya berhasil dimasukkan! 🎉 Silakan bisa diketik seperti ini nih: \n$stickerName";
+        $text = @"$url Yey, gambarnya berhasil dimasukkan! 🎉 Silakan bisa diketik seperti ini nih: \n$stickerName";
 
         $this->bot->replyChatWithImage($text, $url);
     }
