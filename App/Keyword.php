@@ -52,6 +52,24 @@ class Keyword{
         return;
     }
 
+    public function GetCharactersList()
+    {
+        $parseText = $this->bot->getMessageText(true);
+        $subRequest = $parseText[1];
+
+        $subrequestList = json_decode(file_get_contents("../storage/data/subrequest.json"), true);
+        $subRequestListCharactersList = $subrequestList["character-list"];
+
+        if ($subRequestListCharactersList[$subRequest] == null)
+        {
+            $this->bot->reply("Tolong maafin ya, bisa kakak cek lagi requestnya? Mungkin ada typo. 🙈");
+            return;
+        }
+        $keys = $subRequestListCharactersList[$subRequest];
+        $this->$keys();
+        return;
+    }
+
     public function GetWeapon()
     {
         $this->bot->reply(MAINTENANCE);

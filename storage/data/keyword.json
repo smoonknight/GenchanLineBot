@@ -6,7 +6,7 @@
     "/number" : "GenerateNumber",
     "/weapon-list" : "FindEntireWeaponGenshinImpact",
     "/weapon" : "GetWeapon",
-    "/character-list" : "FindEntireCharacterGenshinImpact",
+    "/character-list" : "GetCharactersList",
     "/character" : "GetCharacter",
     "/calculate" : "CalculateGenshinImpact",
     "/simulate" : "SimulateGenshinImpact",
