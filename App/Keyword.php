@@ -141,7 +141,7 @@ class Keyword{
 
         $request = "/genchan-create";
         $context = "sticker";
-        $parseText = $this->bot->getMessageText(true);
+        $parseText = $this->bot->getMessageText(true, false);
         $url = $parseText[2];
         $stickerName = Genchan::ArrayToText($parseText, 3, " ");
         if ($url == null)

@@ -436,14 +436,19 @@ class LineBot {
         return json_decode(file_get_contents(COMMAND), true);
     }
 	
-	public function getMessageText(bool $parseMessage = false){
+	public function getMessageText(bool $parseMessage = false, bool $lowercase = true){
 		$webhook = $this->webhookEventObject;
 		$messageText = $webhook->{"events"}[0]->{"message"}->{"text"};
+		$messageText = trim($messageText);
+		if ($lowercase)
+		{
+			$messageText = strtolower($messageText);
+		}
 		if (!$parseMessage)
 		{
 			return $messageText;
 		} 
-		return explode(' ', trim($messageText));
+		return explode(' ', $messageText);
 	}
 
 	public function getMessageId(){
