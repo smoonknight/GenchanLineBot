@@ -150,9 +150,9 @@ class Keyword{
             return;
         }
 
-        $headers = get_headers($url, 1);
-        $contentType = $headers["Content-Type"];
-        if (strpos($contentType, "image/") !== false)
+        $pathinfo = pathinfo($url);
+        $extension = strtolower($pathinfo['extension']);
+        if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif']))
         {
             $this->bot->reply(@"URL-nya nggak berisi gambar, yuk pastiin lagi kalau isinya memang gambar ya. Kakak bisa nyari gambarnya di imgur, tenor, atau tempat lain yang menyediakan gambar lucu. 📸");
             return;
