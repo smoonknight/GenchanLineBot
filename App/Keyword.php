@@ -154,7 +154,7 @@ class Keyword{
         $extension = strtolower($pathinfo['extension']);
         if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif']))
         {
-            $this->bot->reply(@"$url URL-nya nggak berisi gambar, yuk pastiin lagi kalau isinya memang gambar ya. Kakak bisa nyari gambarnya di imgur, tenor, atau tempat lain yang menyediakan gambar lucu. 📸");
+            $this->bot->reply(@"$extension URL-nya nggak berisi gambar, yuk pastiin lagi kalau isinya memang gambar ya. Kakak bisa nyari gambarnya di imgur, tenor, atau tempat lain yang menyediakan gambar lucu. 📸");
             return;
         }
 
