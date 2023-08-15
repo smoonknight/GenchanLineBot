@@ -166,12 +166,8 @@ class Keyword{
 
         $stickerName = preg_replace('/[^a-zA-Z0-9]/', '', $stickerName);
         $stickerName = @":$stickerName:";
-
-        $stickerArray = array(
-            $stickerName => $url
-        );
         
-        $firebaseController->PostData(@"group-data/$groupId/sticker", $stickerArray);
+        $firebaseController->PostData(@"group-data/$groupId/sticker/$stickerName", $url);
 
         $text = "Yey, gambarnya berhasil dimasukkan! 🎉 Silakan bisa diketik seperti ini nih: \n$stickerName";
 
