@@ -34,7 +34,7 @@ class Keyword{
         return true;
     }
 
-    public function GetCharacter()
+    public function RequestCharacter()
     {
         $parseText = $this->bot->getMessageText(true);
         $subRequest = $parseText[1];
@@ -52,7 +52,7 @@ class Keyword{
         return;
     }
 
-    public function GetCharactersList()
+    public function RequestCharactersList()
     {
         $parseText = $this->bot->getMessageText(true);
         $subRequest = $parseText[1];
@@ -70,25 +70,75 @@ class Keyword{
         return;
     }
 
-    public function GetWeapon()
+    public function RequestWeapon()
     {
-        $this->bot->reply(MAINTENANCE);
-        return;
+        return $this->bot->reply(MAINTENANCE); //maintenance notice
+        // $parseText = $this->bot->getMessageText(true);
+        // $subRequest = $parseText[1];
+
+        // $subrequestList = json_decode(file_get_contents("../storage/data/subrequest.json"), true);
+        // $subRequestListWeapon = $subrequestList["weapon"];
+
+        // if ($subRequestListWeapon[$subRequest] == null)
+        // {
+        //     $this->bot->reply("Tolong maafin ya, bisa kakak cek lagi requestnya? Mungkin ada typo. 🙈");
+        //     return;
+        // }
+        // $keys = $subRequestListWeapon[$subRequest];
+        // $this->$keys();
+        // return;
+    }
+
+    public function RequestWeaponsList()
+    {
+        return $this->bot->reply(MAINTENANCE); //maintenance notice
+        // $parseText = $this->bot->getMessageText(true);
+        // $subRequest = $parseText[1];
+
+        // $subrequestList = json_decode(file_get_contents("../storage/data/subrequest.json"), true);
+        // $subRequestListWeaponsList = $subrequestList["weapon-list"];
+
+        // if ($subRequestListWeaponsList[$subRequest] == null)
+        // {
+        //     $this->bot->reply("Tolong maafin ya, bisa kakak cek lagi requestnya? Mungkin ada typo. 🙈");
+        //     return;
+        // }
+        // $keys = $subRequestListWeaponsList[$subRequest];
+        // $this->$keys();
+        // return;
+    }
+
+    public function RequestCreate()
+    {
         $parseText = $this->bot->getMessageText(true);
         $subRequest = $parseText[1];
 
         $subrequestList = json_decode(file_get_contents("../storage/data/subrequest.json"), true);
-        $subRequestListWeapon = $subrequestList["weapon"];
+        $subRequestListGenchan = $subrequestList["genchan"];
 
-        if ($subRequestListWeapon[$subRequest] == null)
+        if ($subRequestListGenchan[$subRequest] == null)
         {
-            $this->bot->reply("Tolong maafin ya, bisa kakak cek lagi requestnya? Mungkin ada typo. 🙈");
+            $arrayText = array();
+            $arrayText[0] = "Tolong maafin ya, bisa kakak cek lagi requestnya? Mungkin ada typo. 🙈";
+            $arrayText[1] = "Request yang tersedia : \n";
+            foreach ($subRequestListGenchan as $request)
+            {
+                $arrayText[1] .= @"- $request \n";
+            }
+            $arrayText[2] = "Silahkan kak ketik sesuai dengan requestnya, contoh : /genchan-create sticker";
+            $this->bot->multiReply($arrayText);
             return;
         }
-        $keys = $subRequestListWeapon[$subRequest];
+        $keys = $subRequestListGenchan[$subRequest];
         $this->$keys();
         return;
     }
+
+    public function AddSticker()
+    {
+        
+    }
+
 
     public function GroupChatSummary()
     {
@@ -197,6 +247,7 @@ class Keyword{
 
     public function FindOperatorArknights()
     {
+        return $this->bot->reply(MAINTENANCE); //maintenance notice
         $url = "https://gamepress.gg/arknights/operator/suzuran";
         $scrap = file_get_html($url);
         $name = $scrap->find('div[id=page-title]',0)->find('h1', 0)->plaintext;
@@ -238,7 +289,7 @@ class Keyword{
 
     public function FindWeaponGenshinImpact()
     {
-        $this->bot->reply(MAINTENANCE);
+        return $this->bot->reply(MAINTENANCE); //maintenance notice
         $description = "Name : {name}\nType : {type}\nRarity : {rarity}\nBase Attack : {baseAttack}\nSub Stat : {subStat}\nPassive Name : {passiveName}\nPassive Description : {passiveDesc}\nAscension Material : {ascensionMaterial}\nWeapon ini didapat dari {location}\n";
         $parseText = $this->bot->getMessageText(true);
         $textRequest = Genchan::getTextRequest($parseText, 1, "-");
@@ -265,6 +316,7 @@ class Keyword{
     
     public function FindEntireWeaponGenshinImpact()
     {
+        return $this->bot->reply(MAINTENANCE); //maintenance notice
         $result = "";  
         $weapon = "";
         $type = $this->bot->getGenshinDevType("weapons");
@@ -766,4 +818,5 @@ class Keyword{
         $result = $this->responseDecoration->decorationResponse($responseDecorationArray);
         $this->bot->reply($result);
     }
+
 }

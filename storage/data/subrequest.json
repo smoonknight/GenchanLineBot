@@ -11,5 +11,8 @@
     },
     "weapon-list" : {
         "genshin" : "FindEntireWeaponGenshinImpact"
+    },
+    "genchan" : {
+        "sticker" : "AddSticker"
     }
 }

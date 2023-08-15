@@ -4,10 +4,10 @@
     "/sticker" : "sticker",
     "genchan," : "AskingGenchan",
     "/number" : "GenerateNumber",
-    "/weapon-list" : "FindEntireWeaponGenshinImpact",
-    "/weapon" : "GetWeapon",
-    "/character-list" : "GetCharactersList",
-    "/character" : "GetCharacter",
+    "/weapon-list" : "RequestWeaponsList",
+    "/weapon" : "RequestWeapon",
+    "/character-list" : "RequestCharactersList",
+    "/character" : "RequestCharacter",
     "/calculate" : "CalculateGenshinImpact",
     "/simulate" : "SimulateGenshinImpact",
     "/event" : "FindEventInformationGenshinImpact",
@@ -30,5 +30,6 @@
     "/group" : "GroupChatSummary",
     "/keyword" : "KeywordList",
     "/help" : "KeywordList",
-    "/command" : "KeywordList"
+    "/command" : "KeywordList",
+    "/genchan-create" : "RequestCreate"
 }
