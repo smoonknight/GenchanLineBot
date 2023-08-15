@@ -443,7 +443,7 @@ class LineBot {
 		{
 			return $messageText;
 		} 
-		return explode(' ', trim(strtolower($messageText)));
+		return explode(' ', trim($messageText));
 	}
 
 	public function getMessageId(){
