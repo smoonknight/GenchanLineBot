@@ -194,7 +194,7 @@ class Keyword{
             $listSticker .= $key . "\n";
         }
 
-        $listStickerGroup = "belum tersedia, silahkan ketik /genchan-create sticker";
+        $listStickerGroup = "belum tersedia, silahkan ketik \n/genchan-create sticker\n";
         $getData = $firebaseController->GetData("group-data/$groupId/sticker/");
         if ($getData != null)
         {
