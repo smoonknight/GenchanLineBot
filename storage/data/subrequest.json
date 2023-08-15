@@ -5,5 +5,11 @@
     },
     "character-list" : {
         "genshin" : "FindEntireCharacterGenshinImpact"
+    },
+    "weapon" : {
+        "genshin" : "FindWeaponGenshinImpact"
+    },
+    "weapon-list" : {
+        "genshin" : "FindEntireWeaponGenshinImpact"
     }
 }

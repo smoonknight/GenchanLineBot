@@ -5,7 +5,7 @@
     "genchan," : "AskingGenchan",
     "/number" : "GenerateNumber",
     "/weapon-list" : "FindEntireWeaponGenshinImpact",
-    "/weapon" : "FindWeaponGenshinImpact",
+    "/weapon" : "GetWeapon",
     "/character-list" : "FindEntireCharacterGenshinImpact",
     "/character" : "GetCharacter",
     "/calculate" : "CalculateGenshinImpact",

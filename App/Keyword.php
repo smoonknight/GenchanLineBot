@@ -52,6 +52,26 @@ class Keyword{
         return;
     }
 
+    public function GetWeapon()
+    {
+        $this->bot->reply(MAINTENANCE);
+        return;
+        $parseText = $this->bot->getMessageText(true);
+        $subRequest = $parseText[1];
+
+        $subrequestList = json_decode(file_get_contents("../storage/data/subrequest.json"), true);
+        $subRequestListWeapon = $subrequestList["weapon"];
+
+        if ($subRequestListWeapon[$subRequest] == null)
+        {
+            $this->bot->reply("Tolong maafin ya, bisa kakak cek lagi requestnya? Mungkin ada typo. 🙈");
+            return;
+        }
+        $keys = $subRequestListWeapon[$subRequest];
+        $this->$keys();
+        return;
+    }
+
     public function GroupChatSummary()
     {
         $description = "ID Group : {groupId}\nName Group : {groupName}\n";
@@ -200,6 +220,7 @@ class Keyword{
 
     public function FindWeaponGenshinImpact()
     {
+        $this->bot->reply(MAINTENANCE);
         $description = "Name : {name}\nType : {type}\nRarity : {rarity}\nBase Attack : {baseAttack}\nSub Stat : {subStat}\nPassive Name : {passiveName}\nPassive Description : {passiveDesc}\nAscension Material : {ascensionMaterial}\nWeapon ini didapat dari {location}\n";
         $parseText = $this->bot->getMessageText(true);
         $textRequest = Genchan::getTextRequest($parseText, 1, "-");

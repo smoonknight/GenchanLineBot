@@ -212,6 +212,23 @@ class LineBot {
 		return $result;
 	}
 
+	public function explodeReply($text){
+		$api = $this->apiReply;
+		$webhook = $this->webhookEventObject;
+		$replyToken = $webhook->{"events"}[0]->{"replyToken"}; 
+		$body["replyToken"] = $replyToken;
+		$text = explode("<break>", $text);
+		for($int = 0; $int < sizeof($text); $int++)
+		{
+			$body["messages"][$int] = array(
+				"type" => "text",
+				"text"=>$text[$int],
+			);
+		}
+		$result = $this->httpPost($api,$body);
+		return $result;
+	}
+
 	public function autoMultiReply($text)
 	{
 		$api = $this->apiReply;
