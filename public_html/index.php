@@ -113,7 +113,7 @@ class Index
                 $this->bot->replyImage($sticker[$text]);
                 return;
             }
-            if ($stickerGroup[$text != null])
+            if ($stickerGroup[$text] != null)
             {
                 $this->bot->replyImage($stickerGroup[$text]);
                 return;
