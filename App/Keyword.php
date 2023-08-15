@@ -186,13 +186,20 @@ class Keyword{
 
     public function sticker()
     {
+        $firebaseController = new FirebaseController();
+        $groupId = $this->bot->getGroupId();
+
         $listSticker = "";
         foreach ($this->bot->getStickerId() as $key => $id) {
             $listSticker .= "" . $key . "\n";
         }
+
+        $listStickerGroup = "";
+        $getData = $firebaseController->GetData("group-data/$groupId/sticker/");
         $responseDecorationArray = array(
             array("h1", "List sticker"),
             array("text", $listSticker),
+            array("text", json_encode($getData)),
             array("footer", "")
         );
         $result = $this->responseDecoration->decorationResponse($responseDecorationArray);
