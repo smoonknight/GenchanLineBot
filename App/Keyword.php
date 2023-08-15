@@ -286,11 +286,16 @@ class Keyword{
         $firebaseController = new FirebaseController();
         $result = "";
         
-        $character = $firebaseController->GetDataChildKeys("/scraping/honey hunter world/genshin impact/characters");
-        
+        $characters = $firebaseController->GetDataChildKeys("/scraping/honey hunter world/genshin impact/characters");
+
+        $characterText = "";
+        foreach ($characters as $character)
+        {
+            $characterText .= @"- $character" . "\n";
+        }
         $responseDecorationArray = array(
             array("h1", "Characters"),
-            array("text", json_encode($character)),
+            array("text", $characterText),
             array("text", "tulis /character [name] untuk lebih spesifik (tidak harus ditulis lengkap)"),
             array("footer", "")
         );
