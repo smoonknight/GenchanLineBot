@@ -207,7 +207,7 @@ class Keyword{
             array("lb", ""),
             array("text", "Group sticker \n\n"),
             array("text", $listStickerGroup),
-            array("footer", "")
+            array("foo", "")
         );
         $result = $this->responseDecoration->decorationResponse($responseDecorationArray);
         $this->bot->reply($result);
