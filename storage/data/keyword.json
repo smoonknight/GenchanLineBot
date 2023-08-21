@@ -31,5 +31,6 @@
     "/keyword" : "KeywordList",
     "/help" : "KeywordList",
     "/command" : "KeywordList",
-    "/genchan-create" : "RequestCreate"
+    "/genchan-create" : "RequestCreate",
+    "/firewrite" : "FireWriteGenerator"
 }

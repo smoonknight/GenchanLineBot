@@ -184,6 +184,25 @@ class Keyword{
         $this->bot->replyChatWithImage($result, $groupChatSummary["pictureUrl"]);
     }
 
+    public function FireWriteGenerator()
+    {
+        $parseText = $this->bot->getMessageText(true, false);
+        $linkTexted = Genchan::ArrayToText($parseText, 0, "_");
+        $linkTexted = str_replace("?", "~q", $linkTexted);
+        $linkTexted = str_replace("&", "~a", $linkTexted);
+        $linkTexted = str_replace("%", "~p", $linkTexted);
+        $linkTexted = str_replace("#", "~h", $linkTexted);
+        $linkTexted = str_replace("/", "~s", $linkTexted);
+        $linkTexted = str_replace("\\", "~b", $linkTexted);
+        $linkTexted = str_replace("<", "~l", $linkTexted);
+        $linkTexted = str_replace(">", "~g", $linkTexted);
+        $linkTexted = str_replace("''", "\"", $linkTexted);
+
+        $memegenLink = "https://api.memegen.link/images/custom/[text].gif?background=https://media.tenor.com/7UarUv_Z1QYAAAAd/gunna-fire.gif&layout=top";
+        $url = str_replace("[text]", $linkTexted, $memegenLink);
+        $this->bot->replyImage($url);
+    }
+
     public function sticker()
     {
         $firebaseController = new FirebaseController();
