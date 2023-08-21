@@ -197,10 +197,18 @@ class Keyword{
         $linkTexted = str_replace("<", "~l", $linkTexted);
         $linkTexted = str_replace(">", "~g", $linkTexted);
         $linkTexted = str_replace("''", "\"", $linkTexted);
-        
+
         $linkEncoded = Genchan::encodeForURL($linkTexted);
         $memegenLink = "https://api.memegen.link/images/custom/[text].gif?background=https://media.tenor.com/7UarUv_Z1QYAAAAd/gunna-fire.gif&layout=top";
         $url = str_replace("[text]", $linkEncoded, $memegenLink);
+
+        $headers = get_headers($url, 1);
+        $contentType = $headers["Content-Type"];
+        if (str_contains($contentType, @"image/") == false)
+        {
+            $this->bot->reply(@"Genchan rasanya seperti fitur ini lagi nggak bisa nih beberapa menit ke depan, yuk dicoba lagi ya nanti~ ♥️");
+            return;
+        }
         $this->bot->replyImage($url);
     }
 
