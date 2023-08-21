@@ -320,6 +320,12 @@
                 ["belajar itu penting, tapi jangan lupa istirahat", "reply"],
                 ["semangat belajar!", "reply"]
             ]
+        },
+        "dongo": {
+            "feeling": "bad",
+            "reaction": [
+                ["https://media.tenor.com/V2CbK2OGFWUAAAAC/guardian-tales.gif", "reply"]
+            ]
         }
     }
 }
