@@ -199,7 +199,7 @@ class Keyword{
         $linkTexted = str_replace("''", "\"", $linkTexted);
 
         $linkEncoded = Genchan::encodeForURL($linkTexted);
-        $memegenLink = "https://api.memegen.link/images/custom/[text].gif?background=https://media.tenor.com/7UarUv_Z1QYAAAAd/gunna-fire.gif&layout=top";
+        $memegenLink = "https://api.memegen.link/images/custom/[text].gif?background=https://raw.githubusercontent.com/smoonknight/GenchanLineBot/master/storage/image/gunnafire.gif&layout=top";
         $url = str_replace("[text]", $linkEncoded, $memegenLink);
 
         // $headers = get_headers($url, 1);
