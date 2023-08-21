@@ -187,7 +187,7 @@ class Keyword{
     public function FireWriteGenerator()
     {
         $parseText = $this->bot->getMessageText(true, false);
-        $linkTexted = Genchan::ArrayToText($parseText, 0, "_");
+        $linkTexted = Genchan::ArrayToText($parseText, 1, "_");
         $linkTexted = str_replace("?", "~q", $linkTexted);
         $linkTexted = str_replace("&", "~a", $linkTexted);
         $linkTexted = str_replace("%", "~p", $linkTexted);
