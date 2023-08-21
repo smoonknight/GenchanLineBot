@@ -1,4 +1,29 @@
 {
-    "genshin" : ["/character genshin [key]", "/weapon genshin [key]", "/weapon-list genshin", "/character-list genshin", "/event genshin", "/calculate [atk] [crit dmg]", "/simulate [atk] [talent] [elemental/physical bonus] [crit dmg] [crit rate] [level character] [level enemy]", "/roll"],
-    "other" : ["/picture [tag]", "/kiss [mention target]", "/profile" ,"/profile [mention target]", "/degentext", "/mocking [text]", "/number", "/sticker","/battle [text/mention] : [text/mention]", "/logchat [name/text](optional) *20 pesan terakhir pada grup dan yang sebisa mungkin ditulis", "/genchan", "/about *tentang bot", "genchan, [pertanyaan]"]
+    "genshin": {
+        "/character genshin [key]": "Mendapatkan informasi tentang karakter Genshin Impact. Key adalah nama karakternya.",
+        "/weapon genshin [key]": "Mendapatkan informasi tentang senjata Genshin Impact. Key adalah nama senjatanya.",
+        "/weapon-list genshin": "Mendapatkan informasi dari daftar senjata di Genshin Impact.",
+        "/character-list genshin": "Mendapatkan informasi dari daftar karakter yang ada di Genshin Impact.",
+        "/event genshin": "Mendapatkan informasi tentang event di Genshin Impact.",
+        "/calculate [atk] [crit dmg]": "Kalkulator sederhana untuk menghitung nilai serangan dengan critical damage.",
+        "/simulate [atk] [talent] [elemental/physical bonus] [crit dmg] [crit rate] [level character] [level enemy]": "Simulasi damage yang dihasilkan dalam pertarungan.",
+        "/roll": "Simulasi gacha untuk permainan Genshin Impact."
+    },
+    "other": {
+        "/picture [tag]": "Mendapatkan 3 gambar berdasarkan tag yang diberikan.",
+        "/kiss [mention target]": "Memberikan tanda ciuman virtual.",
+        "/profile": "Mendapatkan informasi profil pengguna.",
+        "/profile [mention target]": "Mendapatkan informasi profil dari yang disebutkan.",
+        "/degentext": "Menghasilkan teks acak.",
+        "/mocking [text]": "Menirukan kata-kata dengan gaya bercanda.",
+        "/number": "Menghasilkan nomor secara acak.",
+        "/sticker": "Menampilkan daftar stiker yang tersedia.",
+        "/battle [text/mention] : [text/mention]": "Simulasi pertarungan berdasarkan nama yang diberikan.",
+        "/genchan": "Mendapatkan informasi tentang Genchan.",
+        "/about *tentang bot": "Mendapatkan informasi tentang pengembang bot.",
+        "genchan, [pertanyaan]": "Bertanya kepada Genchan."
+    },
+    "io": {
+        "/genchan-create" : "Membuat respon kustom untuk Genchan."
+    }
 }

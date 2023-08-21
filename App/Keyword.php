@@ -879,12 +879,16 @@ class Keyword{
         $command = $this->bot->getCommand();
         $resultGenshin = "";
         $resultOther = "";
+        $resultIO = "";
 
-        foreach ($command['genshin'] as $gn) {
-            $resultGenshin .= "" . $gn . "\n";
+        foreach ($command['genshin'] as $key => $value) {
+            $resultGenshin .= @"$key; $value";
         }
-        foreach ($command['other'] as $ot) {
-            $resultOther .= "" . $ot . "\n";
+        foreach ($command['other'] as $key => $value) {
+            $resultOther .= @"$key; $value";
+        }
+        foreach ($command['io'] as $key => $value) {
+            $resultIO .= @"$key; $value";
         }
         $responseDecorationArray = array(
             array("h1", "Webhook Response Key"),
@@ -893,6 +897,9 @@ class Keyword{
             array("lb", ""),
             array("p", "Other Response Key"),
             array("text", $resultOther),
+            array("lb", ""),
+            array("p", "Other Response Key"),
+            array("text", $resultIO),
             array("footer", "")
         );
         
