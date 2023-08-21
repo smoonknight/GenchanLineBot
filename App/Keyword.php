@@ -882,13 +882,13 @@ class Keyword{
         $resultIO = "";
 
         foreach ($command['genshin'] as $key => $value) {
-            $resultGenshin .= @"$key; $value";
+            $resultGenshin .= @"$key; $value\n";
         }
         foreach ($command['other'] as $key => $value) {
-            $resultOther .= @"$key; $value";
+            $resultOther .= @"$key; $value\n";
         }
         foreach ($command['io'] as $key => $value) {
-            $resultIO .= @"$key; $value";
+            $resultIO .= @"$key; $value\n";
         }
         $responseDecorationArray = array(
             array("h1", "Webhook Response Key"),
