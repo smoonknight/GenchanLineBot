@@ -898,7 +898,7 @@ class Keyword{
             array("p", "Other Response Key"),
             array("text", $resultOther),
             array("lb", ""),
-            array("p", "Other Response Key"),
+            array("p", "CRUD Response Key"),
             array("text", $resultIO),
             array("footer", "")
         );
