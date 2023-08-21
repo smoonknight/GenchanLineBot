@@ -76,6 +76,19 @@ class Genchan
         return $get;
     }
 
+    public static function encodeForURL($text) {
+        $encodedText = '';
+        for ($i = 0; $i < mb_strlen($text); $i++) {
+            $char = mb_substr($text, $i, 1);
+            if (preg_match('/[a-zA-Z0-9]/', $char)) {
+                $encodedText .= $char;
+            } else {
+                $encodedText .= '%' . strtoupper(bin2hex(mb_convert_encoding($char, 'UTF-8')));
+            }
+        }
+        return $encodedText;
+    }
+
     public static function kaomojiGenerator($feeling = "normal")
     {
         $kaomoji = json_decode(file_get_contents(KAOMOJI), true);
