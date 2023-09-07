@@ -208,10 +208,10 @@ class Keyword{
         $request = "/genchan-create";
         $context = "copypasta";
 
-        $parseText = $this->bot->getMessageTextWithoutKey();
+        $parseText = $this->bot->getMessage();
         $explodeText = explode(":", $parseText);
 
-        $copypasta = Genchan::getTextRequest(explode(" ", $explodeText[0]), 1);
+        $copypasta = Genchan::getTextRequest(explode(" ", $explodeText[0]), 2);
         $targetSentence = $explodeText[1];
         $copypastaName = preg_replace('/[^a-zA-Z0-9]/', '', $explodeText[2]);
         if ($copypasta == null)
