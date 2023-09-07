@@ -19,7 +19,7 @@ class AutoResponse
 
     private function reply($value, $package)
     {
-        if ($package['isKaomojiAllowed'])
+        if ($package['isKaomojiAllowed'] == false)
         {
             $this->bot->reply($value);
             return;
