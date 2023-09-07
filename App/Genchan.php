@@ -58,6 +58,7 @@ class Genchan
         return $result;
     }
 
+
     public static function getLinkWebsite($url, $fill, $parse, $index)
     {
         $text = '';

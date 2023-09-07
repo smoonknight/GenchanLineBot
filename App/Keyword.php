@@ -151,7 +151,7 @@ class Keyword{
             {
                 $arrayText[1] .= @"- $request \n";
             }
-            $arrayText[2] = "Silahkan kak ketik sesuai dengan requestnya, contoh : \n/genchan-create sticker";
+            $arrayText[2] = "Silahkan kak ketik sesuai dengan requestnya, contoh : \n/genchan-delete sticker";
             $this->bot->multiReply($arrayText);
             return;
         }
@@ -198,6 +198,46 @@ class Keyword{
         $text = @"Yey, gambarnya berhasil dimasukkan! 🎉 Silakan bisa diketik seperti ini nih: \n$stickerName";
 
         $this->bot->replyChatWithImage($text, $url);
+    }
+
+    public function AddCopypasta()
+    {
+        $firebaseController = new FirebaseController();
+        $groupId = $this->bot->getGroupId();
+
+        $request = "/genchan-create";
+        $context = "copypasta";
+
+        $parseText = $this->bot->getMessageTextWithoutKey();
+        $explodeText = explode(":", $parseText);
+
+        $copypasta = Genchan::getTextRequest(explode(" ", $explodeText[0]), 2);
+        $targetSentence = $explodeText[1];
+        $copypastaName = $explodeText[2];
+        if ($copypasta == null)
+        {
+            $this->bot->reply(@"Sepertinya copypasta kosong nih~ Yuk, tolong tambahkan kalimat-nya dulu ya, seperti yang contohin dibawah nih \n $request $context Selamat siang pizza : [kalimat yang ingin diganti] : [nama copypastanya]");
+            return;
+        }
+        if ($targetSentence == null)
+        {
+            $this->bot->reply(@"Sepertinya nama yang ingin diganti kosong nih~ Yuk, tolong tambahkan kalimat-nya dulu ya, seperti yang contohin dibawah nih \n $request $context Selamat siang pizza : pizza : [nama copypastanya]");
+        }
+        if ($copypastaName == null)
+        {
+            $this->bot->reply(@"Tolong tambahkan kalimat-nya dulu ya soalnya kamu belum membuat namanya nih, seperti yang contohin dibawah nih \n $request $context Selamat siang pizza : pizza : selamat");
+        }
+
+        $data = array(
+            "copypasta" => $copypasta,
+            "targetSentence" => $targetSentence
+        );
+
+        $firebaseController->PostData(@"group-data/$groupId/copypasta/$copypastaName", $data);
+
+        $text = @"Yey, teksnya berhasil dimasukkan! 🎉 Silakan bisa diketik seperti ini nih: \n$request $context $copypastaName TEST";
+
+        $this->bot->reply($text);
     }
 
     public function DeleteSticker()
@@ -782,10 +822,7 @@ class Keyword{
 
     public function Debugging()
     {
-        $this->bot->paimonReply("Test");
-        // $testing = new FirebaseController();
-        // $result = $testing->PostData();
-        // $this->bot->reply($result);
+        $this->AddCopypasta();
     }
     public function PingGenchan()
     {

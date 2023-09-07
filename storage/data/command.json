@@ -14,7 +14,7 @@
         "/kiss [mention target]": "Memberikan tanda ciuman virtual.",
         "/profile": "Mendapatkan informasi profil pengguna.",
         "/profile [mention target]": "Mendapatkan informasi profil dari yang disebutkan.",
-        "/degentext": "Menghasilkan teks acak.",
+        "/copypasta": "Membuat teks copypasta yang telah dibuat.",
         "/mocking [text]": "Menirukan kata-kata dengan gaya bercanda.",
         "/number": "Menghasilkan nomor secara acak.",
         "/sticker": "Menampilkan daftar stiker yang tersedia.",

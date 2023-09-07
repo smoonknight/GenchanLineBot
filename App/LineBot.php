@@ -472,6 +472,12 @@ class LineBot {
 		return explode(' ', $messageText);
 	}
 
+	public function getMessageTextWithoutKey(){
+		$getMessageText = $this->getMessageText(true, false);
+		array_shift($getMessageText);
+		return implode(" ", $getMessageText);
+	}
+
 	public function getMessageId(){
 		$webhook = $this->webhookEventObject;
 		$messageId = $webhook->{"events"}[0]->{"message"}->{"id"}; 
