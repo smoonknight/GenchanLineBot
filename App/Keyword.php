@@ -208,7 +208,7 @@ class Keyword{
         $request = "/genchan-create";
         $context = "copypasta";
 
-        $parseText = $this->bot->getMessage();
+        $parseText = $this->bot->getMessageText(true, false);
         $explodeText = explode(":", $parseText);
 
         $copypasta = Genchan::getTextRequest(explode(" ", $explodeText[0]), 2);
