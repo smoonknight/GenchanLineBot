@@ -114,7 +114,33 @@ class Keyword{
         $subRequest = $parseText[1];
 
         $subrequestList = json_decode(file_get_contents("../storage/data/subrequest.json"), true);
-        $subRequestListGenchan = $subrequestList["genchan"];
+        $subRequestListGenchan = $subrequestList["genchan-create"];
+
+        if ($subRequestListGenchan[$subRequest] == null)
+        {
+            $arrayText = array();
+            $arrayText[0] = "Tolong maafin ya, bisa kakak cek lagi requestnya? Mungkin ada typo. 🙈";
+            $arrayText[1] = "Request yang tersedia : \n";
+            foreach (array_keys($subRequestListGenchan) as $request)
+            {
+                $arrayText[1] .= @"- $request \n";
+            }
+            $arrayText[2] = "Silahkan kak ketik sesuai dengan requestnya, contoh : \n/genchan-create sticker";
+            $this->bot->multiReply($arrayText);
+            return;
+        }
+        $keys = $subRequestListGenchan[$subRequest];
+        $this->$keys();
+        return;
+    }
+
+    public function RequestDelete()
+    {
+        $parseText = $this->bot->getMessageText(true);
+        $subRequest = $parseText[1];
+
+        $subrequestList = json_decode(file_get_contents("../storage/data/subrequest.json"), true);
+        $subRequestListGenchan = $subrequestList["genchan-delete"];
 
         if ($subRequestListGenchan[$subRequest] == null)
         {
@@ -172,6 +198,32 @@ class Keyword{
         $text = @"Yey, gambarnya berhasil dimasukkan! 🎉 Silakan bisa diketik seperti ini nih: \n$stickerName";
 
         $this->bot->replyChatWithImage($text, $url);
+    }
+
+    public function DeleteSticker()
+    {
+        $firebaseController = new FirebaseController();
+        $groupId = $this->bot->getGroupId();
+
+        $request = "/genchan-delete";
+        $context = "sticker";
+        $parseText = $this->bot->getMessageText(true, false);
+        if ($parseText[2] == null)
+        {
+            $this->bot->reply(@"Nama stickernya kosong nih~ Mohon masukkan dulu nama-nya ya! Seperti contoh ini nih: \n $request $context kleelaugh");
+            return;
+        }
+
+        $stickerName = Genchan::ArrayToText($parseText, 2, " ");
+
+        $stickerName = preg_replace('/[^a-zA-Z0-9 ]/', '', $stickerName);
+        $stickerName = @":$stickerName:";
+        
+        $firebaseController->DeleteData(@"group-data/$groupId/sticker/$stickerName");
+
+        $text = "Sip stickernya udah aku hapus";
+
+        $this->bot->reply($text);
     }
 
 

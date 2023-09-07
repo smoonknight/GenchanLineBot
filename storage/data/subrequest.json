@@ -12,7 +12,10 @@
     "weapon-list" : {
         "genshin" : "FindEntireWeaponGenshinImpact"
     },
-    "genchan" : {
+    "genchan-create" : {
         "sticker" : "AddSticker"
+    },
+    "genchan-delete" : {
+        "sticker" : "DeleteSticker"
     }
 }

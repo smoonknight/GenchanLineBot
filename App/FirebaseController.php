@@ -20,6 +20,12 @@ class FirebaseController extends FirebaseService
         return $get;
     }
 
+    public function DeleteData($reference)
+    {
+        $get = $this->firebase->getReference($reference)->remove();
+        return $get;
+    }
+
     public function GetDataChildKeys($reference)
     {
         $getChildKeys = $this->firebase->getReference($reference)->getChildKeys();

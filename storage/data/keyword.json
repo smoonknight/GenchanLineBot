@@ -32,5 +32,6 @@
     "/help" : "KeywordList",
     "/command" : "KeywordList",
     "/genchan-create" : "RequestCreate",
+    "/genchan-delete" : "RequestDelete",
     "/firewrite" : "FireWriteGenerator"
 }

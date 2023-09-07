@@ -20,10 +20,13 @@
         "/sticker": "Menampilkan daftar stiker yang tersedia.",
         "/battle [text/mention] : [text/mention]": "Simulasi pertarungan berdasarkan nama yang diberikan.",
         "/genchan": "Mendapatkan informasi tentang Genchan.",
+        "/firewrite [text]": "Buat gambar dengan teks menulis diatas kertas yang terbakar (meme)",
         "/about *tentang bot": "Mendapatkan informasi tentang pengembang bot.",
         "genchan, [pertanyaan]": "Bertanya kepada Genchan."
     },
     "io": {
-        "/genchan-create" : "Membuat respon kustom untuk Genchan."
+        "/genchan-create" : "Membuat respon kustom untuk Genchan.",
+        "/genchan-delete" : "Menghapus respon kustom untuk Genchan."
+
     }
 }
