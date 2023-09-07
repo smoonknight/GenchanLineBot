@@ -21,7 +21,7 @@ class Keyword{
         $this->responseDecoration = new ResponseDecoration();
     }
 
-    public function FindKeyword($key)
+    public function FindKeyword($key) : bool
     {
         $keyList = json_decode(file_get_contents(KEYWORD), true);
 

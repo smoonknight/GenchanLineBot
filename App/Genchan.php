@@ -19,6 +19,11 @@ class Genchan
         }
         return $result;
     }
+
+    public static function blueprintLinkLineStickerById($stickerId) : string
+    {
+        return @"https://stickershop.line-scdn.net/stickershop/v1/sticker/$stickerId/android/sticker.png";
+    }
     public static function SplitToArray($text)
     {
         $count = 0;

@@ -22,6 +22,7 @@ use App\ResponseDecoration;
 use App\Keyword;
 use App\AutoResponse;
 use App\ScrapingController;
+use App\MessageResponse;
 
 class Index
 {
@@ -30,6 +31,7 @@ class Index
     private $responseDecoration;
     private $keyword;
     private $textChat;
+    private $messageResponse;
 
     public function __construct()
     {
@@ -39,15 +41,17 @@ class Index
         $this->keyword = new Keyword();
         $this->textChat = $this->bot->getTextChat();
 
+        $this->messageResponse = new MessageResponse();
+
         $type = $this->bot->getType();
         $this->$type();
     }
 
     public function message()
     {
-        $isKeyExist = $this->keyword->FindKeyword($this->bot->getMessageText(true)[0]);
+        $isAlreadyDelivered = $this->messageResponse->response();
 
-        if ($isKeyExist)
+        if ($isAlreadyDelivered)
         {
             return;
         }
@@ -61,6 +65,7 @@ class Index
         if ($this->bot->getMentionId())
         {
             $this->handleMention();
+            return;
         }
 
         $this->handleAutoResponse();
