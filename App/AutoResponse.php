@@ -12,25 +12,30 @@ class AutoResponse
         $this->bot = new LineBot();
         $this->genchan = new Genchan();
     }
-    public function genchanAutoResponseReply($function, $param, $feeling)
+    public function genchanAutoResponseReply($function, $value, $package)
     {
-		$this->$function($param, $feeling);
+		$this->$function($value, $package);
     }
 
-    private function reply($param, $feeling)
-    { 
-        $kaomoji = mt_rand(0, 5) > 3 ? " " . $this->genchan->kaomojiGenerator($feeling) : "";
-        $this->bot->reply($param . $kaomoji);
+    private function reply($value, $package)
+    {
+        if ($package['isKaomojiAllowed'])
+        {
+            $this->bot->reply($value);
+            return;
+        }
+        $kaomoji = mt_rand(0, 5) > 3 ? " " . $this->genchan->kaomojiGenerator($package['feeling']) : "";
+        $this->bot->reply($value . $kaomoji);
     }
 
-    private function replyImage($param, $feeling)
+    private function replyImage($value, $package)
     {
-        $this->bot->replyImage($param);
+        $this->bot->replyImage($value);
     }
 
-    private function replyAudio($param, $feeling)
+    private function replyAudio($value, $package)
     {
-        $this->bot->replyAudio($param);
+        $this->bot->replyAudio($value);
     }
 }
 

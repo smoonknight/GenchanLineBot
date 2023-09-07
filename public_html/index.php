@@ -106,13 +106,20 @@ class Index
         $firebaseController = new FirebaseController();
         $sticker = $this->bot->getStickerId();
         $parseText = $this->bot->getMessageText(true);
-        $stickerGroup = $firebaseController->GetData("group-data/$groupId/sticker/");
 
-        foreach ($parseText as $text) {
-            if ($sticker[$text] != null) {
+        foreach ($parseText as $text)
+        {
+            if ($sticker[$text] != null)
+            {
                 $this->bot->replyImage($sticker[$text]);
                 return;
             }
+        }
+
+        $stickerGroup = $firebaseController->GetData("group-data/$groupId/sticker/");
+
+        foreach ($parseText as $text)
+        {
             if ($stickerGroup[$text] != null)
             {
                 $this->bot->replyImage($stickerGroup[$text]);
@@ -140,10 +147,19 @@ class Index
             if ($response['response'][$text] != null)
             {
                 $random = rand(0, sizeof($response['response'][$text]['reaction']) - 1);
-                $feeling = $response['response'][$text]['feeling'];
 
-                $result = $response['response'][$text]['reaction'][$random];
-                $autoResponse->genchanAutoResponseReply($result[1], $result[0], $feeling);
+                $selectedReaction = $response['response'][$text]['reaction'][$random];
+                $value = $selectedReaction[0];
+                $function = $selectedReaction[1];
+
+                $feeling = $response['response'][$text]['feeling'];
+                $isKaomojiAllowed = $response['response'][$text]['isKaomojiAllowed'];
+
+                $package = array(
+                    "feeling" => $feeling,
+                    "isKaomojiAllowed" => $isKaomojiAllowed
+                );
+                $autoResponse->genchanAutoResponseReply($function, $value, $package);
                 
                 return;
             }

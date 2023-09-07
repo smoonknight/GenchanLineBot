@@ -40,7 +40,8 @@
                 ["bukan aku kan", "reply"],
                 ["genchan juga penasaran ih", "reply"],
                 ["aku?", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "kapan": {
             "feeling": "normal",
@@ -49,14 +50,16 @@
                 ["iyakah", "reply"],
                 ["kemarin ya", "reply"],
                 ["besok sepertinya", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "dimana": {
             "feeling": "normal",
             "reaction": [
                 ["disebelah sana sepertinya", "reply"],
                 ["genchan tidak tau", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "mengapa": {
             "feeling": "normal",
@@ -64,14 +67,16 @@
                 ["ada apaan", "reply"],
                 ["kok bisa gitu", "reply"],
                 ["genchan mau ikut nyimak", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "bagaimana": {
             "feeling": "normal",
             "reaction": [
                 ["kakak diatas aku kayanya tau jawabannya", "reply"],
                 ["aku tidak mengerti caranya", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "kemana": {
             "feeling": "normal",
@@ -79,13 +84,15 @@
                 ["genchan mau ikut juga", "reply"],
                 ["kalian mau kemana?", "reply"],
                 ["aku boleh ikut?", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "genchan": {
             "feeling": "normal",
             "reaction": [
                 ["iya", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "lapar": {
             "feeling": "good",
@@ -93,14 +100,16 @@
                 ["makan kak, pesen gofud sana", "reply"],
                 ["makan dong, itu tukang nasi padang buka", "reply"],
                 ["nasi warteg boleh tuh kak", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "bagi": {
             "feeling": "good",
             "reaction": [
                 ["aku boleh juga kak?", "reply"],
                 ["minta juga dong", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "udah": {
             "feeling": "good",
@@ -108,14 +117,16 @@
                 ["iya sudah dong", "reply"],
                 ["iya dong", "reply"],
                 ["sepertinya sudah kak", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "yuk": {
             "feeling": "good",
             "reaction": [
                 ["kalian mau kemana?", "reply"],
                 ["IKUT", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "keren": {
             "feeling": "good",
@@ -123,7 +134,8 @@
                 ["woiyadong", "reply"],
                 ["banget kak", "reply"],
                 ["https://c.tenor.com/fGcqRedPx-UAAAAd/jax-mortal-kombat-mortal-kombat.gif", "replyImage"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "incest": {
             "feeling": "bad",
@@ -131,14 +143,16 @@
                 ["stress banget", "reply"],
                 ["https://c.tenor.com/9ckqI2zyVTkAAAAC/trollge-troll.gif", "replyImage"],
                 ["https://c.tenor.com/kHcmsxlKHEAAAAAM/rock-one-eyebrow-raised-rock-staring.gif", "replyImage"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "lolicon": {
             "feeling": "bad",
             "reaction": [
                 ["stress", "reply"],
                 ["https://c.tenor.com/CQIMmoU_ipcAAAAC/no-bitches-bitches.gif", "replyImage"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "pedo": {
             "feeling": "bad",
@@ -149,7 +163,8 @@
                 ["https://c.tenor.com/9ckqI2zyVTkAAAAC/trollge-troll.gif", "replyImage"],
                 ["https://c.tenor.com/kHcmsxlKHEAAAAAM/rock-one-eyebrow-raised-rock-staring.gif", "replyImage"],
                 ["https://c.tenor.com/CQIMmoU_ipcAAAAC/no-bitches-bitches.gif", "replyImage"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "gay": {
             "feeling": "bad",
@@ -157,26 +172,30 @@
                 ["stress", "reply"],
                 ["gay anjing", "reply"],
                 ["https://c.tenor.com/kHcmsxlKHEAAAAAM/rock-one-eyebrow-raised-rock-staring.gif", "replyImage"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "kecewa": {
             "feeling": "bad",
             "reaction": [
                 ["yang sabar kak", "reply"],
                 ["sabar ya kak", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "bokep": {
             "feeling": "bad",
             "reaction": [
                 ["https://www.myinstants.com/media/sounds/tante-anaknya-nonton-bokep.mp3", "replyAudio"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "cp": {
             "feeling": "normal",
             "reaction": [
                 ["https://i.imgflip.com/7rm2az.jpg", "replyImage"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "seks": {
             "feeling": "bad",
@@ -186,7 +205,8 @@
                 ["https://c.tenor.com/ij5WLJIu8A4AAAAi/the-rock.gif", "replyImage"],
                 ["https://c.tenor.com/_3RUSj3OXxsAAAAS/the-jock-the-rock.gif", "replyImage"],
                 ["https://www.myinstants.com/media/sounds/tante-anaknya-nonton-bokep.mp3", "replyAudio"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "ewe": {
             "feeling": "bad",
@@ -197,7 +217,8 @@
                 ["https://c.tenor.com/_3RUSj3OXxsAAAAS/the-jock-the-rock.gif", "replyImage"],
                 ["https://c.tenor.com/CQIMmoU_ipcAAAAC/no-bitches-bitches.gif", "replyImage"],
                 ["https://www.myinstants.com/media/sounds/tante-anaknya-nonton-bokep.mp3", "replyAudio"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "eue": {
             "feeling": "bad",
@@ -206,8 +227,10 @@
                 ["https://c.tenor.com/VmxCjy966YwAAAAd/the-wok-the-rock.gif", "replyImage"],
                 ["https://c.tenor.com/ij5WLJIu8A4AAAAi/the-rock.gif", "replyImage"],
                 ["https://c.tenor.com/_3RUSj3OXxsAAAAS/the-jock-the-rock.gif", "replyImage"],
+                ["https://c.tenor.com/CQIMmoU_ipcAAAAC/no-bitches-bitches.gif", "replyImage"],
                 ["https://www.myinstants.com/media/sounds/tante-anaknya-nonton-bokep.mp3", "replyAudio"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "cum": {
             "feeling": "bad",
@@ -216,9 +239,10 @@
                 ["https://c.tenor.com/VmxCjy966YwAAAAd/the-wok-the-rock.gif", "replyImage"],
                 ["https://c.tenor.com/ij5WLJIu8A4AAAAi/the-rock.gif", "replyImage"],
                 ["https://c.tenor.com/_3RUSj3OXxsAAAAS/the-jock-the-rock.gif", "replyImage"],
+                ["https://c.tenor.com/CQIMmoU_ipcAAAAC/no-bitches-bitches.gif", "replyImage"],
                 ["https://www.myinstants.com/media/sounds/tante-anaknya-nonton-bokep.mp3", "replyAudio"]
-
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "crot": {
             "feeling": "bad",
@@ -229,14 +253,16 @@
                 ["https://c.tenor.com/_3RUSj3OXxsAAAAS/the-jock-the-rock.gif", "replyImage"],
                 ["https://c.tenor.com/CQIMmoU_ipcAAAAC/no-bitches-bitches.gif", "replyImage"],
                 ["https://www.myinstants.com/media/sounds/tante-anaknya-nonton-bokep.mp3", "replyAudio"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "muat": {
             "feeling": "normal",
             "reaction": [
                 ["ya mana muat", "reply"],
                 ["muat kok", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "kontol": {
             "feeling": "bad",
@@ -244,7 +270,8 @@
                 ["kontol", "reply"],
                 ["ih kasar", "reply"],
                 ["ketikannya dijaga kak", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "kick": {
             "feeling": "normal",
@@ -252,43 +279,50 @@
                 ["GAS", "reply"],
                 ["Jangan kak", "reply"],
                 ["gas", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "assalamualaikum": {
             "feeling": "normal",
             "reaction": [
                 ["Waalaikumsalam", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "samlekom": {
             "feeling": "normal",
             "reaction": [
                 ["salam yang bener kentod", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "pagi": {
             "feeling": "normal",
             "reaction": [
                 ["pagi", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "siang": {
             "feeling": "normal",
             "reaction": [
                 ["siang", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "slebew": {
             "feeling": "normal",
             "reaction": [
                 ["barbar", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "mati": {
             "feeling": "normal",
             "reaction": [
                 [":(", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": false
         },
         "(haha)": {
             "feeling": "normal",
@@ -297,7 +331,8 @@
                 ["wkwkwk", "reply"],
                 ["hahahaha", "reply"],
                 ["https://media.tenor.com/iHmhywCIPiAAAAAd/kodok-acumalaka.gif", "replyImage"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "(laugh)": {
             "feeling": "normal",
@@ -306,26 +341,30 @@
                 ["wkwkwk", "reply"],
                 ["hahahaha", "reply"],
                 ["https://media.tenor.com/iHmhywCIPiAAAAAd/kodok-acumalaka.gif", "replyImage"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "acumalaka": {
             "feeling": "normal",
             "reaction": [
                 ["https://media.tenor.com/iHmhywCIPiAAAAAd/kodok-acumalaka.gif", "replyImage"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "belajar": {
             "feeling": "normal",
             "reaction": [
                 ["belajar itu penting, tapi jangan lupa istirahat", "reply"],
                 ["semangat belajar!", "reply"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         },
         "dongo": {
             "feeling": "bad",
             "reaction": [
                 ["https://media.tenor.com/V2CbK2OGFWUAAAAC/guardian-tales.gif", "replyImage"]
-            ]
+            ],
+            "isKaomojiAllowed": true
         }
     }
 }
