@@ -211,9 +211,9 @@ class Keyword{
         $parseText = $this->bot->getMessageTextWithoutKey();
         $explodeText = explode(":", $parseText);
 
-        $copypasta = Genchan::getTextRequest(explode(" ", $explodeText[0]), 2);
+        $copypasta = Genchan::getTextRequest(explode(" ", $explodeText[0]), 1);
         $targetSentence = $explodeText[1];
-        $copypastaName = $explodeText[2];
+        $copypastaName = preg_replace('/[^a-zA-Z0-9]/', '', $explodeText[2]);
         if ($copypasta == null)
         {
             $this->bot->reply(@"Sepertinya copypasta kosong nih~ Yuk, tolong tambahkan kalimat-nya dulu ya, seperti yang contohin dibawah nih \n $request $context Selamat siang pizza : [kalimat yang ingin diganti] : [nama copypastanya]");
@@ -235,7 +235,7 @@ class Keyword{
 
         $firebaseController->PostData(@"group-data/$groupId/copypasta/$copypastaName", $data);
 
-        $text = @"Yey, teksnya berhasil dimasukkan! 🎉 Silakan bisa diketik seperti ini nih: \n$request $context $copypastaName TEST";
+        $text = @"Yey, teksnya berhasil dimasukkan! 🎉 Silakan bisa diketik seperti ini nih: \n/copypasta $copypastaName bakwan jagung";
 
         $this->bot->reply($text);
     }
