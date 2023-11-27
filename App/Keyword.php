@@ -386,6 +386,7 @@ class Keyword{
         $parseText = $this->bot->getMessageText(true);
         $text = Genchan::getTextRequest($parseText, 1);
         $result = $this->bot->openAI($text);
+        $this->bot->reply($result);
         $array = array();
         foreach ($result["choices"] as $choice)
         {
