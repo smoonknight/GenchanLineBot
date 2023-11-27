@@ -14,7 +14,7 @@ define("TOKEN", "../storage/token/line.token.json");
 define("LOGCHAT", "./groupfiles/LOGCHAT_");
 define("SETUPGROUP", "./groupfiles/SETUPGROUP_");
 define("MAINTENANCE", "Sedang dalam perbaikan");
-define("OPENAIAPIKEY", "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");
+define("OPENAIAPIKEY", "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");
 
 use App\LineBot;
 use App\Genchan;
